@@ -1,0 +1,405 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="appdbStoreContainer" CdmEntityContainer="appdbEntities">
+    <EntitySetMapping Name="C__MigrationHistory">
+      <EntityTypeMapping TypeName="appdb.C__MigrationHistory">
+        <MappingFragment StoreEntitySet="__MigrationHistory">
+          <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+          <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Configs">
+      <EntityTypeMapping TypeName="appdb.Config">
+        <MappingFragment StoreEntitySet="Configs">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ConfigKey" ColumnName="ConfigKey" />
+          <ScalarProperty Name="ConfigValue" ColumnName="ConfigValue" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Depts">
+      <EntityTypeMapping TypeName="appdb.Dept">
+        <MappingFragment StoreEntitySet="Depts">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="SortIndex" ColumnName="SortIndex" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Images">
+      <EntityTypeMapping TypeName="appdb.Image">
+        <MappingFragment StoreEntitySet="Images">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="reimbursement_ID" ColumnName="reimbursement_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Logs">
+      <EntityTypeMapping TypeName="appdb.Log">
+        <MappingFragment StoreEntitySet="Logs">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Level" ColumnName="Level" />
+          <ScalarProperty Name="Logger" ColumnName="Logger" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="Exception" ColumnName="Exception" />
+          <ScalarProperty Name="LogTime" ColumnName="LogTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Menus">
+      <EntityTypeMapping TypeName="appdb.Menu">
+        <MappingFragment StoreEntitySet="Menus">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+          <ScalarProperty Name="NavigateUrl" ColumnName="NavigateUrl" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="SortIndex" ColumnName="SortIndex" />
+          <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+          <ScalarProperty Name="ViewPowerID" ColumnName="ViewPowerID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Onlines">
+      <EntityTypeMapping TypeName="appdb.Online">
+        <MappingFragment StoreEntitySet="Onlines">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="IPAdddress" ColumnName="IPAdddress" />
+          <ScalarProperty Name="LoginTime" ColumnName="LoginTime" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="pchaos">
+      <EntityTypeMapping TypeName="appdb.pchao">
+        <MappingFragment StoreEntitySet="pchao">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="lotno" ColumnName="lotno" />
+          <ScalarProperty Name="oper" ColumnName="oper" />
+          <ScalarProperty Name="flag" ColumnName="flag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PO_Item">
+      <EntityTypeMapping TypeName="appdb.PO_Item">
+        <MappingFragment StoreEntitySet="PO_Item">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="count" ColumnName="count" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="PO_ID" ColumnName="PO_ID" />
+          <ScalarProperty Name="production_ID" ColumnName="production_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="POes">
+      <EntityTypeMapping TypeName="appdb.PO">
+        <MappingFragment StoreEntitySet="POes">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="prosn" ColumnName="prosn" />
+          <ScalarProperty Name="deliveryDate" ColumnName="deliveryDate" />
+          <ScalarProperty Name="hasInvoice" ColumnName="hasInvoice" />
+          <ScalarProperty Name="provider_ID" ColumnName="provider_ID" />
+          <ScalarProperty Name="optDate" ColumnName="optDate" />
+          <ScalarProperty Name="remark" ColumnName="remark" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Powers">
+      <EntityTypeMapping TypeName="appdb.Power">
+        <MappingFragment StoreEntitySet="Powers">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Production_change">
+      <EntityTypeMapping TypeName="appdb.Production_change">
+        <MappingFragment StoreEntitySet="Production_change">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="recentlyDate" ColumnName="recentlyDate" />
+          <ScalarProperty Name="production_ID" ColumnName="production_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Productions">
+      <EntityTypeMapping TypeName="appdb.Production">
+        <MappingFragment StoreEntitySet="Productions">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="spec" ColumnName="spec" />
+          <ScalarProperty Name="model" ColumnName="model" />
+          <ScalarProperty Name="unit" ColumnName="unit" />
+          <ScalarProperty Name="optdate" ColumnName="optdate" />
+          <ScalarProperty Name="productCode" ColumnName="productCode" />
+          <ScalarProperty Name="width" ColumnName="width" />
+          <ScalarProperty Name="length" ColumnName="length" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Providers">
+      <EntityTypeMapping TypeName="appdb.Provider">
+        <MappingFragment StoreEntitySet="Providers">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="levelCode" ColumnName="levelCode" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="contact" ColumnName="contact" />
+          <ScalarProperty Name="fax" ColumnName="fax" />
+          <ScalarProperty Name="Eamil" ColumnName="Eamil" />
+          <ScalarProperty Name="bank" ColumnName="bank" />
+          <ScalarProperty Name="remark1" ColumnName="remark1" />
+          <ScalarProperty Name="remark2" ColumnName="remark2" />
+          <ScalarProperty Name="weChat" ColumnName="weChat" />
+          <ScalarProperty Name="bankPublicName" ColumnName="bankPublicName" />
+          <ScalarProperty Name="bankPublicAccount" ColumnName="bankPublicAccount" />
+          <ScalarProperty Name="bankPrivateName" ColumnName="bankPrivateName" />
+          <ScalarProperty Name="recentlyDate" ColumnName="recentlyDate" />
+          <ScalarProperty Name="bankPrivateAccount" ColumnName="bankPrivateAccount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReimburseClasses">
+      <EntityTypeMapping TypeName="appdb.ReimburseClass">
+        <MappingFragment StoreEntitySet="ReimburseClasses">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="SortIndex" ColumnName="SortIndex" />
+          <ScalarProperty Name="Parent_ID" ColumnName="Parent_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reimbursements">
+      <EntityTypeMapping TypeName="appdb.Reimbursement">
+        <MappingFragment StoreEntitySet="Reimbursements">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="inputdate" ColumnName="inputdate" />
+          <ScalarProperty Name="startDate" ColumnName="startDate" />
+          <ScalarProperty Name="endDate" ColumnName="endDate" />
+          <ScalarProperty Name="interval" ColumnName="interval" />
+          <ScalarProperty Name="sheng" ColumnName="sheng" />
+          <ScalarProperty Name="shi" ColumnName="shi" />
+          <ScalarProperty Name="option" ColumnName="option" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="journey" ColumnName="journey" />
+          <ScalarProperty Name="remark" ColumnName="remark" />
+          <ScalarProperty Name="passed" ColumnName="passed" />
+          <ScalarProperty Name="NotPassedReason" ColumnName="NotPassedReason" />
+          <ScalarProperty Name="paid" ColumnName="paid" />
+          <ScalarProperty Name="telenClient_ID" ColumnName="telenClient_ID" />
+          <ScalarProperty Name="user_ID" ColumnName="user_ID" />
+          <ScalarProperty Name="class1" ColumnName="class1" />
+          <ScalarProperty Name="class2" ColumnName="class2" />
+          <ScalarProperty Name="ReimburseSummary_ID" ColumnName="ReimburseSummary_ID" />
+          <ScalarProperty Name="ContractName" ColumnName="ContractName" />
+          <ScalarProperty Name="HasInvoice" ColumnName="HasInvoice" />
+          <ScalarProperty Name="paidDate" ColumnName="paidDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReimburseSummaries">
+      <EntityTypeMapping TypeName="appdb.ReimburseSummary">
+        <MappingFragment StoreEntitySet="ReimburseSummaries">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="prosn" ColumnName="prosn" />
+          <ScalarProperty Name="remark" ColumnName="remark" />
+          <ScalarProperty Name="isPassed" ColumnName="isPassed" />
+          <ScalarProperty Name="journey" ColumnName="journey" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="hasPay" ColumnName="hasPay" />
+          <ScalarProperty Name="InputDate" ColumnName="InputDate" />
+          <ScalarProperty Name="user_ID" ColumnName="user_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="appdb.Role">
+        <MappingFragment StoreEntitySet="Roles">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TelenClients">
+      <EntityTypeMapping TypeName="appdb.TelenClient">
+        <MappingFragment StoreEntitySet="TelenClients">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="levelCode" ColumnName="levelCode" />
+          <ScalarProperty Name="serverTime" ColumnName="serverTime" />
+          <ScalarProperty Name="condiction" ColumnName="condiction" />
+          <ScalarProperty Name="remark" ColumnName="remark" />
+          <ScalarProperty Name="fax" ColumnName="fax" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="bank" ColumnName="bank" />
+          <ScalarProperty Name="Eamil" ColumnName="Eamil" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="clientManager" ColumnName="clientManager" />
+          <ScalarProperty Name="implementer" ColumnName="implementer" />
+          <ScalarProperty Name="gendan" ColumnName="gendan" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TerminalLists">
+      <EntityTypeMapping TypeName="appdb.TerminalList">
+        <MappingFragment StoreEntitySet="TerminalLists">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="itemname" ColumnName="itemname" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="spec" ColumnName="spec" />
+          <ScalarProperty Name="provider" ColumnName="provider" />
+          <ScalarProperty Name="image" ColumnName="image" />
+          <ScalarProperty Name="count" ColumnName="count" />
+          <ScalarProperty Name="terminal_ID" ColumnName="terminal_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TerminalProcessRecs">
+      <EntityTypeMapping TypeName="appdb.TerminalProcessRec">
+        <MappingFragment StoreEntitySet="TerminalProcessRecs">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="itemname" ColumnName="itemname" />
+          <ScalarProperty Name="processno" ColumnName="processno" />
+          <ScalarProperty Name="optdate" ColumnName="optdate" />
+          <ScalarProperty Name="operater" ColumnName="operater" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="remark" ColumnName="remark" />
+          <ScalarProperty Name="TerminalList_ID" ColumnName="TerminalList_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Terminals">
+      <EntityTypeMapping TypeName="appdb.Terminal">
+        <MappingFragment StoreEntitySet="Terminals">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="itemname" ColumnName="itemname" />
+          <ScalarProperty Name="operater" ColumnName="operater" />
+          <ScalarProperty Name="optdate" ColumnName="optdate" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Titles">
+      <EntityTypeMapping TypeName="appdb.Title">
+        <MappingFragment StoreEntitySet="Titles">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="appdb.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+          <ScalarProperty Name="Gender" ColumnName="Gender" />
+          <ScalarProperty Name="ChineseName" ColumnName="ChineseName" />
+          <ScalarProperty Name="EnglishName" ColumnName="EnglishName" />
+          <ScalarProperty Name="Photo" ColumnName="Photo" />
+          <ScalarProperty Name="QQ" ColumnName="QQ" />
+          <ScalarProperty Name="CompanyEmail" ColumnName="CompanyEmail" />
+          <ScalarProperty Name="OfficePhone" ColumnName="OfficePhone" />
+          <ScalarProperty Name="OfficePhoneExt" ColumnName="OfficePhoneExt" />
+          <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+          <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="IdentityCard" ColumnName="IdentityCard" />
+          <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+          <ScalarProperty Name="TakeOfficeTime" ColumnName="TakeOfficeTime" />
+          <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="DeptID" ColumnName="DeptID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="YW_Lableinfor">
+      <EntityTypeMapping TypeName="appdb.YW_Lableinfor">
+        <MappingFragment StoreEntitySet="YW_Lableinfor">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="prosn" ColumnName="prosn" />
+          <ScalarProperty Name="proname" ColumnName="proname" />
+          <ScalarProperty Name="spec" ColumnName="spec" />
+          <ScalarProperty Name="class1" ColumnName="class1" />
+          <ScalarProperty Name="class2" ColumnName="class2" />
+          <ScalarProperty Name="caseno" ColumnName="caseno" />
+          <ScalarProperty Name="isreturn" ColumnName="isreturn" />
+          <ScalarProperty Name="weight" ColumnName="weight" />
+          <ScalarProperty Name="operater" ColumnName="operater" />
+          <ScalarProperty Name="remark" ColumnName="remark" />
+          <ScalarProperty Name="kaidandate" ColumnName="kaidandate" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="projectno" ColumnName="projectno" />
+          <ScalarProperty Name="projectname" ColumnName="projectname" />
+          <ScalarProperty Name="procompany" ColumnName="procompany" />
+          <ScalarProperty Name="pid" ColumnName="pid" />
+          <ScalarProperty Name="alias" ColumnName="alias" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="YW_ProcessRec">
+      <EntityTypeMapping TypeName="appdb.YW_ProcessRec">
+        <MappingFragment StoreEntitySet="YW_ProcessRec">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="prosn" ColumnName="prosn" />
+          <ScalarProperty Name="optdate" ColumnName="optdate" />
+          <ScalarProperty Name="processno" ColumnName="processno" />
+          <ScalarProperty Name="billno" ColumnName="billno" />
+          <ScalarProperty Name="jingbanren" ColumnName="jingbanren" />
+          <ScalarProperty Name="jianshu" ColumnName="jianshu" />
+          <ScalarProperty Name="lotno" ColumnName="lotno" />
+          <ScalarProperty Name="remark" ColumnName="remark" />
+          <ScalarProperty Name="caseno" ColumnName="caseno" />
+          <ScalarProperty Name="pihao" ColumnName="pihao" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="pid" ColumnName="pid" />
+          <ScalarProperty Name="flag" ColumnName="flag" />
+          <ScalarProperty Name="printlabel" ColumnName="printlabel" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="RolePowers" TypeName="appdb.RolePowers" StoreEntitySet="RolePowers">
+      <EndProperty Name="Powers">
+        <ScalarProperty Name="ID" ColumnName="PowerID" />
+      </EndProperty>
+      <EndProperty Name="Roles">
+        <ScalarProperty Name="ID" ColumnName="RoleID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RoleUsers" TypeName="appdb.RoleUsers" StoreEntitySet="RoleUsers">
+      <EndProperty Name="Roles">
+        <ScalarProperty Name="ID" ColumnName="RoleID" />
+      </EndProperty>
+      <EndProperty Name="Users">
+        <ScalarProperty Name="ID" ColumnName="UserID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TitleUsers" TypeName="appdb.TitleUsers" StoreEntitySet="TitleUsers">
+      <EndProperty Name="Titles">
+        <ScalarProperty Name="ID" ColumnName="TitleID" />
+      </EndProperty>
+      <EndProperty Name="Users">
+        <ScalarProperty Name="ID" ColumnName="UserID" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

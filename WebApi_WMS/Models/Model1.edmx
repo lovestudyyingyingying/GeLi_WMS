@@ -1,0 +1,1784 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="NanXingGuoRen_WMSModel_1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AGVAlarmLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="deviceNum" Type="nvarchar" MaxLength="50" />
+          <Property Name="alarmDesc" Type="nvarchar" MaxLength="50" />
+          <Property Name="alarmType" Type="int" />
+          <Property Name="areaId" Type="int" />
+          <Property Name="alarmReadFlag" Type="int" />
+          <Property Name="channelDeviceId" Type="nvarchar" MaxLength="50" />
+          <Property Name="alarmSource" Type="nvarchar" MaxLength="50" />
+          <Property Name="channelName" Type="nvarchar" MaxLength="256" />
+          <Property Name="alarmDate" Type="datetime" />
+          <Property Name="recTime" Type="datetime" Nullable="false" />
+          <Property Name="deviceName" Type="nvarchar" MaxLength="50" />
+          <Property Name="alarmGrade" Type="int" />
+        </EntityType>
+        <EntityType Name="AGVMissionInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AreaClass" Type="nvarchar" MaxLength="50" />
+          <Property Name="SortIndex" Type="int" />
+          <Property Name="OrderTime" Type="datetime" />
+          <Property Name="StockNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="StartLocation" Type="nvarchar" MaxLength="50" />
+          <Property Name="EndLocation" Type="nvarchar" MaxLength="50" />
+          <Property Name="RunState" Type="varchar" MaxLength="50" />
+          <Property Name="StateMsg" Type="varchar" MaxLength="100" />
+          <Property Name="SendState" Type="varchar" MaxLength="50" />
+          <Property Name="SendMsg" Type="varchar" MaxLength="100" />
+          <Property Name="MissionNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="TrayNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Mark" Type="nvarchar" MaxLength="50" />
+          <Property Name="StockPlan_ID" Type="int" />
+          <Property Name="OrderGroupId" Type="nvarchar" MaxLength="255" />
+          <Property Name="AGVCarId" Type="nvarchar" MaxLength="20" />
+          <Property Name="userId" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Configs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConfigKey" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ConfigValue" Type="nvarchar" MaxLength="4000" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Depts">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="SortIndex" Type="int" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+          <Property Name="ParentID" Type="int" />
+        </EntityType>
+        <EntityType Name="DeviceStatesInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="deviceCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="payLoad" Type="nvarchar" MaxLength="50" />
+          <Property Name="devicePostionRec" Type="nvarchar" MaxLength="50" />
+          <Property Name="devicePosition" Type="nvarchar" MaxLength="50" />
+          <Property Name="battery" Type="nvarchar" MaxLength="50" />
+          <Property Name="deviceName" Type="nvarchar" MaxLength="50" />
+          <Property Name="deviceStatusInt" Type="int" />
+          <Property Name="deviceStatus" Type="nvarchar" MaxLength="50" />
+          <Property Name="recTime" Type="datetime" Nullable="false" />
+          <Property Name="devicePostionX" Type="nvarchar" MaxLength="10" />
+          <Property Name="devicePostionY" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Logdate" Type="datetime" Nullable="false" />
+          <Property Name="MarkLogLevel" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LogMessage" Type="nvarchar(max)" />
+          <Property Name="LogAction" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LogAmount" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StackTrace" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Menus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ImageUrl" Type="nvarchar" MaxLength="200" />
+          <Property Name="NavigateUrl" Type="nvarchar" MaxLength="200" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+          <Property Name="SortIndex" Type="int" Nullable="false" />
+          <Property Name="ParentID" Type="int" />
+          <Property Name="ViewPowerID" Type="int" />
+        </EntityType>
+        <EntityType Name="Onlines">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IPAdddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="LoginTime" Type="datetime" Nullable="false" />
+          <Property Name="UpdateTime" Type="datetime" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Powers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GroupName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Title" Type="nvarchar" MaxLength="200" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Production">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="prosn" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="prodate" Type="datetime" Nullable="false" />
+          <Property Name="proname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="itemno" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ProductOrderlistsID" Type="int" Nullable="false" />
+          <Property Name="class" Type="nvarchar" MaxLength="50" />
+          <Property Name="unit" Type="nvarchar" MaxLength="50" />
+          <Property Name="spec" Type="nvarchar" MaxLength="50" />
+          <Property Name="batchNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="boxNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="boxName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ingredients" Type="nvarchar" MaxLength="50" />
+          <Property Name="remark1" Type="nvarchar(max)" />
+          <Property Name="protype" Type="nvarchar" MaxLength="50" />
+          <Property Name="color" Type="nvarchar" MaxLength="50" />
+          <Property Name="probiaozhun" Type="nvarchar" MaxLength="50" />
+          <Property Name="yuanliaobatchNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="position" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="ProductOrderheaders">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="prosn" Type="nvarchar" MaxLength="20" />
+          <Property Name="optdate" Type="datetime" />
+          <Property Name="positionClass" Type="nvarchar" MaxLength="50" />
+          <Property Name="remark" Type="nvarchar" MaxLength="200" />
+          <Property Name="orderNo" Type="nvarchar" MaxLength="20" />
+          <Property Name="mergeCells" Type="varchar" MaxLength="255" />
+          <Property Name="mergeCellsValue" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ProductOrderlists">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="itemno" Type="nvarchar" MaxLength="50" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="spec" Type="nvarchar" MaxLength="50" />
+          <Property Name="model" Type="nvarchar" MaxLength="50" />
+          <Property Name="inName" Type="nvarchar" MaxLength="50" />
+          <Property Name="color" Type="nvarchar" MaxLength="50" />
+          <Property Name="material" Type="nvarchar" MaxLength="50" />
+          <Property Name="Class" Type="nvarchar" MaxLength="50" />
+          <Property Name="unit" Type="nvarchar" MaxLength="50" />
+          <Property Name="price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="priceOut" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="count" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="mark" Type="nvarchar" MaxLength="10" />
+          <Property Name="optdate" Type="datetime" />
+          <Property Name="jingbanren" Type="nvarchar" MaxLength="10" />
+          <Property Name="remark1" Type="nvarchar(max)" />
+          <Property Name="providername" Type="nvarchar" MaxLength="50" />
+          <Property Name="clientname" Type="nvarchar" MaxLength="50" />
+          <Property Name="ProductOrderheader_ID" Type="int" />
+          <Property Name="length" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="width" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="high" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="batchNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="boxNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="boxName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ingredients" Type="nvarchar" MaxLength="50" />
+          <Property Name="chejianclass" Type="nvarchar" MaxLength="50" />
+          <Property Name="ERPOrderNo" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="RolePowers">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="PowerID" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="PowerID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="RoleUsers">
+          <Key>
+            <PropertyRef Name="RoleID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="RoleID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockPlan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlanNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="proname" Type="nvarchar" MaxLength="50" />
+          <Property Name="batchNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="probiaozhun" Type="nvarchar" MaxLength="50" />
+          <Property Name="spec" Type="nvarchar" MaxLength="50" />
+          <Property Name="count" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="plantime" Type="datetime" Nullable="false" />
+          <Property Name="planUser" Type="nvarchar" MaxLength="50" />
+          <Property Name="states" Type="nvarchar" MaxLength="50" />
+          <Property Name="color" Type="nvarchar" MaxLength="50" />
+          <Property Name="mark" Type="nvarchar" MaxLength="10" />
+          <Property Name="position" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="TelenClients">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="levelCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="serverTime" Type="datetime" />
+          <Property Name="condiction" Type="nvarchar" MaxLength="50" />
+          <Property Name="remark" Type="nvarchar" MaxLength="50" />
+          <Property Name="fax" Type="nvarchar" MaxLength="50" />
+          <Property Name="address" Type="nvarchar" MaxLength="50" />
+          <Property Name="bank" Type="nvarchar" MaxLength="50" />
+          <Property Name="Eamil" Type="nvarchar" MaxLength="50" />
+          <Property Name="Number" Type="nvarchar" MaxLength="20" />
+          <Property Name="clientManager" Type="nvarchar(max)" />
+          <Property Name="implementer" Type="nvarchar(max)" />
+          <Property Name="gendan" Type="nvarchar(max)" />
+          <Property Name="nickname" Type="nvarchar(max)" />
+          <Property Name="openid" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Titles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="TitleUsers">
+          <Key>
+            <PropertyRef Name="TitleID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="TitleID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TrayPro">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="optdate" Type="datetime" Nullable="false" />
+          <Property Name="TrayStateID" Type="int" Nullable="false" />
+          <Property Name="prosn" Type="nvarchar" MaxLength="60" />
+        </EntityType>
+        <EntityType Name="TrayState">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrayNO" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="optdate" Type="datetime" Nullable="false" />
+          <Property Name="OnlineCount" Type="int" Nullable="false" />
+          <Property Name="WareLocation_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Enabled" Type="bit" Nullable="false" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+          <Property Name="ChineseName" Type="nvarchar" MaxLength="100" />
+          <Property Name="EnglishName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Photo" Type="nvarchar" MaxLength="200" />
+          <Property Name="QQ" Type="nvarchar" MaxLength="50" />
+          <Property Name="CompanyEmail" Type="nvarchar" MaxLength="100" />
+          <Property Name="OfficePhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="OfficePhoneExt" Type="nvarchar" MaxLength="50" />
+          <Property Name="HomePhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="CellPhone" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="500" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+          <Property Name="IdentityCard" Type="nvarchar" MaxLength="50" />
+          <Property Name="Birthday" Type="datetime" />
+          <Property Name="TakeOfficeTime" Type="datetime" />
+          <Property Name="LastLoginTime" Type="datetime" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="DeptID" Type="int" />
+        </EntityType>
+        <EntityType Name="WareArea">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WareNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="War_ID" Type="int" />
+          <Property Name="WareHouse_ID" Type="int" />
+          <Property Name="WareAreaState" Type="bit" />
+          <Property Name="InstockRule" Type="nvarchar" MaxLength="10" />
+          <Property Name="protype" Type="nvarchar" MaxLength="10" />
+          <Property Name="InstockWay" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="WareAreaClass">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AreaClass" Type="nvarchar" MaxLength="50" />
+          <Property Name="SortIndex" Type="int" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="WareHouse">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WHName" Type="nvarchar" MaxLength="50" />
+          <Property Name="WHPosition" Type="nvarchar" MaxLength="50" />
+          <Property Name="WHState" Type="bit" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="WareLocation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WareLocaNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="WareArea_ID" Type="int" />
+          <Property Name="header_ID" Type="int" />
+          <Property Name="WareLocaState" Type="bit" />
+          <Property Name="AGVPosition" Type="nvarchar" MaxLength="50" />
+          <Property Name="WareLocaNo_Long" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_dbo_Depts_dbo_Depts_ParentID">
+          <End Role="Depts" Type="Self.Depts" Multiplicity="0..1" />
+          <End Role="Depts1" Type="Self.Depts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Depts1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Menus_dbo_Menus_ParentID">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="0..1" />
+          <End Role="Menus1" Type="Self.Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Menus1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Menus_dbo_Powers_ViewPowerID">
+          <End Role="Powers" Type="Self.Powers" Multiplicity="0..1" />
+          <End Role="Menus" Type="Self.Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Powers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Menus">
+              <PropertyRef Name="ViewPowerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Onlines_dbo_Users_UserID">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Onlines" Type="Self.Onlines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Onlines">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_RolePowers_dbo_Powers_PowerID">
+          <End Role="Powers" Type="Self.Powers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RolePowers" Type="Self.RolePowers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Powers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RolePowers">
+              <PropertyRef Name="PowerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_RolePowers_dbo_Roles_RoleID">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RolePowers" Type="Self.RolePowers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RolePowers">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_RoleUsers_dbo_Roles_RoleID">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RoleUsers" Type="Self.RoleUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleUsers">
+              <PropertyRef Name="RoleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_RoleUsers_dbo_Users_UserID">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RoleUsers" Type="Self.RoleUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RoleUsers">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_TitleUsers_dbo_Titles_TitleID">
+          <End Role="Titles" Type="Self.Titles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TitleUsers" Type="Self.TitleUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Titles">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TitleUsers">
+              <PropertyRef Name="TitleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_TitleUsers_dbo_Users_UserID">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="TitleUsers" Type="Self.TitleUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TitleUsers">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Users_dbo_Depts_DeptID">
+          <End Role="Depts" Type="Self.Depts" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="DeptID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ProductOrderlists_dbo_ProductOrderheaders_ProductOrderheader_ID">
+          <End Role="ProductOrderheaders" Type="Self.ProductOrderheaders" Multiplicity="0..1" />
+          <End Role="ProductOrderlists" Type="Self.ProductOrderlists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductOrderheaders">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductOrderlists">
+              <PropertyRef Name="ProductOrderheader_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductOrderlistsProduction">
+          <End Role="ProductOrderlists" Type="Self.ProductOrderlists" Multiplicity="1" />
+          <End Role="Production" Type="Self.Production" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductOrderlists">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Production">
+              <PropertyRef Name="ProductOrderlistsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TRAYSTAT_REFERENCE_WARELOCA">
+          <End Role="WareLocation" Type="Self.WareLocation" Multiplicity="0..1" />
+          <End Role="TrayState" Type="Self.TrayState" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WareLocation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TrayState">
+              <PropertyRef Name="WareLocation_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrayStateTrayPro">
+          <End Role="TrayState" Type="Self.TrayState" Multiplicity="1" />
+          <End Role="TrayPro" Type="Self.TrayPro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrayState">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TrayPro">
+              <PropertyRef Name="TrayStateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WAREAREA_REFERENCE_WAREAREA">
+          <End Role="WareAreaClass" Type="Self.WareAreaClass" Multiplicity="0..1" />
+          <End Role="WareArea" Type="Self.WareArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WareAreaClass">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WareArea">
+              <PropertyRef Name="War_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WAREAREA_REFERENCE_WAREHOUS">
+          <End Role="WareHouse" Type="Self.WareHouse" Multiplicity="0..1" />
+          <End Role="WareArea" Type="Self.WareArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WareHouse">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WareArea">
+              <PropertyRef Name="WareHouse_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WARELOCA_REFERENCE_USERS">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="WareLocation" Type="Self.WareLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WareLocation">
+              <PropertyRef Name="header_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WARELOCA_REFERENCE_WAREAREA">
+          <End Role="WareArea" Type="Self.WareArea" Multiplicity="0..1" />
+          <End Role="WareLocation" Type="Self.WareLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WareArea">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WareLocation">
+              <PropertyRef Name="WareArea_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="NanXingGuoRen_WMSModel_1StoreContainer">
+          <EntitySet Name="AGVAlarmLog" EntityType="Self.AGVAlarmLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AGVMissionInfo" EntityType="Self.AGVMissionInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Configs" EntityType="Self.Configs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Depts" EntityType="Self.Depts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeviceStatesInfo" EntityType="Self.DeviceStatesInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log" EntityType="Self.Log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menus" EntityType="Self.Menus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Onlines" EntityType="Self.Onlines" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Powers" EntityType="Self.Powers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Production" EntityType="Self.Production" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductOrderheaders" EntityType="Self.ProductOrderheaders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductOrderlists" EntityType="Self.ProductOrderlists" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RolePowers" EntityType="Self.RolePowers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoleUsers" EntityType="Self.RoleUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockPlan" EntityType="Self.StockPlan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TelenClients" EntityType="Self.TelenClients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Titles" EntityType="Self.Titles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TitleUsers" EntityType="Self.TitleUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrayPro" EntityType="Self.TrayPro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrayState" EntityType="Self.TrayState" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WareArea" EntityType="Self.WareArea" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WareAreaClass" EntityType="Self.WareAreaClass" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WareHouse" EntityType="Self.WareHouse" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WareLocation" EntityType="Self.WareLocation" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_Depts_dbo_Depts_ParentID" Association="Self.FK_dbo_Depts_dbo_Depts_ParentID">
+            <End Role="Depts" EntitySet="Depts" />
+            <End Role="Depts1" EntitySet="Depts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Menus_dbo_Menus_ParentID" Association="Self.FK_dbo_Menus_dbo_Menus_ParentID">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Menus1" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Menus_dbo_Powers_ViewPowerID" Association="Self.FK_dbo_Menus_dbo_Powers_ViewPowerID">
+            <End Role="Powers" EntitySet="Powers" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Onlines_dbo_Users_UserID" Association="Self.FK_dbo_Onlines_dbo_Users_UserID">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Onlines" EntitySet="Onlines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_RolePowers_dbo_Powers_PowerID" Association="Self.FK_dbo_RolePowers_dbo_Powers_PowerID">
+            <End Role="Powers" EntitySet="Powers" />
+            <End Role="RolePowers" EntitySet="RolePowers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_RolePowers_dbo_Roles_RoleID" Association="Self.FK_dbo_RolePowers_dbo_Roles_RoleID">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RolePowers" EntitySet="RolePowers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_RoleUsers_dbo_Roles_RoleID" Association="Self.FK_dbo_RoleUsers_dbo_Roles_RoleID">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="RoleUsers" EntitySet="RoleUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_RoleUsers_dbo_Users_UserID" Association="Self.FK_dbo_RoleUsers_dbo_Users_UserID">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="RoleUsers" EntitySet="RoleUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_TitleUsers_dbo_Titles_TitleID" Association="Self.FK_dbo_TitleUsers_dbo_Titles_TitleID">
+            <End Role="Titles" EntitySet="Titles" />
+            <End Role="TitleUsers" EntitySet="TitleUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_TitleUsers_dbo_Users_UserID" Association="Self.FK_dbo_TitleUsers_dbo_Users_UserID">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="TitleUsers" EntitySet="TitleUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Users_dbo_Depts_DeptID" Association="Self.FK_dbo_Users_dbo_Depts_DeptID">
+            <End Role="Depts" EntitySet="Depts" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ProductOrderlists_dbo_ProductOrderheaders_ProductOrderheader_ID" Association="Self.FK_dbo_ProductOrderlists_dbo_ProductOrderheaders_ProductOrderheader_ID">
+            <End Role="ProductOrderheaders" EntitySet="ProductOrderheaders" />
+            <End Role="ProductOrderlists" EntitySet="ProductOrderlists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductOrderlistsProduction" Association="Self.FK_ProductOrderlistsProduction">
+            <End Role="ProductOrderlists" EntitySet="ProductOrderlists" />
+            <End Role="Production" EntitySet="Production" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TRAYSTAT_REFERENCE_WARELOCA" Association="Self.FK_TRAYSTAT_REFERENCE_WARELOCA">
+            <End Role="WareLocation" EntitySet="WareLocation" />
+            <End Role="TrayState" EntitySet="TrayState" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrayStateTrayPro" Association="Self.FK_TrayStateTrayPro">
+            <End Role="TrayState" EntitySet="TrayState" />
+            <End Role="TrayPro" EntitySet="TrayPro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WAREAREA_REFERENCE_WAREAREA" Association="Self.FK_WAREAREA_REFERENCE_WAREAREA">
+            <End Role="WareAreaClass" EntitySet="WareAreaClass" />
+            <End Role="WareArea" EntitySet="WareArea" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WAREAREA_REFERENCE_WAREHOUS" Association="Self.FK_WAREAREA_REFERENCE_WAREHOUS">
+            <End Role="WareHouse" EntitySet="WareHouse" />
+            <End Role="WareArea" EntitySet="WareArea" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WARELOCA_REFERENCE_USERS" Association="Self.FK_WARELOCA_REFERENCE_USERS">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="WareLocation" EntitySet="WareLocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WARELOCA_REFERENCE_WAREAREA" Association="Self.FK_WARELOCA_REFERENCE_WAREAREA">
+            <End Role="WareArea" EntitySet="WareArea" />
+            <End Role="WareLocation" EntitySet="WareLocation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NanXingGuoRen_WMSModel_1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AGVMissionInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AreaClass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SortIndex" Type="Int32" />
+          <Property Name="OrderTime" Type="DateTime" Precision="3" />
+          <Property Name="StockNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StartLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EndLocation" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RunState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="StateMsg" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="SendState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SendMsg" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MissionNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="TrayNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StockPlan_ID" Type="Int32" />
+          <NavigationProperty Name="StockPlan" Relationship="NanXingGuoRen_WMSModel_1.FK_AGVMissionInfo_StockPlan" FromRole="AGVMissionInfo" ToRole="StockPlan" />
+          <Property Name="OrderGroupId" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="AGVCarId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="userId" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Configs">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConfigKey" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ConfigValue" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Depts">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SortIndex" Type="Int32" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ParentID" Type="Int32" />
+          <NavigationProperty Name="Depts1" Relationship="Self.FK_dbo_Depts_dbo_Depts_ParentID" FromRole="Depts" ToRole="Depts1" />
+          <NavigationProperty Name="Depts2" Relationship="Self.FK_dbo_Depts_dbo_Depts_ParentID" FromRole="Depts1" ToRole="Depts" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_dbo_Users_dbo_Depts_DeptID" FromRole="Depts" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Logdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MarkLogLevel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LogMessage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LogAction" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LogAmount" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StackTrace" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Menus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ImageUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="NavigateUrl" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SortIndex" Type="Int32" Nullable="false" />
+          <Property Name="ParentID" Type="Int32" />
+          <Property Name="ViewPowerID" Type="Int32" />
+          <NavigationProperty Name="Menus1" Relationship="Self.FK_dbo_Menus_dbo_Menus_ParentID" FromRole="Menus" ToRole="Menus1" />
+          <NavigationProperty Name="Menus2" Relationship="Self.FK_dbo_Menus_dbo_Menus_ParentID" FromRole="Menus1" ToRole="Menus" />
+          <NavigationProperty Name="Powers" Relationship="Self.FK_dbo_Menus_dbo_Powers_ViewPowerID" FromRole="Menus" ToRole="Powers" />
+        </EntityType>
+        <EntityType Name="Onlines">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IPAdddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LoginTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_dbo_Onlines_dbo_Users_UserID" FromRole="Onlines" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Powers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Menus" Relationship="Self.FK_dbo_Menus_dbo_Powers_ViewPowerID" FromRole="Powers" ToRole="Menus" />
+          <NavigationProperty Name="Roles" Relationship="Self.RolePowers" FromRole="Powers" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="Production">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="prosn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="prodate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="proname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="itemno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProductOrderlistsID" Type="Int32" Nullable="false" />
+          <Property Name="class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="spec" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="batchNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="boxNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="boxName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ingredients" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="remark1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ProductOrderlists" Relationship="Self.FK_ProductOrderlistsProduction" FromRole="Production" ToRole="ProductOrderlists" />
+          <Property Name="protype" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="color" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="probiaozhun" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="yuanliaobatchNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="position" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ProductOrderheaders">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="prosn" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="optdate" Type="DateTime" Precision="3" />
+          <Property Name="positionClass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="remark" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="orderNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="mergeCells" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="mergeCellsValue" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProductOrderlists" Relationship="Self.FK_dbo_ProductOrderlists_dbo_ProductOrderheaders_ProductOrderheader_ID" FromRole="ProductOrderheaders" ToRole="ProductOrderlists" />
+        </EntityType>
+        <EntityType Name="ProductOrderlists">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="itemno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="spec" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="inName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="color" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="material" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Class" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="unit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="priceOut" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="count" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="mark" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="optdate" Type="DateTime" Precision="3" />
+          <Property Name="jingbanren" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="remark1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="providername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="clientname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ProductOrderheader_ID" Type="Int32" />
+          <Property Name="length" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="width" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="high" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="batchNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="boxNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="boxName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ingredients" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="chejianclass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Production" Relationship="Self.FK_ProductOrderlistsProduction" FromRole="ProductOrderlists" ToRole="Production" />
+          <NavigationProperty Name="ProductOrderheaders" Relationship="Self.FK_dbo_ProductOrderlists_dbo_ProductOrderheaders_ProductOrderheader_ID" FromRole="ProductOrderlists" ToRole="ProductOrderheaders" />
+          <Property Name="ERPOrderNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Powers" Relationship="Self.RolePowers" FromRole="Roles" ToRole="Powers" />
+          <NavigationProperty Name="Users" Relationship="Self.RoleUsers" FromRole="Roles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="TelenClients">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="levelCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="serverTime" Type="DateTime" Precision="3" />
+          <Property Name="condiction" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fax" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="bank" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Eamil" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Number" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="clientManager" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="implementer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="gendan" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="nickname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="openid" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Titles">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="Self.TitleUsers" FromRole="Titles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="TrayPro">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="optdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TrayStateID" Type="Int32" Nullable="false" />
+          <Property Name="prosn" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TrayState" Relationship="Self.FK_TrayStateTrayPro" FromRole="TrayPro" ToRole="TrayState" />
+        </EntityType>
+        <EntityType Name="TrayState">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrayNO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="optdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OnlineCount" Type="Int32" Nullable="false" />
+          <Property Name="WareLocation_ID" Type="Int32" />
+          <NavigationProperty Name="TrayPro" Relationship="Self.FK_TrayStateTrayPro" FromRole="TrayState" ToRole="TrayPro" />
+          <NavigationProperty Name="WareLocation" Relationship="Self.FK_TRAYSTAT_REFERENCE_WARELOCA" FromRole="TrayState" ToRole="WareLocation" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ChineseName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="EnglishName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="QQ" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="OfficePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OfficePhoneExt" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HomePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CellPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="IdentityCard" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Type="DateTime" Precision="3" />
+          <Property Name="TakeOfficeTime" Type="DateTime" Precision="3" />
+          <Property Name="LastLoginTime" Type="DateTime" Precision="3" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="DeptID" Type="Int32" />
+          <NavigationProperty Name="Depts" Relationship="Self.FK_dbo_Users_dbo_Depts_DeptID" FromRole="Users" ToRole="Depts" />
+          <NavigationProperty Name="Onlines" Relationship="Self.FK_dbo_Onlines_dbo_Users_UserID" FromRole="Users" ToRole="Onlines" />
+          <NavigationProperty Name="WareLocation" Relationship="Self.FK_WARELOCA_REFERENCE_USERS" FromRole="Users" ToRole="WareLocation" />
+          <NavigationProperty Name="Roles" Relationship="Self.RoleUsers" FromRole="Users" ToRole="Roles" />
+          <NavigationProperty Name="Titles" Relationship="Self.TitleUsers" FromRole="Users" ToRole="Titles" />
+        </EntityType>
+        <EntityType Name="WareArea">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WareNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="War_ID" Type="Int32" />
+          <Property Name="WareHouse_ID" Type="Int32" />
+          <Property Name="WareAreaState" Type="Boolean" />
+          <NavigationProperty Name="WareAreaClass" Relationship="Self.FK_WAREAREA_REFERENCE_WAREAREA" FromRole="WareArea" ToRole="WareAreaClass" />
+          <NavigationProperty Name="WareHouse" Relationship="Self.FK_WAREAREA_REFERENCE_WAREHOUS" FromRole="WareArea" ToRole="WareHouse" />
+          <NavigationProperty Name="WareLocation" Relationship="Self.FK_WARELOCA_REFERENCE_WAREAREA" FromRole="WareArea" ToRole="WareLocation" />
+          <Property Name="protype" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="InstockWay" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="InstockRule" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="WareAreaClass">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AreaClass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SortIndex" Type="Int32" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="WareArea" Relationship="Self.FK_WAREAREA_REFERENCE_WAREAREA" FromRole="WareAreaClass" ToRole="WareArea" />
+        </EntityType>
+        <EntityType Name="WareHouse">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WHName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WHPosition" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WHState" Type="Boolean" />
+          <Property Name="Remark" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="WareArea" Relationship="Self.FK_WAREAREA_REFERENCE_WAREHOUS" FromRole="WareHouse" ToRole="WareArea" />
+        </EntityType>
+        <EntityType Name="WareLocation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WareLocaNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WareArea_ID" Type="Int32" />
+          <Property Name="header_ID" Type="Int32" />
+          <Property Name="WareLocaState" Type="Boolean" />
+          <Property Name="AGVPosition" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TrayState" Relationship="Self.FK_TRAYSTAT_REFERENCE_WARELOCA" FromRole="WareLocation" ToRole="TrayState" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_WARELOCA_REFERENCE_USERS" FromRole="WareLocation" ToRole="Users" />
+          <NavigationProperty Name="WareArea" Relationship="Self.FK_WARELOCA_REFERENCE_WAREAREA" FromRole="WareLocation" ToRole="WareArea" />
+          <Property Name="WareLocaNo_Long" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_dbo_Depts_dbo_Depts_ParentID">
+          <End Role="Depts" Type="Self.Depts" Multiplicity="0..1" />
+          <End Role="Depts1" Type="Self.Depts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Depts1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Users_dbo_Depts_DeptID">
+          <End Role="Depts" Type="Self.Depts" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Depts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="DeptID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Menus_dbo_Menus_ParentID">
+          <End Role="Menus" Type="Self.Menus" Multiplicity="0..1" />
+          <End Role="Menus1" Type="Self.Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menus">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Menus1">
+              <PropertyRef Name="ParentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Menus_dbo_Powers_ViewPowerID">
+          <End Role="Powers" Type="Self.Powers" Multiplicity="0..1" />
+          <End Role="Menus" Type="Self.Menus" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Powers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Menus">
+              <PropertyRef Name="ViewPowerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Onlines_dbo_Users_UserID">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Onlines" Type="Self.Onlines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Onlines">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductOrderlistsProduction">
+          <End Role="ProductOrderlists" Type="Self.ProductOrderlists" Multiplicity="1" />
+          <End Role="Production" Type="Self.Production" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductOrderlists">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Production">
+              <PropertyRef Name="ProductOrderlistsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ProductOrderlists_dbo_ProductOrderheaders_ProductOrderheader_ID">
+          <End Role="ProductOrderheaders" Type="Self.ProductOrderheaders" Multiplicity="0..1" />
+          <End Role="ProductOrderlists" Type="Self.ProductOrderlists" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductOrderheaders">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductOrderlists">
+              <PropertyRef Name="ProductOrderheader_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrayStateTrayPro">
+          <End Role="TrayState" Type="Self.TrayState" Multiplicity="1" />
+          <End Role="TrayPro" Type="Self.TrayPro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TrayState">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TrayPro">
+              <PropertyRef Name="TrayStateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TRAYSTAT_REFERENCE_WARELOCA">
+          <End Role="WareLocation" Type="Self.WareLocation" Multiplicity="0..1" />
+          <End Role="TrayState" Type="Self.TrayState" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WareLocation">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TrayState">
+              <PropertyRef Name="WareLocation_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WARELOCA_REFERENCE_USERS">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="WareLocation" Type="Self.WareLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WareLocation">
+              <PropertyRef Name="header_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WAREAREA_REFERENCE_WAREAREA">
+          <End Role="WareAreaClass" Type="Self.WareAreaClass" Multiplicity="0..1" />
+          <End Role="WareArea" Type="Self.WareArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WareAreaClass">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WareArea">
+              <PropertyRef Name="War_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WAREAREA_REFERENCE_WAREHOUS">
+          <End Role="WareHouse" Type="Self.WareHouse" Multiplicity="0..1" />
+          <End Role="WareArea" Type="Self.WareArea" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WareHouse">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WareArea">
+              <PropertyRef Name="WareHouse_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WARELOCA_REFERENCE_WAREAREA">
+          <End Role="WareArea" Type="Self.WareArea" Multiplicity="0..1" />
+          <End Role="WareLocation" Type="Self.WareLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WareArea">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="WareLocation">
+              <PropertyRef Name="WareArea_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RolePowers">
+          <End Role="Powers" Type="Self.Powers" Multiplicity="*" />
+          <End Role="Roles" Type="Self.Roles" Multiplicity="*" />
+        </Association>
+        <Association Name="RoleUsers">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="*" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+        </Association>
+        <Association Name="TitleUsers">
+          <End Role="Titles" Type="Self.Titles" Multiplicity="*" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="NanXingGuoRen_WMSEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AGVMissionInfo" EntityType="Self.AGVMissionInfo" />
+          <EntitySet Name="Configs" EntityType="Self.Configs" />
+          <EntitySet Name="Depts" EntityType="Self.Depts" />
+          <EntitySet Name="Log" EntityType="Self.Log" />
+          <EntitySet Name="Menus" EntityType="Self.Menus" />
+          <EntitySet Name="Onlines" EntityType="Self.Onlines" />
+          <EntitySet Name="Powers" EntityType="Self.Powers" />
+          <EntitySet Name="Production" EntityType="Self.Production" />
+          <EntitySet Name="ProductOrderheaders" EntityType="Self.ProductOrderheaders" />
+          <EntitySet Name="ProductOrderlists" EntityType="Self.ProductOrderlists" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" />
+          <EntitySet Name="TelenClients" EntityType="Self.TelenClients" />
+          <EntitySet Name="Titles" EntityType="Self.Titles" />
+          <EntitySet Name="TrayPro" EntityType="Self.TrayPro" />
+          <EntitySet Name="TrayState" EntityType="Self.TrayState" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="WareArea" EntityType="Self.WareArea" />
+          <EntitySet Name="WareAreaClass" EntityType="Self.WareAreaClass" />
+          <EntitySet Name="WareHouse" EntityType="Self.WareHouse" />
+          <EntitySet Name="WareLocation" EntityType="Self.WareLocation" />
+          <AssociationSet Name="FK_dbo_Depts_dbo_Depts_ParentID" Association="Self.FK_dbo_Depts_dbo_Depts_ParentID">
+            <End Role="Depts" EntitySet="Depts" />
+            <End Role="Depts1" EntitySet="Depts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Users_dbo_Depts_DeptID" Association="Self.FK_dbo_Users_dbo_Depts_DeptID">
+            <End Role="Depts" EntitySet="Depts" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Menus_dbo_Menus_ParentID" Association="Self.FK_dbo_Menus_dbo_Menus_ParentID">
+            <End Role="Menus" EntitySet="Menus" />
+            <End Role="Menus1" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Menus_dbo_Powers_ViewPowerID" Association="Self.FK_dbo_Menus_dbo_Powers_ViewPowerID">
+            <End Role="Powers" EntitySet="Powers" />
+            <End Role="Menus" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Onlines_dbo_Users_UserID" Association="Self.FK_dbo_Onlines_dbo_Users_UserID">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Onlines" EntitySet="Onlines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductOrderlistsProduction" Association="Self.FK_ProductOrderlistsProduction">
+            <End Role="ProductOrderlists" EntitySet="ProductOrderlists" />
+            <End Role="Production" EntitySet="Production" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ProductOrderlists_dbo_ProductOrderheaders_ProductOrderheader_ID" Association="Self.FK_dbo_ProductOrderlists_dbo_ProductOrderheaders_ProductOrderheader_ID">
+            <End Role="ProductOrderheaders" EntitySet="ProductOrderheaders" />
+            <End Role="ProductOrderlists" EntitySet="ProductOrderlists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrayStateTrayPro" Association="Self.FK_TrayStateTrayPro">
+            <End Role="TrayState" EntitySet="TrayState" />
+            <End Role="TrayPro" EntitySet="TrayPro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TRAYSTAT_REFERENCE_WARELOCA" Association="Self.FK_TRAYSTAT_REFERENCE_WARELOCA">
+            <End Role="WareLocation" EntitySet="WareLocation" />
+            <End Role="TrayState" EntitySet="TrayState" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WARELOCA_REFERENCE_USERS" Association="Self.FK_WARELOCA_REFERENCE_USERS">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="WareLocation" EntitySet="WareLocation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WAREAREA_REFERENCE_WAREAREA" Association="Self.FK_WAREAREA_REFERENCE_WAREAREA">
+            <End Role="WareAreaClass" EntitySet="WareAreaClass" />
+            <End Role="WareArea" EntitySet="WareArea" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WAREAREA_REFERENCE_WAREHOUS" Association="Self.FK_WAREAREA_REFERENCE_WAREHOUS">
+            <End Role="WareHouse" EntitySet="WareHouse" />
+            <End Role="WareArea" EntitySet="WareArea" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WARELOCA_REFERENCE_WAREAREA" Association="Self.FK_WARELOCA_REFERENCE_WAREAREA">
+            <End Role="WareArea" EntitySet="WareArea" />
+            <End Role="WareLocation" EntitySet="WareLocation" />
+          </AssociationSet>
+          <AssociationSet Name="RolePowers" Association="Self.RolePowers">
+            <End Role="Powers" EntitySet="Powers" />
+            <End Role="Roles" EntitySet="Roles" />
+          </AssociationSet>
+          <AssociationSet Name="RoleUsers" Association="Self.RoleUsers">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="TitleUsers" Association="Self.TitleUsers">
+            <End Role="Titles" EntitySet="Titles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="StockPlan" EntityType="NanXingGuoRen_WMSModel_1.StockPlan" />
+          <AssociationSet Name="FK_AGVMissionInfo_StockPlan" Association="NanXingGuoRen_WMSModel_1.FK_AGVMissionInfo_StockPlan">
+            <End Role="StockPlan" EntitySet="StockPlan" />
+            <End Role="AGVMissionInfo" EntitySet="AGVMissionInfo" />
+          </AssociationSet>
+          <EntitySet Name="DeviceStatesInfo" EntityType="NanXingGuoRen_WMSModel_1.DeviceStatesInfo" />
+          <EntitySet Name="AGVAlarmLog" EntityType="NanXingGuoRen_WMSModel_1.AGVAlarmLog" />
+        </EntityContainer>
+        <EntityType Name="StockPlan">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlanNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="proname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="batchNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="probiaozhun" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="spec" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="count" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="plantime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="planUser" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="states" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="color" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="mark" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AGVMissionInfo" Relationship="NanXingGuoRen_WMSModel_1.FK_AGVMissionInfo_StockPlan" FromRole="StockPlan" ToRole="AGVMissionInfo" />
+          <Property Name="position" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_AGVMissionInfo_StockPlan">
+          <End Type="NanXingGuoRen_WMSModel_1.StockPlan" Role="StockPlan" Multiplicity="0..1" />
+          <End Type="NanXingGuoRen_WMSModel_1.AGVMissionInfo" Role="AGVMissionInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StockPlan">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AGVMissionInfo">
+              <PropertyRef Name="StockPlan_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DeviceStatesInfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deviceCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="payLoad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="devicePostionRec" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="devicePosition" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="battery" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="deviceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="deviceStatusInt" Type="Int32" />
+          <Property Name="deviceStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="recTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="devicePostionX" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="devicePostionY" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AGVAlarmLog">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deviceNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="alarmDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="alarmType" Type="Int32" />
+          <Property Name="areaId" Type="Int32" />
+          <Property Name="alarmReadFlag" Type="Int32" />
+          <Property Name="channelDeviceId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="alarmSource" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="channelName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="alarmDate" Type="DateTime" Precision="3" />
+          <Property Name="recTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="deviceName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="alarmGrade" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NanXingGuoRen_WMSModel_1StoreContainer" CdmEntityContainer="NanXingGuoRen_WMSEntities1">
+          <EntitySetMapping Name="AGVMissionInfo">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.AGVMissionInfo">
+              <MappingFragment StoreEntitySet="AGVMissionInfo">
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="AGVCarId" ColumnName="AGVCarId" />
+                <ScalarProperty Name="OrderGroupId" ColumnName="OrderGroupId" />
+                <ScalarProperty Name="StockPlan_ID" ColumnName="StockPlan_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AreaClass" ColumnName="AreaClass" />
+                <ScalarProperty Name="SortIndex" ColumnName="SortIndex" />
+                <ScalarProperty Name="OrderTime" ColumnName="OrderTime" />
+                <ScalarProperty Name="StockNo" ColumnName="StockNo" />
+                <ScalarProperty Name="StartLocation" ColumnName="StartLocation" />
+                <ScalarProperty Name="EndLocation" ColumnName="EndLocation" />
+                <ScalarProperty Name="RunState" ColumnName="RunState" />
+                <ScalarProperty Name="StateMsg" ColumnName="StateMsg" />
+                <ScalarProperty Name="SendState" ColumnName="SendState" />
+                <ScalarProperty Name="SendMsg" ColumnName="SendMsg" />
+                <ScalarProperty Name="MissionNo" ColumnName="MissionNo" />
+                <ScalarProperty Name="TrayNo" ColumnName="TrayNo" />
+                <ScalarProperty Name="Mark" ColumnName="Mark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Configs">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.Configs">
+              <MappingFragment StoreEntitySet="Configs">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ConfigKey" ColumnName="ConfigKey" />
+                <ScalarProperty Name="ConfigValue" ColumnName="ConfigValue" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Depts">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.Depts">
+              <MappingFragment StoreEntitySet="Depts">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="SortIndex" ColumnName="SortIndex" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.Log">
+              <MappingFragment StoreEntitySet="Log">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Logdate" ColumnName="Logdate" />
+                <ScalarProperty Name="MarkLogLevel" ColumnName="MarkLogLevel" />
+                <ScalarProperty Name="LogMessage" ColumnName="LogMessage" />
+                <ScalarProperty Name="LogAction" ColumnName="LogAction" />
+                <ScalarProperty Name="LogAmount" ColumnName="LogAmount" />
+                <ScalarProperty Name="StackTrace" ColumnName="StackTrace" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.Menus">
+              <MappingFragment StoreEntitySet="Menus">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="NavigateUrl" ColumnName="NavigateUrl" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="SortIndex" ColumnName="SortIndex" />
+                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+                <ScalarProperty Name="ViewPowerID" ColumnName="ViewPowerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Onlines">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.Onlines">
+              <MappingFragment StoreEntitySet="Onlines">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IPAdddress" ColumnName="IPAdddress" />
+                <ScalarProperty Name="LoginTime" ColumnName="LoginTime" />
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Powers">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.Powers">
+              <MappingFragment StoreEntitySet="Powers">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="GroupName" ColumnName="GroupName" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Production">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.Production">
+              <MappingFragment StoreEntitySet="Production">
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="yuanliaobatchNo" ColumnName="yuanliaobatchNo" />
+                <ScalarProperty Name="probiaozhun" ColumnName="probiaozhun" />
+                <ScalarProperty Name="color" ColumnName="color" />
+                <ScalarProperty Name="protype" ColumnName="protype" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="prosn" ColumnName="prosn" />
+                <ScalarProperty Name="prodate" ColumnName="prodate" />
+                <ScalarProperty Name="proname" ColumnName="proname" />
+                <ScalarProperty Name="itemno" ColumnName="itemno" />
+                <ScalarProperty Name="ProductOrderlistsID" ColumnName="ProductOrderlistsID" />
+                <ScalarProperty Name="class" ColumnName="class" />
+                <ScalarProperty Name="unit" ColumnName="unit" />
+                <ScalarProperty Name="spec" ColumnName="spec" />
+                <ScalarProperty Name="batchNo" ColumnName="batchNo" />
+                <ScalarProperty Name="boxNo" ColumnName="boxNo" />
+                <ScalarProperty Name="boxName" ColumnName="boxName" />
+                <ScalarProperty Name="ingredients" ColumnName="ingredients" />
+                <ScalarProperty Name="remark1" ColumnName="remark1" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductOrderheaders">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.ProductOrderheaders">
+              <MappingFragment StoreEntitySet="ProductOrderheaders">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="prosn" ColumnName="prosn" />
+                <ScalarProperty Name="optdate" ColumnName="optdate" />
+                <ScalarProperty Name="positionClass" ColumnName="positionClass" />
+                <ScalarProperty Name="remark" ColumnName="remark" />
+                <ScalarProperty Name="orderNo" ColumnName="orderNo" />
+                <ScalarProperty Name="mergeCells" ColumnName="mergeCells" />
+                <ScalarProperty Name="mergeCellsValue" ColumnName="mergeCellsValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductOrderlists">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.ProductOrderlists">
+              <MappingFragment StoreEntitySet="ProductOrderlists">
+                <ScalarProperty Name="ERPOrderNo" ColumnName="ERPOrderNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="itemno" ColumnName="itemno" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="spec" ColumnName="spec" />
+                <ScalarProperty Name="model" ColumnName="model" />
+                <ScalarProperty Name="inName" ColumnName="inName" />
+                <ScalarProperty Name="color" ColumnName="color" />
+                <ScalarProperty Name="material" ColumnName="material" />
+                <ScalarProperty Name="Class" ColumnName="Class" />
+                <ScalarProperty Name="unit" ColumnName="unit" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="priceOut" ColumnName="priceOut" />
+                <ScalarProperty Name="count" ColumnName="count" />
+                <ScalarProperty Name="mark" ColumnName="mark" />
+                <ScalarProperty Name="optdate" ColumnName="optdate" />
+                <ScalarProperty Name="jingbanren" ColumnName="jingbanren" />
+                <ScalarProperty Name="remark1" ColumnName="remark1" />
+                <ScalarProperty Name="providername" ColumnName="providername" />
+                <ScalarProperty Name="clientname" ColumnName="clientname" />
+                <ScalarProperty Name="ProductOrderheader_ID" ColumnName="ProductOrderheader_ID" />
+                <ScalarProperty Name="length" ColumnName="length" />
+                <ScalarProperty Name="width" ColumnName="width" />
+                <ScalarProperty Name="high" ColumnName="high" />
+                <ScalarProperty Name="batchNo" ColumnName="batchNo" />
+                <ScalarProperty Name="boxNo" ColumnName="boxNo" />
+                <ScalarProperty Name="boxName" ColumnName="boxName" />
+                <ScalarProperty Name="ingredients" ColumnName="ingredients" />
+                <ScalarProperty Name="chejianclass" ColumnName="chejianclass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TelenClients">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.TelenClients">
+              <MappingFragment StoreEntitySet="TelenClients">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="levelCode" ColumnName="levelCode" />
+                <ScalarProperty Name="serverTime" ColumnName="serverTime" />
+                <ScalarProperty Name="condiction" ColumnName="condiction" />
+                <ScalarProperty Name="remark" ColumnName="remark" />
+                <ScalarProperty Name="fax" ColumnName="fax" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="bank" ColumnName="bank" />
+                <ScalarProperty Name="Eamil" ColumnName="Eamil" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="clientManager" ColumnName="clientManager" />
+                <ScalarProperty Name="implementer" ColumnName="implementer" />
+                <ScalarProperty Name="gendan" ColumnName="gendan" />
+                <ScalarProperty Name="nickname" ColumnName="nickname" />
+                <ScalarProperty Name="openid" ColumnName="openid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Titles">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.Titles">
+              <MappingFragment StoreEntitySet="Titles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrayPro">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.TrayPro">
+              <MappingFragment StoreEntitySet="TrayPro">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="optdate" ColumnName="optdate" />
+                <ScalarProperty Name="TrayStateID" ColumnName="TrayStateID" />
+                <ScalarProperty Name="prosn" ColumnName="prosn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrayState">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.TrayState">
+              <MappingFragment StoreEntitySet="TrayState">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TrayNO" ColumnName="TrayNO" />
+                <ScalarProperty Name="optdate" ColumnName="optdate" />
+                <ScalarProperty Name="OnlineCount" ColumnName="OnlineCount" />
+                <ScalarProperty Name="WareLocation_ID" ColumnName="WareLocation_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="ChineseName" ColumnName="ChineseName" />
+                <ScalarProperty Name="EnglishName" ColumnName="EnglishName" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="QQ" ColumnName="QQ" />
+                <ScalarProperty Name="CompanyEmail" ColumnName="CompanyEmail" />
+                <ScalarProperty Name="OfficePhone" ColumnName="OfficePhone" />
+                <ScalarProperty Name="OfficePhoneExt" ColumnName="OfficePhoneExt" />
+                <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="IdentityCard" ColumnName="IdentityCard" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="TakeOfficeTime" ColumnName="TakeOfficeTime" />
+                <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="DeptID" ColumnName="DeptID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WareArea">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.WareArea">
+              <MappingFragment StoreEntitySet="WareArea">
+                <ScalarProperty Name="InstockRule" ColumnName="InstockRule" />
+                <ScalarProperty Name="InstockWay" ColumnName="InstockWay" />
+                <ScalarProperty Name="protype" ColumnName="protype" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="WareNo" ColumnName="WareNo" />
+                <ScalarProperty Name="War_ID" ColumnName="War_ID" />
+                <ScalarProperty Name="WareHouse_ID" ColumnName="WareHouse_ID" />
+                <ScalarProperty Name="WareAreaState" ColumnName="WareAreaState" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WareAreaClass">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.WareAreaClass">
+              <MappingFragment StoreEntitySet="WareAreaClass">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="AreaClass" ColumnName="AreaClass" />
+                <ScalarProperty Name="SortIndex" ColumnName="SortIndex" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WareHouse">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.WareHouse">
+              <MappingFragment StoreEntitySet="WareHouse">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="WHName" ColumnName="WHName" />
+                <ScalarProperty Name="WHPosition" ColumnName="WHPosition" />
+                <ScalarProperty Name="WHState" ColumnName="WHState" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WareLocation">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.WareLocation">
+              <MappingFragment StoreEntitySet="WareLocation">
+                <ScalarProperty Name="WareLocaNo_Long" ColumnName="WareLocaNo_Long" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="WareLocaNo" ColumnName="WareLocaNo" />
+                <ScalarProperty Name="WareArea_ID" ColumnName="WareArea_ID" />
+                <ScalarProperty Name="header_ID" ColumnName="header_ID" />
+                <ScalarProperty Name="WareLocaState" ColumnName="WareLocaState" />
+                <ScalarProperty Name="AGVPosition" ColumnName="AGVPosition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="RolePowers" TypeName="NanXingGuoRen_WMSModel_1.RolePowers" StoreEntitySet="RolePowers">
+            <EndProperty Name="Powers">
+              <ScalarProperty Name="ID" ColumnName="PowerID" />
+            </EndProperty>
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="ID" ColumnName="RoleID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="RoleUsers" TypeName="NanXingGuoRen_WMSModel_1.RoleUsers" StoreEntitySet="RoleUsers">
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="ID" ColumnName="RoleID" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="ID" ColumnName="UserID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="TitleUsers" TypeName="NanXingGuoRen_WMSModel_1.TitleUsers" StoreEntitySet="TitleUsers">
+            <EndProperty Name="Titles">
+              <ScalarProperty Name="ID" ColumnName="TitleID" />
+            </EndProperty>
+            <EndProperty Name="Users">
+              <ScalarProperty Name="ID" ColumnName="UserID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="StockPlan">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.StockPlan">
+              <MappingFragment StoreEntitySet="StockPlan">
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="mark" ColumnName="mark" />
+                <ScalarProperty Name="color" ColumnName="color" />
+                <ScalarProperty Name="states" ColumnName="states" />
+                <ScalarProperty Name="planUser" ColumnName="planUser" />
+                <ScalarProperty Name="plantime" ColumnName="plantime" />
+                <ScalarProperty Name="count" ColumnName="count" />
+                <ScalarProperty Name="spec" ColumnName="spec" />
+                <ScalarProperty Name="probiaozhun" ColumnName="probiaozhun" />
+                <ScalarProperty Name="batchNo" ColumnName="batchNo" />
+                <ScalarProperty Name="proname" ColumnName="proname" />
+                <ScalarProperty Name="PlanNo" ColumnName="PlanNo" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeviceStatesInfo">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.DeviceStatesInfo">
+              <MappingFragment StoreEntitySet="DeviceStatesInfo">
+                <ScalarProperty Name="devicePostionY" ColumnName="devicePostionY" />
+                <ScalarProperty Name="devicePostionX" ColumnName="devicePostionX" />
+                <ScalarProperty Name="recTime" ColumnName="recTime" />
+                <ScalarProperty Name="deviceStatus" ColumnName="deviceStatus" />
+                <ScalarProperty Name="deviceStatusInt" ColumnName="deviceStatusInt" />
+                <ScalarProperty Name="deviceName" ColumnName="deviceName" />
+                <ScalarProperty Name="battery" ColumnName="battery" />
+                <ScalarProperty Name="devicePosition" ColumnName="devicePosition" />
+                <ScalarProperty Name="devicePostionRec" ColumnName="devicePostionRec" />
+                <ScalarProperty Name="payLoad" ColumnName="payLoad" />
+                <ScalarProperty Name="deviceCode" ColumnName="deviceCode" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AGVAlarmLog">
+            <EntityTypeMapping TypeName="NanXingGuoRen_WMSModel_1.AGVAlarmLog">
+              <MappingFragment StoreEntitySet="AGVAlarmLog">
+                <ScalarProperty Name="alarmGrade" ColumnName="alarmGrade" />
+                <ScalarProperty Name="deviceName" ColumnName="deviceName" />
+                <ScalarProperty Name="recTime" ColumnName="recTime" />
+                <ScalarProperty Name="alarmDate" ColumnName="alarmDate" />
+                <ScalarProperty Name="channelName" ColumnName="channelName" />
+                <ScalarProperty Name="alarmSource" ColumnName="alarmSource" />
+                <ScalarProperty Name="channelDeviceId" ColumnName="channelDeviceId" />
+                <ScalarProperty Name="alarmReadFlag" ColumnName="alarmReadFlag" />
+                <ScalarProperty Name="areaId" ColumnName="areaId" />
+                <ScalarProperty Name="alarmType" ColumnName="alarmType" />
+                <ScalarProperty Name="alarmDesc" ColumnName="alarmDesc" />
+                <ScalarProperty Name="deviceNum" ColumnName="deviceNum" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

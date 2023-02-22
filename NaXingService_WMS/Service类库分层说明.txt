@@ -1,0 +1,52 @@
+﻿分层说明文档：
+
+View:			页面层，显示数据，调用Controller进行信息交互
+
+Controller:		控制层，各个程序中各自编写控制层，将页面信息与操作调用逻辑层获取结果进行汇总
+
+Manager:        复杂逻辑层，当出现多个Service可以相互调用时，可以通过Manager层进行管理及调用
+				创建时，将已有的Service实例传进去创建
+
+Service:		简单逻辑层，提供给各个Controller进行调用，返回逻辑结果
+				重点：Service层之间不应该相互调用
+
+Helper:			帮助类，将各种子逻辑进行分类汇总，提供给Service进行逻辑调用
+
+Utils:			工具层，将通用的功能与业务不相关的功能封装
+
+Dao:			数据层，数据访问层（包括数据库访问、缓存层访问）
+
+
+Entity的封装类型：（参考自《阿里巴巴 Java 开发手册》）
+	DO(Data Object) : 
+			数据对象，对数据源数据的映射，如数据库表，ElasticSearch 索引的数据结构。
+			所在包一般命名为 data 。
+
+	DTO(Data Transfer Object) : 
+			数据传输对象，业务层向外传输的对象。如果在某个业务中需要多次查询获取不同的数据对象，
+			最后将会把这多个数据对象组合成一个 DTO 并对外传输。所在包命名为 dto 。
+
+	BO(Business Object) : 
+			业务对象，由 Service 层输出的封装业务逻辑的对象。即对象除了数据外，
+			还会包含一定的业务逻辑，也可以说是充血领域模型。但是我一般不会使用。
+
+	AO(Application Object) : 
+			应用对象，在 Web 层与 Service 层之间抽象的复用对象模型，极为贴近展示层，
+			复用度不高。比较少用。
+
+	VO(View Object) : 
+			显示层对象，通常是 Web 向模板渲染引擎层传输的对象。现在的项目多数为前后端分离，
+			后端只需要返回 JSON ，那么可以理解为 JSON 即是需要渲染成的“模板”。
+			一般会将这类对象命名为 xxxResponse ，所在包命名为 response 。
+
+	Query : 
+			数据查询对象，数据查询对象，各层接收上层的查询请求。
+			其实一般用于 Controller 接受传过来的参数，可以将其都命名为 xxxQuery ，
+			而我个人习惯将放在 request body 的参数(即 @RequestBody)包装为 xxxRequest ，
+			而如果使用表单传输过来的参数(即 @RequestParam)包装为 xxxForm ，
+			并分别放在包 request 和包 form 下。
+————————————————
+版权声明：本文为CSDN博主「weixin_39661353」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/weixin_39661353/article/details/112643867
+
+

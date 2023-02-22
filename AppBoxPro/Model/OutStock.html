@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>
+        采购订单
+    </title>
+    <style type="text/css">
+        .list table {
+            width: 98%;
+            border-collapse: collapse;
+            border: none;
+        }
+
+            .list table th {
+                border: solid #000 1px;
+                text-align: center;
+                height: 40px;
+                line-height: 40px;
+            }
+
+            .list table td {
+                border: solid #000 1px;
+                text-align: center;
+                height: 40px;
+                line-height: 40px;
+            }
+    </style>
+
+</head>
+<body>
+    <div id="print" style="padding:20px;">
+        <table width="98%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td colspan="2" style="text-align: center; font-size: 26px; height: 70px; line-height: 60px; font-weight:bold;">
+                    送货单
+                </td>
+            </tr>
+            <tr>
+                <td align="left"  style="height: 60px" colspan="2">
+                    送货单号：<u>&nbsp;&nbsp;<span id="lblPName">$billno</span>&nbsp;&nbsp;</u>
+                    <br />
+                </td>                
+            </tr>
+            <tr>
+                <td align="left" width="70%" style="height: 60px">
+                    收货单位：<u>&nbsp;&nbsp;<span id="lblPName">$reccompany</span>&nbsp;&nbsp;</u>
+                </td>
+                <td align="right" width="30%" style="height: 60px">
+                    日期：<u>&nbsp;&nbsp;<span id="lblPName">$date</span>&nbsp;&nbsp;</u>
+                </td>
+            </tr>
+        </table>
+        <div class="list">
+            <table border="1">
+                <tr>
+                    <th style="width:30%;">货名</th>
+                    <th style="width:10%;">规格</th>
+                    <th style="width:10%;">件数</th>
+                    <th style="width:10%;">单位</th>
+                    <th style="width:10%;">净重</th>
+                    <th style="width:10%;">单价</th>
+                    <th style="width:20%;">金额</th>
+                </tr>
+                $items
+                <tr>
+                    <td>合计</td>
+                    <td></td>
+                    <td>$jianshu</td>
+                    <td></td>
+                    <td>$jingzhong</td>
+                    <td></td>
+                    <td>$money</td>
+                </tr>
+                <tr>
+                    <td colspan="5">金额（大写）：$summoneyupper</td>
+                    <td colspan="2">￥：$summoneylower</td>
+                </tr>
+                <tr>
+                    <td colspan="7">发货人：$sendman</td>
+                </tr>
+                <tr>
+                    <td colspan="5">如对收货人投诉，须于送货后三天内提出，否则货物视为收妥无误。货物一经裁剪，不再接受任何投诉。如需方收货不办理收盖章或委托代理人签字的时候时，所属需方任何人签字，均具有法律效力。</td>
+                    <td colspan="2"><div>收货人</div><div>$recman</div></td>
+                </tr>
+
+            </table>
+        </div>
+        <div>
+
+        </div>
+    </div>
+</body>
+</html>

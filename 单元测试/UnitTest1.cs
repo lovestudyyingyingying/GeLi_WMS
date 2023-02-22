@@ -1,0 +1,50 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using GeLiService_WMS;
+using GeLi_Utils.Utils.AGVUtils;
+using System.Collections.Generic;
+
+namespace 单元测试
+{
+    [TestClass]
+    public class UnitTest1
+    {
+        [TestMethod]
+        public void TestGetMapInfo()
+        {
+            AGVOrderHelper aGVOrderHelper = new AGVOrderHelper("http://121.5.2.81:7001");
+           var a =  aGVOrderHelper.GetMapInfo();
+            Assert.AreEqual(200, a.code);
+        }
+
+        [TestMethod]
+        public void getOnlineAgv()
+        {
+            AGVOrderHelper aGVOrderHelper = new AGVOrderHelper("http://121.5.2.81:7001");
+            var a = aGVOrderHelper.GetOnlineAgv();
+            Assert.AreEqual(200, a.code);
+        }
+        [TestMethod]
+        public void taskQuery()
+        {
+            AGVOrderHelper aGVOrderHelper = new AGVOrderHelper("http://121.5.2.81:7001");
+            var a = aGVOrderHelper.TaskQuery("12345678");
+            Assert.AreEqual(200, a.code);
+        }
+        [TestMethod]
+        public void ChangeFormat()
+        {
+            int D1000 = 12312;//从数组中取得D1000的值；
+            string stateToBinary = Convert.ToString(D1000, 2).PadLeft(3, '0');
+            string state = "123";
+            Assert.AreEqual('3', state[0]);
+        }
+        //[TestMethod]
+        //public void TestCreateTask()
+        //{
+        //    AGVOrderHelper aGVOrderHelper = new AGVOrderHelper("http://121.5.2.81:7001");
+        //    var a = aGVOrderHelper.CreateTask("101",new List<string> { "500001", "500002" },null);
+        //    Assert.AreEqual(200, a.code);
+        //}
+    }
+}

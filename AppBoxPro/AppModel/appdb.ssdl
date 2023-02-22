@@ -1,0 +1,813 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="appdb.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="appdbStoreContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="appdb.Store.__MigrationHistory" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Configs" EntityType="appdb.Store.Configs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Depts" EntityType="appdb.Store.Depts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Images" EntityType="appdb.Store.Images" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Logs" EntityType="appdb.Store.Logs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Menus" EntityType="appdb.Store.Menus" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Onlines" EntityType="appdb.Store.Onlines" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="pchao" EntityType="appdb.Store.pchao" store:Type="Tables" store:Schema="dbo" store:Name="pchao">
+      <DefiningQuery>SELECT 
+[pchao].[id] AS [id], 
+[pchao].[lotno] AS [lotno], 
+[pchao].[oper] AS [oper], 
+[pchao].[flag] AS [flag]
+FROM [dbo].[pchao] AS [pchao]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="PO_Item" EntityType="appdb.Store.PO_Item" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="POes" EntityType="appdb.Store.POes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Powers" EntityType="appdb.Store.Powers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Production_change" EntityType="appdb.Store.Production_change" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Productions" EntityType="appdb.Store.Productions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Providers" EntityType="appdb.Store.Providers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ReimburseClasses" EntityType="appdb.Store.ReimburseClasses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Reimbursements" EntityType="appdb.Store.Reimbursements" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ReimburseSummaries" EntityType="appdb.Store.ReimburseSummaries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RolePowers" EntityType="appdb.Store.RolePowers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Roles" EntityType="appdb.Store.Roles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RoleUsers" EntityType="appdb.Store.RoleUsers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TelenClients" EntityType="appdb.Store.TelenClients" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TerminalLists" EntityType="appdb.Store.TerminalLists" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TerminalProcessRecs" EntityType="appdb.Store.TerminalProcessRecs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Terminals" EntityType="appdb.Store.Terminals" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Titles" EntityType="appdb.Store.Titles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TitleUsers" EntityType="appdb.Store.TitleUsers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="appdb.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="YW_Lableinfor" EntityType="appdb.Store.YW_Lableinfor" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="YW_ProcessRec" EntityType="appdb.Store.YW_ProcessRec" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_dbo_Depts_dbo_Depts_ParentID" Association="appdb.Store.FK_dbo_Depts_dbo_Depts_ParentID">
+      <End Role="Depts" EntitySet="Depts" />
+      <End Role="Depts1" EntitySet="Depts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Images_dbo_Reimbursements_reimbursement_ID" Association="appdb.Store.FK_dbo_Images_dbo_Reimbursements_reimbursement_ID">
+      <End Role="Reimbursements" EntitySet="Reimbursements" />
+      <End Role="Images" EntitySet="Images" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Menus_dbo_Menus_ParentID" Association="appdb.Store.FK_dbo_Menus_dbo_Menus_ParentID">
+      <End Role="Menus" EntitySet="Menus" />
+      <End Role="Menus1" EntitySet="Menus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Menus_dbo_Powers_ViewPowerID" Association="appdb.Store.FK_dbo_Menus_dbo_Powers_ViewPowerID">
+      <End Role="Powers" EntitySet="Powers" />
+      <End Role="Menus" EntitySet="Menus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Onlines_dbo_Users_UserID" Association="appdb.Store.FK_dbo_Onlines_dbo_Users_UserID">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Onlines" EntitySet="Onlines" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_PO_Item_dbo_POes_PO_ID" Association="appdb.Store.FK_dbo_PO_Item_dbo_POes_PO_ID">
+      <End Role="POes" EntitySet="POes" />
+      <End Role="PO_Item" EntitySet="PO_Item" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_PO_Item_dbo_Productions_production_ID" Association="appdb.Store.FK_dbo_PO_Item_dbo_Productions_production_ID">
+      <End Role="Productions" EntitySet="Productions" />
+      <End Role="PO_Item" EntitySet="PO_Item" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_POes_dbo_Providers_provider_ID" Association="appdb.Store.FK_dbo_POes_dbo_Providers_provider_ID">
+      <End Role="Providers" EntitySet="Providers" />
+      <End Role="POes" EntitySet="POes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Production_change_dbo_Productions_production_ID" Association="appdb.Store.FK_dbo_Production_change_dbo_Productions_production_ID">
+      <End Role="Productions" EntitySet="Productions" />
+      <End Role="Production_change" EntitySet="Production_change" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_ReimburseClasses_dbo_ReimburseClasses_Parent_ID" Association="appdb.Store.FK_dbo_ReimburseClasses_dbo_ReimburseClasses_Parent_ID">
+      <End Role="ReimburseClasses" EntitySet="ReimburseClasses" />
+      <End Role="ReimburseClasses1" EntitySet="ReimburseClasses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Reimbursements_dbo_ReimburseSummaries_ReimburseSummary_ID" Association="appdb.Store.FK_dbo_Reimbursements_dbo_ReimburseSummaries_ReimburseSummary_ID">
+      <End Role="ReimburseSummaries" EntitySet="ReimburseSummaries" />
+      <End Role="Reimbursements" EntitySet="Reimbursements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Reimbursements_dbo_TelenClients_telenClient_ID" Association="appdb.Store.FK_dbo_Reimbursements_dbo_TelenClients_telenClient_ID">
+      <End Role="TelenClients" EntitySet="TelenClients" />
+      <End Role="Reimbursements" EntitySet="Reimbursements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Reimbursements_dbo_Users_user_ID" Association="appdb.Store.FK_dbo_Reimbursements_dbo_Users_user_ID">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Reimbursements" EntitySet="Reimbursements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_ReimburseSummaries_dbo_Users_user_ID" Association="appdb.Store.FK_dbo_ReimburseSummaries_dbo_Users_user_ID">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="ReimburseSummaries" EntitySet="ReimburseSummaries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_RolePowers_dbo_Powers_PowerID" Association="appdb.Store.FK_dbo_RolePowers_dbo_Powers_PowerID">
+      <End Role="Powers" EntitySet="Powers" />
+      <End Role="RolePowers" EntitySet="RolePowers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_RolePowers_dbo_Roles_RoleID" Association="appdb.Store.FK_dbo_RolePowers_dbo_Roles_RoleID">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="RolePowers" EntitySet="RolePowers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_RoleUsers_dbo_Roles_RoleID" Association="appdb.Store.FK_dbo_RoleUsers_dbo_Roles_RoleID">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="RoleUsers" EntitySet="RoleUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_RoleUsers_dbo_Users_UserID" Association="appdb.Store.FK_dbo_RoleUsers_dbo_Users_UserID">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="RoleUsers" EntitySet="RoleUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_TerminalLists_dbo_Terminals_terminal_ID" Association="appdb.Store.FK_dbo_TerminalLists_dbo_Terminals_terminal_ID">
+      <End Role="Terminals" EntitySet="Terminals" />
+      <End Role="TerminalLists" EntitySet="TerminalLists" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_TerminalProcessRecs_dbo_TerminalLists_TerminalList_ID" Association="appdb.Store.FK_dbo_TerminalProcessRecs_dbo_TerminalLists_TerminalList_ID">
+      <End Role="TerminalLists" EntitySet="TerminalLists" />
+      <End Role="TerminalProcessRecs" EntitySet="TerminalProcessRecs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_TitleUsers_dbo_Titles_TitleID" Association="appdb.Store.FK_dbo_TitleUsers_dbo_Titles_TitleID">
+      <End Role="Titles" EntitySet="Titles" />
+      <End Role="TitleUsers" EntitySet="TitleUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_TitleUsers_dbo_Users_UserID" Association="appdb.Store.FK_dbo_TitleUsers_dbo_Users_UserID">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="TitleUsers" EntitySet="TitleUsers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Users_dbo_Depts_DeptID" Association="appdb.Store.FK_dbo_Users_dbo_Depts_DeptID">
+      <End Role="Depts" EntitySet="Depts" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" Nullable="false" MaxLength="150" />
+    <Property Name="ContextKey" Type="nvarchar" Nullable="false" MaxLength="300" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" Nullable="false" MaxLength="32" />
+  </EntityType>
+  <EntityType Name="Configs">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ConfigKey" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="ConfigValue" Type="nvarchar" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Depts">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="60" />
+    <Property Name="SortIndex" Type="int" Nullable="false" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+    <Property Name="ParentID" Type="int" />
+  </EntityType>
+  <EntityType Name="Images">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="type" Type="nvarchar(max)" />
+    <Property Name="name" Type="nvarchar(max)" />
+    <Property Name="reimbursement_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="Logs">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Level" Type="nvarchar" MaxLength="20" />
+    <Property Name="Logger" Type="nvarchar" MaxLength="200" />
+    <Property Name="Message" Type="nvarchar" />
+    <Property Name="Exception" Type="nvarchar" />
+    <Property Name="LogTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Menus">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="ImageUrl" Type="nvarchar" MaxLength="200" />
+    <Property Name="NavigateUrl" Type="nvarchar" MaxLength="200" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+    <Property Name="SortIndex" Type="int" Nullable="false" />
+    <Property Name="ParentID" Type="int" />
+    <Property Name="ViewPowerID" Type="int" />
+  </EntityType>
+  <EntityType Name="Onlines">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="IPAdddress" Type="nvarchar" MaxLength="50" />
+    <Property Name="LoginTime" Type="datetime" Nullable="false" />
+    <Property Name="UpdateTime" Type="datetime" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+  </EntityType>
+  <!--生成过程中发现错误:
+警告 6002: 表/视图“appdb.dbo.pchao”未定义主键。已推断出该键，并将定义创建为只读的表/视图。
+-->
+  <EntityType Name="pchao">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="lotno" Type="varchar" MaxLength="50" />
+    <Property Name="oper" Type="varchar" MaxLength="50" />
+    <Property Name="flag" Type="int" />
+  </EntityType>
+  <EntityType Name="PO_Item">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="count" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="price" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="PO_ID" Type="int" />
+    <Property Name="production_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="POes">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="prosn" Type="nvarchar" MaxLength="20" />
+    <Property Name="deliveryDate" Type="datetime" Nullable="false" />
+    <Property Name="hasInvoice" Type="bit" Nullable="false" />
+    <Property Name="provider_ID" Type="int" />
+    <Property Name="optDate" Type="datetime" Nullable="false" />
+    <Property Name="remark" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Powers">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="GroupName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Title" Type="nvarchar" MaxLength="200" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="Production_change">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="price" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="recentlyDate" Type="datetime" Nullable="false" />
+    <Property Name="production_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="Productions">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="nvarchar" MaxLength="200" />
+    <Property Name="spec" Type="nvarchar" MaxLength="200" />
+    <Property Name="model" Type="nvarchar" MaxLength="200" />
+    <Property Name="unit" Type="nvarchar" MaxLength="10" />
+    <Property Name="optdate" Type="datetime" Nullable="false" />
+    <Property Name="productCode" Type="nvarchar" MaxLength="200" />
+    <Property Name="width" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="length" Type="decimal" Nullable="false" Scale="2" />
+  </EntityType>
+  <EntityType Name="Providers">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="levelCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="phone" Type="nvarchar" MaxLength="50" />
+    <Property Name="address" Type="nvarchar" MaxLength="50" />
+    <Property Name="contact" Type="nvarchar" MaxLength="50" />
+    <Property Name="fax" Type="nvarchar" MaxLength="50" />
+    <Property Name="Eamil" Type="nvarchar" MaxLength="50" />
+    <Property Name="bank" Type="nvarchar" MaxLength="50" />
+    <Property Name="remark1" Type="nvarchar" MaxLength="50" />
+    <Property Name="remark2" Type="nvarchar" MaxLength="50" />
+    <Property Name="weChat" Type="nvarchar" MaxLength="50" />
+    <Property Name="bankPublicName" Type="nvarchar" MaxLength="50" />
+    <Property Name="bankPublicAccount" Type="nvarchar" MaxLength="50" />
+    <Property Name="bankPrivateName" Type="nvarchar" MaxLength="50" />
+    <Property Name="recentlyDate" Type="datetime" Nullable="false" />
+    <Property Name="bankPrivateAccount" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ReimburseClasses">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+    <Property Name="SortIndex" Type="int" Nullable="false" />
+    <Property Name="Parent_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="Reimbursements">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="inputdate" Type="datetime" Nullable="false" />
+    <Property Name="startDate" Type="datetime" />
+    <Property Name="endDate" Type="datetime" />
+    <Property Name="interval" Type="int" Nullable="false" />
+    <Property Name="sheng" Type="nvarchar" MaxLength="50" />
+    <Property Name="shi" Type="nvarchar" MaxLength="50" />
+    <Property Name="option" Type="nvarchar" MaxLength="50" />
+    <Property Name="price" Type="decimal" Nullable="false" Scale="2" />
+    <Property Name="journey" Type="decimal" Scale="2" />
+    <Property Name="remark" Type="nvarchar" MaxLength="200" />
+    <Property Name="passed" Type="bit" Nullable="false" />
+    <Property Name="NotPassedReason" Type="nvarchar" MaxLength="50" />
+    <Property Name="paid" Type="bit" Nullable="false" />
+    <Property Name="telenClient_ID" Type="int" />
+    <Property Name="user_ID" Type="int" />
+    <Property Name="class1" Type="nvarchar(max)" />
+    <Property Name="class2" Type="nvarchar(max)" />
+    <Property Name="ReimburseSummary_ID" Type="int" />
+    <Property Name="ContractName" Type="nvarchar" MaxLength="50" />
+    <Property Name="HasInvoice" Type="bit" Nullable="false" />
+    <Property Name="paidDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="ReimburseSummaries">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="prosn" Type="nvarchar(max)" />
+    <Property Name="remark" Type="nvarchar(max)" />
+    <Property Name="isPassed" Type="bit" Nullable="false" />
+    <Property Name="journey" Type="real" />
+    <Property Name="price" Type="real" Nullable="false" />
+    <Property Name="hasPay" Type="bit" Nullable="false" />
+    <Property Name="InputDate" Type="datetime" Nullable="false" />
+    <Property Name="user_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="RolePowers">
+    <Key>
+      <PropertyRef Name="RoleID" />
+      <PropertyRef Name="PowerID" />
+    </Key>
+    <Property Name="RoleID" Type="int" Nullable="false" />
+    <Property Name="PowerID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="RoleUsers">
+    <Key>
+      <PropertyRef Name="RoleID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="RoleID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TelenClients">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="levelCode" Type="nvarchar" MaxLength="50" />
+    <Property Name="serverTime" Type="datetime" />
+    <Property Name="condiction" Type="nvarchar" MaxLength="50" />
+    <Property Name="remark" Type="nvarchar" MaxLength="50" />
+    <Property Name="fax" Type="nvarchar" MaxLength="50" />
+    <Property Name="address" Type="nvarchar" MaxLength="50" />
+    <Property Name="bank" Type="nvarchar" MaxLength="50" />
+    <Property Name="Eamil" Type="nvarchar" MaxLength="50" />
+    <Property Name="Number" Type="nvarchar" MaxLength="20" />
+    <Property Name="clientManager" Type="nvarchar(max)" />
+    <Property Name="implementer" Type="nvarchar(max)" />
+    <Property Name="gendan" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="TerminalLists">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="itemname" Type="nvarchar" MaxLength="50" />
+    <Property Name="type" Type="nvarchar" MaxLength="50" />
+    <Property Name="spec" Type="nvarchar" MaxLength="50" />
+    <Property Name="provider" Type="nvarchar" MaxLength="50" />
+    <Property Name="image" Type="nvarchar" MaxLength="50" />
+    <Property Name="count" Type="int" Nullable="false" />
+    <Property Name="terminal_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="TerminalProcessRecs">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="itemname" Type="nvarchar" MaxLength="50" />
+    <Property Name="processno" Type="nvarchar" MaxLength="50" />
+    <Property Name="optdate" Type="datetime" Nullable="false" />
+    <Property Name="operater" Type="nvarchar" MaxLength="50" />
+    <Property Name="quantity" Type="int" Nullable="false" />
+    <Property Name="remark" Type="nvarchar" MaxLength="50" />
+    <Property Name="TerminalList_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="Terminals">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="itemname" Type="nvarchar" MaxLength="50" />
+    <Property Name="operater" Type="nvarchar" MaxLength="50" />
+    <Property Name="optdate" Type="datetime" Nullable="false" />
+    <Property Name="quantity" Type="int" />
+  </EntityType>
+  <EntityType Name="Titles">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+  </EntityType>
+  <EntityType Name="TitleUsers">
+    <Key>
+      <PropertyRef Name="TitleID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="TitleID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="Enabled" Type="bit" Nullable="false" />
+    <Property Name="Gender" Type="nvarchar" MaxLength="10" />
+    <Property Name="ChineseName" Type="nvarchar" MaxLength="100" />
+    <Property Name="EnglishName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Photo" Type="nvarchar" MaxLength="200" />
+    <Property Name="QQ" Type="nvarchar" MaxLength="50" />
+    <Property Name="CompanyEmail" Type="nvarchar" MaxLength="100" />
+    <Property Name="OfficePhone" Type="nvarchar" MaxLength="50" />
+    <Property Name="OfficePhoneExt" Type="nvarchar" MaxLength="50" />
+    <Property Name="HomePhone" Type="nvarchar" MaxLength="50" />
+    <Property Name="CellPhone" Type="nvarchar" MaxLength="50" />
+    <Property Name="Address" Type="nvarchar" MaxLength="500" />
+    <Property Name="Remark" Type="nvarchar" MaxLength="500" />
+    <Property Name="IdentityCard" Type="nvarchar" MaxLength="50" />
+    <Property Name="Birthday" Type="datetime" />
+    <Property Name="TakeOfficeTime" Type="datetime" />
+    <Property Name="LastLoginTime" Type="datetime" />
+    <Property Name="CreateTime" Type="datetime" />
+    <Property Name="DeptID" Type="int" />
+  </EntityType>
+  <EntityType Name="YW_Lableinfor">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="prosn" Type="varchar" MaxLength="50" />
+    <Property Name="proname" Type="varchar" MaxLength="100" />
+    <Property Name="spec" Type="varchar" MaxLength="100" />
+    <Property Name="class1" Type="varchar" MaxLength="50" />
+    <Property Name="class2" Type="varchar" MaxLength="50" />
+    <Property Name="caseno" Type="varchar" MaxLength="50" />
+    <Property Name="isreturn" Type="int" />
+    <Property Name="weight" Type="float" />
+    <Property Name="operater" Type="varchar" MaxLength="50" />
+    <Property Name="remark" Type="varchar" MaxLength="250" />
+    <Property Name="kaidandate" Type="date" />
+    <Property Name="quantity" Type="float" />
+    <Property Name="projectno" Type="varchar" MaxLength="50" />
+    <Property Name="projectname" Type="varchar" MaxLength="50" />
+    <Property Name="procompany" Type="varchar" MaxLength="50" />
+    <Property Name="pid" Type="varchar" MaxLength="100" />
+    <Property Name="alias" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="YW_ProcessRec">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="prosn" Type="varchar" MaxLength="50" />
+    <Property Name="optdate" Type="datetime" />
+    <Property Name="processno" Type="varchar" MaxLength="50" />
+    <Property Name="billno" Type="varchar" MaxLength="50" />
+    <Property Name="jingbanren" Type="varchar" MaxLength="50" />
+    <Property Name="jianshu" Type="varchar" MaxLength="50" />
+    <Property Name="lotno" Type="varchar" MaxLength="50" />
+    <Property Name="remark" Type="varchar" MaxLength="200" />
+    <Property Name="caseno" Type="varchar" MaxLength="50" />
+    <Property Name="pihao" Type="varchar" MaxLength="50" />
+    <Property Name="quantity" Type="float" />
+    <Property Name="pid" Type="int" />
+    <Property Name="flag" Type="int" />
+    <Property Name="printlabel" Type="int" />
+  </EntityType>
+  <Association Name="FK_dbo_Depts_dbo_Depts_ParentID">
+    <End Role="Depts" Type="appdb.Store.Depts" Multiplicity="0..1" />
+    <End Role="Depts1" Type="appdb.Store.Depts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Depts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Depts1">
+        <PropertyRef Name="ParentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Images_dbo_Reimbursements_reimbursement_ID">
+    <End Role="Reimbursements" Type="appdb.Store.Reimbursements" Multiplicity="0..1" />
+    <End Role="Images" Type="appdb.Store.Images" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reimbursements">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Images">
+        <PropertyRef Name="reimbursement_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Menus_dbo_Menus_ParentID">
+    <End Role="Menus" Type="appdb.Store.Menus" Multiplicity="0..1" />
+    <End Role="Menus1" Type="appdb.Store.Menus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menus">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Menus1">
+        <PropertyRef Name="ParentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Menus_dbo_Powers_ViewPowerID">
+    <End Role="Powers" Type="appdb.Store.Powers" Multiplicity="0..1" />
+    <End Role="Menus" Type="appdb.Store.Menus" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Powers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Menus">
+        <PropertyRef Name="ViewPowerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Onlines_dbo_Users_UserID">
+    <End Role="Users" Type="appdb.Store.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Onlines" Type="appdb.Store.Onlines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Onlines">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_PO_Item_dbo_POes_PO_ID">
+    <End Role="POes" Type="appdb.Store.POes" Multiplicity="0..1" />
+    <End Role="PO_Item" Type="appdb.Store.PO_Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="POes">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PO_Item">
+        <PropertyRef Name="PO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_PO_Item_dbo_Productions_production_ID">
+    <End Role="Productions" Type="appdb.Store.Productions" Multiplicity="0..1" />
+    <End Role="PO_Item" Type="appdb.Store.PO_Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Productions">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PO_Item">
+        <PropertyRef Name="production_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_POes_dbo_Providers_provider_ID">
+    <End Role="Providers" Type="appdb.Store.Providers" Multiplicity="0..1" />
+    <End Role="POes" Type="appdb.Store.POes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Providers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="POes">
+        <PropertyRef Name="provider_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Production_change_dbo_Productions_production_ID">
+    <End Role="Productions" Type="appdb.Store.Productions" Multiplicity="0..1" />
+    <End Role="Production_change" Type="appdb.Store.Production_change" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Productions">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Production_change">
+        <PropertyRef Name="production_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_ReimburseClasses_dbo_ReimburseClasses_Parent_ID">
+    <End Role="ReimburseClasses" Type="appdb.Store.ReimburseClasses" Multiplicity="0..1" />
+    <End Role="ReimburseClasses1" Type="appdb.Store.ReimburseClasses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReimburseClasses">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ReimburseClasses1">
+        <PropertyRef Name="Parent_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Reimbursements_dbo_ReimburseSummaries_ReimburseSummary_ID">
+    <End Role="ReimburseSummaries" Type="appdb.Store.ReimburseSummaries" Multiplicity="0..1" />
+    <End Role="Reimbursements" Type="appdb.Store.Reimbursements" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReimburseSummaries">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Reimbursements">
+        <PropertyRef Name="ReimburseSummary_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Reimbursements_dbo_TelenClients_telenClient_ID">
+    <End Role="TelenClients" Type="appdb.Store.TelenClients" Multiplicity="0..1" />
+    <End Role="Reimbursements" Type="appdb.Store.Reimbursements" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TelenClients">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Reimbursements">
+        <PropertyRef Name="telenClient_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Reimbursements_dbo_Users_user_ID">
+    <End Role="Users" Type="appdb.Store.Users" Multiplicity="0..1" />
+    <End Role="Reimbursements" Type="appdb.Store.Reimbursements" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Reimbursements">
+        <PropertyRef Name="user_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_ReimburseSummaries_dbo_Users_user_ID">
+    <End Role="Users" Type="appdb.Store.Users" Multiplicity="0..1" />
+    <End Role="ReimburseSummaries" Type="appdb.Store.ReimburseSummaries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ReimburseSummaries">
+        <PropertyRef Name="user_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_RolePowers_dbo_Powers_PowerID">
+    <End Role="Powers" Type="appdb.Store.Powers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="RolePowers" Type="appdb.Store.RolePowers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Powers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="RolePowers">
+        <PropertyRef Name="PowerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_RolePowers_dbo_Roles_RoleID">
+    <End Role="Roles" Type="appdb.Store.Roles" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="RolePowers" Type="appdb.Store.RolePowers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="RolePowers">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_RoleUsers_dbo_Roles_RoleID">
+    <End Role="Roles" Type="appdb.Store.Roles" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="RoleUsers" Type="appdb.Store.RoleUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="RoleUsers">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_RoleUsers_dbo_Users_UserID">
+    <End Role="Users" Type="appdb.Store.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="RoleUsers" Type="appdb.Store.RoleUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="RoleUsers">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_TerminalLists_dbo_Terminals_terminal_ID">
+    <End Role="Terminals" Type="appdb.Store.Terminals" Multiplicity="0..1" />
+    <End Role="TerminalLists" Type="appdb.Store.TerminalLists" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Terminals">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TerminalLists">
+        <PropertyRef Name="terminal_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_TerminalProcessRecs_dbo_TerminalLists_TerminalList_ID">
+    <End Role="TerminalLists" Type="appdb.Store.TerminalLists" Multiplicity="0..1" />
+    <End Role="TerminalProcessRecs" Type="appdb.Store.TerminalProcessRecs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TerminalLists">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TerminalProcessRecs">
+        <PropertyRef Name="TerminalList_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_TitleUsers_dbo_Titles_TitleID">
+    <End Role="Titles" Type="appdb.Store.Titles" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="TitleUsers" Type="appdb.Store.TitleUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Titles">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TitleUsers">
+        <PropertyRef Name="TitleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_TitleUsers_dbo_Users_UserID">
+    <End Role="Users" Type="appdb.Store.Users" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="TitleUsers" Type="appdb.Store.TitleUsers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TitleUsers">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Users_dbo_Depts_DeptID">
+    <End Role="Depts" Type="appdb.Store.Depts" Multiplicity="0..1" />
+    <End Role="Users" Type="appdb.Store.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Depts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="DeptID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="GetSeq" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="MaintainCate" Type="varchar" Mode="In" />
+  </Function>
+  <!--生成过程中发现错误:
+警告 6013: 表/视图“appdb.dbo.NumSeq”未定义主键，并且无法推断有效的主键。已排除了此表/视图。若要使用实体，将需要检查您的架构、添加正确的键并取消对实体的注释。
+
+<EntityType Name="NumSeq">
+  <Property Name="Cate" Type="varchar" MaxLength="4" />
+  <Property Name="DateNo" Type="varchar" MaxLength="8" />
+  <Property Name="Seq" Type="int" />
+  <Property Name="CrTime" Type="datetime" />
+</EntityType>-->
+</Schema>

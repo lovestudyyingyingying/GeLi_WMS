@@ -1,0 +1,720 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="appdb" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="appdbEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="C__MigrationHistory" EntityType="appdb.C__MigrationHistory" />
+    <EntitySet Name="Configs" EntityType="appdb.Config" />
+    <EntitySet Name="Depts" EntityType="appdb.Dept" />
+    <EntitySet Name="Images" EntityType="appdb.Image" />
+    <EntitySet Name="Logs" EntityType="appdb.Log" />
+    <EntitySet Name="Menus" EntityType="appdb.Menu" />
+    <EntitySet Name="Onlines" EntityType="appdb.Online" />
+    <EntitySet Name="pchaos" EntityType="appdb.pchao" />
+    <EntitySet Name="PO_Item" EntityType="appdb.PO_Item" />
+    <EntitySet Name="POes" EntityType="appdb.PO" />
+    <EntitySet Name="Powers" EntityType="appdb.Power" />
+    <EntitySet Name="Production_change" EntityType="appdb.Production_change" />
+    <EntitySet Name="Productions" EntityType="appdb.Production" />
+    <EntitySet Name="Providers" EntityType="appdb.Provider" />
+    <EntitySet Name="ReimburseClasses" EntityType="appdb.ReimburseClass" />
+    <EntitySet Name="Reimbursements" EntityType="appdb.Reimbursement" />
+    <EntitySet Name="ReimburseSummaries" EntityType="appdb.ReimburseSummary" />
+    <EntitySet Name="Roles" EntityType="appdb.Role" />
+    <EntitySet Name="TelenClients" EntityType="appdb.TelenClient" />
+    <EntitySet Name="TerminalLists" EntityType="appdb.TerminalList" />
+    <EntitySet Name="TerminalProcessRecs" EntityType="appdb.TerminalProcessRec" />
+    <EntitySet Name="Terminals" EntityType="appdb.Terminal" />
+    <EntitySet Name="Titles" EntityType="appdb.Title" />
+    <EntitySet Name="Users" EntityType="appdb.User" />
+    <EntitySet Name="YW_Lableinfor" EntityType="appdb.YW_Lableinfor" />
+    <EntitySet Name="YW_ProcessRec" EntityType="appdb.YW_ProcessRec" />
+    <AssociationSet Name="FK_dbo_Depts_dbo_Depts_ParentID" Association="appdb.FK_dbo_Depts_dbo_Depts_ParentID">
+      <End Role="Depts" EntitySet="Depts" />
+      <End Role="Depts1" EntitySet="Depts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Users_dbo_Depts_DeptID" Association="appdb.FK_dbo_Users_dbo_Depts_DeptID">
+      <End Role="Depts" EntitySet="Depts" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Images_dbo_Reimbursements_reimbursement_ID" Association="appdb.FK_dbo_Images_dbo_Reimbursements_reimbursement_ID">
+      <End Role="Reimbursements" EntitySet="Reimbursements" />
+      <End Role="Images" EntitySet="Images" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Menus_dbo_Menus_ParentID" Association="appdb.FK_dbo_Menus_dbo_Menus_ParentID">
+      <End Role="Menus" EntitySet="Menus" />
+      <End Role="Menus1" EntitySet="Menus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Menus_dbo_Powers_ViewPowerID" Association="appdb.FK_dbo_Menus_dbo_Powers_ViewPowerID">
+      <End Role="Powers" EntitySet="Powers" />
+      <End Role="Menus" EntitySet="Menus" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Onlines_dbo_Users_UserID" Association="appdb.FK_dbo_Onlines_dbo_Users_UserID">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Onlines" EntitySet="Onlines" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_PO_Item_dbo_POes_PO_ID" Association="appdb.FK_dbo_PO_Item_dbo_POes_PO_ID">
+      <End Role="POes" EntitySet="POes" />
+      <End Role="PO_Item" EntitySet="PO_Item" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_PO_Item_dbo_Productions_production_ID" Association="appdb.FK_dbo_PO_Item_dbo_Productions_production_ID">
+      <End Role="Productions" EntitySet="Productions" />
+      <End Role="PO_Item" EntitySet="PO_Item" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_POes_dbo_Providers_provider_ID" Association="appdb.FK_dbo_POes_dbo_Providers_provider_ID">
+      <End Role="Providers" EntitySet="Providers" />
+      <End Role="POes" EntitySet="POes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Production_change_dbo_Productions_production_ID" Association="appdb.FK_dbo_Production_change_dbo_Productions_production_ID">
+      <End Role="Productions" EntitySet="Productions" />
+      <End Role="Production_change" EntitySet="Production_change" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_ReimburseClasses_dbo_ReimburseClasses_Parent_ID" Association="appdb.FK_dbo_ReimburseClasses_dbo_ReimburseClasses_Parent_ID">
+      <End Role="ReimburseClasses" EntitySet="ReimburseClasses" />
+      <End Role="ReimburseClasses1" EntitySet="ReimburseClasses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Reimbursements_dbo_ReimburseSummaries_ReimburseSummary_ID" Association="appdb.FK_dbo_Reimbursements_dbo_ReimburseSummaries_ReimburseSummary_ID">
+      <End Role="ReimburseSummaries" EntitySet="ReimburseSummaries" />
+      <End Role="Reimbursements" EntitySet="Reimbursements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Reimbursements_dbo_TelenClients_telenClient_ID" Association="appdb.FK_dbo_Reimbursements_dbo_TelenClients_telenClient_ID">
+      <End Role="TelenClients" EntitySet="TelenClients" />
+      <End Role="Reimbursements" EntitySet="Reimbursements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Reimbursements_dbo_Users_user_ID" Association="appdb.FK_dbo_Reimbursements_dbo_Users_user_ID">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="Reimbursements" EntitySet="Reimbursements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_ReimburseSummaries_dbo_Users_user_ID" Association="appdb.FK_dbo_ReimburseSummaries_dbo_Users_user_ID">
+      <End Role="Users" EntitySet="Users" />
+      <End Role="ReimburseSummaries" EntitySet="ReimburseSummaries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_TerminalLists_dbo_Terminals_terminal_ID" Association="appdb.FK_dbo_TerminalLists_dbo_Terminals_terminal_ID">
+      <End Role="Terminals" EntitySet="Terminals" />
+      <End Role="TerminalLists" EntitySet="TerminalLists" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_TerminalProcessRecs_dbo_TerminalLists_TerminalList_ID" Association="appdb.FK_dbo_TerminalProcessRecs_dbo_TerminalLists_TerminalList_ID">
+      <End Role="TerminalLists" EntitySet="TerminalLists" />
+      <End Role="TerminalProcessRecs" EntitySet="TerminalProcessRecs" />
+    </AssociationSet>
+    <AssociationSet Name="RolePowers" Association="appdb.RolePowers">
+      <End Role="Powers" EntitySet="Powers" />
+      <End Role="Roles" EntitySet="Roles" />
+    </AssociationSet>
+    <AssociationSet Name="RoleUsers" Association="appdb.RoleUsers">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="TitleUsers" Association="appdb.TitleUsers">
+      <End Role="Titles" EntitySet="Titles" />
+      <End Role="Users" EntitySet="Users" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" Unicode="true" FixedLength="false" />
+    <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" Unicode="true" FixedLength="false" />
+    <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+    <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Config">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ConfigKey" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="ConfigValue" Type="String" Nullable="false" MaxLength="4000" Unicode="true" FixedLength="false" />
+    <Property Name="Remark" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Dept">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="60" Unicode="true" FixedLength="false" />
+    <Property Name="SortIndex" Type="Int32" Nullable="false" />
+    <Property Name="Remark" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+    <Property Name="ParentID" Type="Int32" />
+    <NavigationProperty Name="Depts1" Relationship="appdb.FK_dbo_Depts_dbo_Depts_ParentID" FromRole="Depts" ToRole="Depts1" />
+    <NavigationProperty Name="Dept1" Relationship="appdb.FK_dbo_Depts_dbo_Depts_ParentID" FromRole="Depts1" ToRole="Depts" />
+    <NavigationProperty Name="Users" Relationship="appdb.FK_dbo_Users_dbo_Depts_DeptID" FromRole="Depts" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Image">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="type" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="name" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="reimbursement_ID" Type="Int32" />
+    <NavigationProperty Name="Reimbursement" Relationship="appdb.FK_dbo_Images_dbo_Reimbursements_reimbursement_ID" FromRole="Images" ToRole="Reimbursements" />
+  </EntityType>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Level" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="Logger" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="Message" Type="String" MaxLength="4000" Unicode="true" FixedLength="false" />
+    <Property Name="Exception" Type="String" MaxLength="4000" Unicode="true" FixedLength="false" />
+    <Property Name="LogTime" Type="DateTime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Menu">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="ImageUrl" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="NavigateUrl" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="Remark" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+    <Property Name="SortIndex" Type="Int32" Nullable="false" />
+    <Property Name="ParentID" Type="Int32" />
+    <Property Name="ViewPowerID" Type="Int32" />
+    <NavigationProperty Name="Menus1" Relationship="appdb.FK_dbo_Menus_dbo_Menus_ParentID" FromRole="Menus" ToRole="Menus1" />
+    <NavigationProperty Name="Menu1" Relationship="appdb.FK_dbo_Menus_dbo_Menus_ParentID" FromRole="Menus1" ToRole="Menus" />
+    <NavigationProperty Name="Power" Relationship="appdb.FK_dbo_Menus_dbo_Powers_ViewPowerID" FromRole="Menus" ToRole="Powers" />
+  </EntityType>
+  <EntityType Name="Online">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IPAdddress" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="LoginTime" Type="DateTime" Nullable="false" />
+    <Property Name="UpdateTime" Type="DateTime" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="appdb.FK_dbo_Onlines_dbo_Users_UserID" FromRole="Onlines" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="pchao">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="lotno" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="oper" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="flag" Type="Int32" />
+  </EntityType>
+  <EntityType Name="PO_Item">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="count" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="PO_ID" Type="Int32" />
+    <Property Name="production_ID" Type="Int32" />
+    <NavigationProperty Name="PO" Relationship="appdb.FK_dbo_PO_Item_dbo_POes_PO_ID" FromRole="PO_Item" ToRole="POes" />
+    <NavigationProperty Name="Production" Relationship="appdb.FK_dbo_PO_Item_dbo_Productions_production_ID" FromRole="PO_Item" ToRole="Productions" />
+  </EntityType>
+  <EntityType Name="PO">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="prosn" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="deliveryDate" Type="DateTime" Nullable="false" />
+    <Property Name="hasInvoice" Type="Boolean" Nullable="false" />
+    <Property Name="provider_ID" Type="Int32" />
+    <Property Name="optDate" Type="DateTime" Nullable="false" />
+    <Property Name="remark" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="PO_Item" Relationship="appdb.FK_dbo_PO_Item_dbo_POes_PO_ID" FromRole="POes" ToRole="PO_Item" />
+    <NavigationProperty Name="Provider" Relationship="appdb.FK_dbo_POes_dbo_Providers_provider_ID" FromRole="POes" ToRole="Providers" />
+  </EntityType>
+  <EntityType Name="Power">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="GroupName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Title" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="Remark" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Menus" Relationship="appdb.FK_dbo_Menus_dbo_Powers_ViewPowerID" FromRole="Powers" ToRole="Menus" />
+    <NavigationProperty Name="Roles" Relationship="appdb.RolePowers" FromRole="Powers" ToRole="Roles" />
+  </EntityType>
+  <EntityType Name="Production_change">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="recentlyDate" Type="DateTime" Nullable="false" />
+    <Property Name="production_ID" Type="Int32" />
+    <NavigationProperty Name="Production" Relationship="appdb.FK_dbo_Production_change_dbo_Productions_production_ID" FromRole="Production_change" ToRole="Productions" />
+  </EntityType>
+  <EntityType Name="Production">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="spec" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="model" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="unit" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
+    <Property Name="optdate" Type="DateTime" Nullable="false" />
+    <Property Name="productCode" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="width" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="length" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <NavigationProperty Name="PO_Item" Relationship="appdb.FK_dbo_PO_Item_dbo_Productions_production_ID" FromRole="Productions" ToRole="PO_Item" />
+    <NavigationProperty Name="Production_change" Relationship="appdb.FK_dbo_Production_change_dbo_Productions_production_ID" FromRole="Productions" ToRole="Production_change" />
+  </EntityType>
+  <EntityType Name="Provider">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="levelCode" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="phone" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="address" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="contact" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="fax" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Eamil" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="bank" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="remark1" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="remark2" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="weChat" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="bankPublicName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="bankPublicAccount" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="bankPrivateName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="recentlyDate" Type="DateTime" Nullable="false" />
+    <Property Name="bankPrivateAccount" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="POes" Relationship="appdb.FK_dbo_POes_dbo_Providers_provider_ID" FromRole="Providers" ToRole="POes" />
+  </EntityType>
+  <EntityType Name="ReimburseClass">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Remark" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+    <Property Name="SortIndex" Type="Int32" Nullable="false" />
+    <Property Name="Parent_ID" Type="Int32" />
+    <NavigationProperty Name="ReimburseClasses1" Relationship="appdb.FK_dbo_ReimburseClasses_dbo_ReimburseClasses_Parent_ID" FromRole="ReimburseClasses" ToRole="ReimburseClasses1" />
+    <NavigationProperty Name="ReimburseClass1" Relationship="appdb.FK_dbo_ReimburseClasses_dbo_ReimburseClasses_Parent_ID" FromRole="ReimburseClasses1" ToRole="ReimburseClasses" />
+  </EntityType>
+  <EntityType Name="Reimbursement">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="inputdate" Type="DateTime" Nullable="false" />
+    <Property Name="startDate" Type="DateTime" />
+    <Property Name="endDate" Type="DateTime" />
+    <Property Name="interval" Type="Int32" Nullable="false" />
+    <Property Name="sheng" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="shi" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="option" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="price" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+    <Property Name="journey" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="remark" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="passed" Type="Boolean" Nullable="false" />
+    <Property Name="NotPassedReason" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="paid" Type="Boolean" Nullable="false" />
+    <Property Name="telenClient_ID" Type="Int32" />
+    <Property Name="user_ID" Type="Int32" />
+    <Property Name="class1" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="class2" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="ReimburseSummary_ID" Type="Int32" />
+    <Property Name="ContractName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="HasInvoice" Type="Boolean" Nullable="false" />
+    <Property Name="paidDate" Type="DateTime" />
+    <NavigationProperty Name="Images" Relationship="appdb.FK_dbo_Images_dbo_Reimbursements_reimbursement_ID" FromRole="Reimbursements" ToRole="Images" />
+    <NavigationProperty Name="ReimburseSummary" Relationship="appdb.FK_dbo_Reimbursements_dbo_ReimburseSummaries_ReimburseSummary_ID" FromRole="Reimbursements" ToRole="ReimburseSummaries" />
+    <NavigationProperty Name="TelenClient" Relationship="appdb.FK_dbo_Reimbursements_dbo_TelenClients_telenClient_ID" FromRole="Reimbursements" ToRole="TelenClients" />
+    <NavigationProperty Name="User" Relationship="appdb.FK_dbo_Reimbursements_dbo_Users_user_ID" FromRole="Reimbursements" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="ReimburseSummary">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="prosn" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="remark" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="isPassed" Type="Boolean" Nullable="false" />
+    <Property Name="journey" Type="Single" />
+    <Property Name="price" Type="Single" Nullable="false" />
+    <Property Name="hasPay" Type="Boolean" Nullable="false" />
+    <Property Name="InputDate" Type="DateTime" Nullable="false" />
+    <Property Name="user_ID" Type="Int32" />
+    <NavigationProperty Name="Reimbursements" Relationship="appdb.FK_dbo_Reimbursements_dbo_ReimburseSummaries_ReimburseSummary_ID" FromRole="ReimburseSummaries" ToRole="Reimbursements" />
+    <NavigationProperty Name="User" Relationship="appdb.FK_dbo_ReimburseSummaries_dbo_Users_user_ID" FromRole="ReimburseSummaries" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Remark" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Powers" Relationship="appdb.RolePowers" FromRole="Roles" ToRole="Powers" />
+    <NavigationProperty Name="Users" Relationship="appdb.RoleUsers" FromRole="Roles" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="TelenClient">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="levelCode" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="serverTime" Type="DateTime" />
+    <Property Name="condiction" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="remark" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="fax" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="address" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="bank" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Eamil" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Number" Type="String" MaxLength="20" Unicode="true" FixedLength="false" />
+    <Property Name="clientManager" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="implementer" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="gendan" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Reimbursements" Relationship="appdb.FK_dbo_Reimbursements_dbo_TelenClients_telenClient_ID" FromRole="TelenClients" ToRole="Reimbursements" />
+  </EntityType>
+  <EntityType Name="TerminalList">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="itemname" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="type" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="spec" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="provider" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="image" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="count" Type="Int32" Nullable="false" />
+    <Property Name="terminal_ID" Type="Int32" />
+    <NavigationProperty Name="Terminal" Relationship="appdb.FK_dbo_TerminalLists_dbo_Terminals_terminal_ID" FromRole="TerminalLists" ToRole="Terminals" />
+    <NavigationProperty Name="TerminalProcessRecs" Relationship="appdb.FK_dbo_TerminalProcessRecs_dbo_TerminalLists_TerminalList_ID" FromRole="TerminalLists" ToRole="TerminalProcessRecs" />
+  </EntityType>
+  <EntityType Name="TerminalProcessRec">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="itemname" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="processno" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="optdate" Type="DateTime" Nullable="false" />
+    <Property Name="operater" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="quantity" Type="Int32" Nullable="false" />
+    <Property Name="remark" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="TerminalList_ID" Type="Int32" />
+    <NavigationProperty Name="TerminalList" Relationship="appdb.FK_dbo_TerminalProcessRecs_dbo_TerminalLists_TerminalList_ID" FromRole="TerminalProcessRecs" ToRole="TerminalLists" />
+  </EntityType>
+  <EntityType Name="Terminal">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="itemname" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="operater" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="optdate" Type="DateTime" Nullable="false" />
+    <Property Name="quantity" Type="Int32" />
+    <NavigationProperty Name="TerminalLists" Relationship="appdb.FK_dbo_TerminalLists_dbo_Terminals_terminal_ID" FromRole="Terminals" ToRole="TerminalLists" />
+  </EntityType>
+  <EntityType Name="Title">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Remark" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="Users" Relationship="appdb.TitleUsers" FromRole="Titles" ToRole="Users" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Enabled" Type="Boolean" Nullable="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
+    <Property Name="ChineseName" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="EnglishName" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="Photo" Type="String" MaxLength="200" Unicode="true" FixedLength="false" />
+    <Property Name="QQ" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="CompanyEmail" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="OfficePhone" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="OfficePhoneExt" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="HomePhone" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="CellPhone" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Address" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+    <Property Name="Remark" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+    <Property Name="IdentityCard" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+    <Property Name="Birthday" Type="DateTime" />
+    <Property Name="TakeOfficeTime" Type="DateTime" />
+    <Property Name="LastLoginTime" Type="DateTime" />
+    <Property Name="CreateTime" Type="DateTime" />
+    <Property Name="DeptID" Type="Int32" />
+    <NavigationProperty Name="Dept" Relationship="appdb.FK_dbo_Users_dbo_Depts_DeptID" FromRole="Users" ToRole="Depts" />
+    <NavigationProperty Name="Onlines" Relationship="appdb.FK_dbo_Onlines_dbo_Users_UserID" FromRole="Users" ToRole="Onlines" />
+    <NavigationProperty Name="Reimbursements" Relationship="appdb.FK_dbo_Reimbursements_dbo_Users_user_ID" FromRole="Users" ToRole="Reimbursements" />
+    <NavigationProperty Name="ReimburseSummaries" Relationship="appdb.FK_dbo_ReimburseSummaries_dbo_Users_user_ID" FromRole="Users" ToRole="ReimburseSummaries" />
+    <NavigationProperty Name="Roles" Relationship="appdb.RoleUsers" FromRole="Users" ToRole="Roles" />
+    <NavigationProperty Name="Titles" Relationship="appdb.TitleUsers" FromRole="Users" ToRole="Titles" />
+  </EntityType>
+  <EntityType Name="YW_Lableinfor">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="prosn" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="proname" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="spec" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="class1" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="class2" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="caseno" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="isreturn" Type="Int32" />
+    <Property Name="weight" Type="Double" />
+    <Property Name="operater" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="remark" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+    <Property Name="kaidandate" Type="DateTime" />
+    <Property Name="quantity" Type="Double" />
+    <Property Name="projectno" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="projectname" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="procompany" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="pid" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
+    <Property Name="alias" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="YW_ProcessRec">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="prosn" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="optdate" Type="DateTime" />
+    <Property Name="processno" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="billno" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="jingbanren" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="jianshu" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="lotno" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="remark" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
+    <Property Name="caseno" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="pihao" Type="String" MaxLength="50" Unicode="false" FixedLength="false" />
+    <Property Name="quantity" Type="Double" />
+    <Property Name="pid" Type="Int32" />
+    <Property Name="flag" Type="Int32" />
+    <Property Name="printlabel" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_dbo_Depts_dbo_Depts_ParentID">
+    <End Role="Depts" Type="appdb.Dept" Multiplicity="0..1" />
+    <End Role="Depts1" Type="appdb.Dept" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Depts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Depts1">
+        <PropertyRef Name="ParentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Users_dbo_Depts_DeptID">
+    <End Role="Depts" Type="appdb.Dept" Multiplicity="0..1" />
+    <End Role="Users" Type="appdb.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Depts">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Users">
+        <PropertyRef Name="DeptID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Images_dbo_Reimbursements_reimbursement_ID">
+    <End Role="Reimbursements" Type="appdb.Reimbursement" Multiplicity="0..1" />
+    <End Role="Images" Type="appdb.Image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reimbursements">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Images">
+        <PropertyRef Name="reimbursement_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Menus_dbo_Menus_ParentID">
+    <End Role="Menus" Type="appdb.Menu" Multiplicity="0..1" />
+    <End Role="Menus1" Type="appdb.Menu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Menus">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Menus1">
+        <PropertyRef Name="ParentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Menus_dbo_Powers_ViewPowerID">
+    <End Role="Powers" Type="appdb.Power" Multiplicity="0..1" />
+    <End Role="Menus" Type="appdb.Menu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Powers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Menus">
+        <PropertyRef Name="ViewPowerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Onlines_dbo_Users_UserID">
+    <End Role="Users" Type="appdb.User" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Onlines" Type="appdb.Online" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Onlines">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_PO_Item_dbo_POes_PO_ID">
+    <End Role="POes" Type="appdb.PO" Multiplicity="0..1" />
+    <End Role="PO_Item" Type="appdb.PO_Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="POes">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PO_Item">
+        <PropertyRef Name="PO_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_PO_Item_dbo_Productions_production_ID">
+    <End Role="Productions" Type="appdb.Production" Multiplicity="0..1" />
+    <End Role="PO_Item" Type="appdb.PO_Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Productions">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="PO_Item">
+        <PropertyRef Name="production_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_POes_dbo_Providers_provider_ID">
+    <End Role="Providers" Type="appdb.Provider" Multiplicity="0..1" />
+    <End Role="POes" Type="appdb.PO" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Providers">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="POes">
+        <PropertyRef Name="provider_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Production_change_dbo_Productions_production_ID">
+    <End Role="Productions" Type="appdb.Production" Multiplicity="0..1" />
+    <End Role="Production_change" Type="appdb.Production_change" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Productions">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Production_change">
+        <PropertyRef Name="production_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_ReimburseClasses_dbo_ReimburseClasses_Parent_ID">
+    <End Role="ReimburseClasses" Type="appdb.ReimburseClass" Multiplicity="0..1" />
+    <End Role="ReimburseClasses1" Type="appdb.ReimburseClass" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReimburseClasses">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ReimburseClasses1">
+        <PropertyRef Name="Parent_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Reimbursements_dbo_ReimburseSummaries_ReimburseSummary_ID">
+    <End Role="ReimburseSummaries" Type="appdb.ReimburseSummary" Multiplicity="0..1" />
+    <End Role="Reimbursements" Type="appdb.Reimbursement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReimburseSummaries">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Reimbursements">
+        <PropertyRef Name="ReimburseSummary_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Reimbursements_dbo_TelenClients_telenClient_ID">
+    <End Role="TelenClients" Type="appdb.TelenClient" Multiplicity="0..1" />
+    <End Role="Reimbursements" Type="appdb.Reimbursement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TelenClients">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Reimbursements">
+        <PropertyRef Name="telenClient_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Reimbursements_dbo_Users_user_ID">
+    <End Role="Users" Type="appdb.User" Multiplicity="0..1" />
+    <End Role="Reimbursements" Type="appdb.Reimbursement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Reimbursements">
+        <PropertyRef Name="user_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_ReimburseSummaries_dbo_Users_user_ID">
+    <End Role="Users" Type="appdb.User" Multiplicity="0..1" />
+    <End Role="ReimburseSummaries" Type="appdb.ReimburseSummary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Users">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="ReimburseSummaries">
+        <PropertyRef Name="user_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_TerminalLists_dbo_Terminals_terminal_ID">
+    <End Role="Terminals" Type="appdb.Terminal" Multiplicity="0..1" />
+    <End Role="TerminalLists" Type="appdb.TerminalList" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Terminals">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TerminalLists">
+        <PropertyRef Name="terminal_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_TerminalProcessRecs_dbo_TerminalLists_TerminalList_ID">
+    <End Role="TerminalLists" Type="appdb.TerminalList" Multiplicity="0..1" />
+    <End Role="TerminalProcessRecs" Type="appdb.TerminalProcessRec" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TerminalLists">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TerminalProcessRecs">
+        <PropertyRef Name="TerminalList_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RolePowers">
+    <End Role="Powers" Type="appdb.Power" Multiplicity="*" />
+    <End Role="Roles" Type="appdb.Role" Multiplicity="*" />
+  </Association>
+  <Association Name="RoleUsers">
+    <End Role="Roles" Type="appdb.Role" Multiplicity="*" />
+    <End Role="Users" Type="appdb.User" Multiplicity="*" />
+  </Association>
+  <Association Name="TitleUsers">
+    <End Role="Titles" Type="appdb.Title" Multiplicity="*" />
+    <End Role="Users" Type="appdb.User" Multiplicity="*" />
+  </Association>
+</Schema>

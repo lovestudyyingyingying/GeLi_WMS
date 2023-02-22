@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>
+        采购订单
+    </title>
+    <style type="text/css">
+        .list table {
+            width: 100%;
+            border-collapse: collapse;
+            border: none;
+        }
+
+            .list table th {
+                border: solid #000 1px;
+                text-align: center;
+                height: 40px;
+                line-height: 40px;
+            }
+
+            .list table td {
+                border: solid #000 1px;
+                text-align: center;
+                height: 40px;
+                line-height: 40px;
+            }
+    </style>
+
+</head>
+<body>
+    <div id="print">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td colspan="2" style="text-align: center; font-size: 26px; height: 70px; line-height: 60px; font-weight:bold;">
+                    XXXXXXXXXX有限公司<br />
+                    采购单
+                    <br />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                   图片 <img src="@PersonImage1"  />
+                </td>
+            </tr>
+            <tr>
+                <td align="left" width="50%" style="height: 60px">
+                    订单生成时间：<u>&nbsp;&nbsp;<span id="lblPName">$htmlformat[0]</span>&nbsp;&nbsp;</u>
+                    <br />
+                </td>
+                <td align="right" width="50%" style="height: 60px">
+                    订单编号：<u>&nbsp;&nbsp;<span id="lblPName">$htmlformat[1]</span>&nbsp;&nbsp;</u>
+                    <br />
+                </td>
+            </tr>
+        </table>
+        <div class="list">
+            <table border="1">
+                <tr>
+                    <th>名称</th>
+                    <th>物料编码</th>
+                    <th>厂家货号</th>
+                    <th>颜色</th>
+                    <th>规格</th>
+                    <th>数量</th>
+                    <th>单位</th>
+                    <th>单价</th>
+                    <th>金额</th>
+                    <th>交货期</th>
+                </tr>
+                $htmlformat[2]
+                <tr>
+                    <td colspan="6">总金额（大写）：$htmlformat[3]</td>
+                    <td colspan="4">￥$htmlformat[4]</td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1927
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JWTWebApiNet", "JWTWebApiNet.csproj", "{14CED3D3-87C0-42C2-92AE-BC1440605EEE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{14CED3D3-87C0-42C2-92AE-BC1440605EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14CED3D3-87C0-42C2-92AE-BC1440605EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14CED3D3-87C0-42C2-92AE-BC1440605EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14CED3D3-87C0-42C2-92AE-BC1440605EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C0B9052-4F8A-4E67-81F3-B28995624E62}
+	EndGlobalSection
+EndGlobal
