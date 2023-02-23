@@ -26,16 +26,16 @@
                                 <f:DatePicker runat="server" ID="dp1" Label="下发日期" Width="200px" ShowLabel="true" LabelWidth="80px"></f:DatePicker>
                                 <f:DatePicker runat="server" ID="dp2" Label="结束日期" ShowLabel="false" Width="120px"></f:DatePicker>
                                 <f:TextBox runat="server" Label="任务号" ID="tbxMissionNo" Width="300px" LabelWidth="80px"></f:TextBox>
-                             
-   
+                                <f:TextBox runat="server" Label="起点" ID="tbxStart" Width="200px" LabelWidth="60px"></f:TextBox>
+
                                 <f:Button runat="server" ID="btnSearch" Text="搜索" Icon="SystemSearch" OnClick="btnSearch_Click" EnableAjax="false" DisableControlBeforePostBack="true"></f:Button>
 
                             </Items>
                         </f:Toolbar>
-                   <f:Toolbar runat="server">
+                        <f:Toolbar runat="server">
 
                             <Items>
-                                   <f:DropDownList runat="server" ID="DropDownListName" Label="工序名称" Width="220px" LabelWidth="75px">
+                                <f:DropDownList runat="server" ID="DropDownListName" Label="工序名称" Width="220px" LabelWidth="75px">
                                     <f:ListItem Text="全部" Value="全部" Selected="true" />
                                     <f:ListItem Text="胀管空托上线" Value="胀管空托上线" />
                                     <f:ListItem Text="胀管物料下线" Value="胀管物料下线" />
@@ -51,10 +51,11 @@
                                     <f:ListItem Text="氮检空托下线" Value="氮检空托下线" />
 
                                 </f:DropDownList>
-                                                             <f:DropDownList runat="server" ID="DropDownSendState" Label="任务状态" Width="200px" LabelWidth="75px">
+                                <f:DropDownList runat="server" ID="DropDownSendState" Label="任务状态" Width="200px" LabelWidth="75px">
                                     <f:ListItem Text="全部" Value="全部" Selected="true" />
-
+                                           <f:ListItem Text="未开始" Value="未开始" />
                                     <f:ListItem Text="已分类" Value="已分类" />
+                             
                                     <f:ListItem Text="成功" Value="成功" />
                                     <f:ListItem Text="失败" Value="失败" />
                                     <f:ListItem Text="步骤一" Value="步骤一" />
@@ -64,12 +65,13 @@
                                 </f:DropDownList>
                                 <f:DropDownList runat="server" ID="DropDownListRunState" Label="运行状态" Width="200px" LabelWidth="75px">
                                     <f:ListItem Text="全部" Value="全部" Selected="true" />
-
+                                    <f:ListItem Text="未完成" Value="未完成" />
                                     <f:ListItem Text="已完成" Value="已完成" />
                                     <f:ListItem Text="已取货" Value="已取货" />
                                     <f:ListItem Text="已离开" Value="已离开" />
                                     <f:ListItem Text="已取消" Value="已取消" />
                                 </f:DropDownList>
+                                <f:TextBox runat="server" Label="终点" ID="tbxEnd" Width="200px" LabelWidth="60px"></f:TextBox>
                                 <f:Button runat="server" ID="btnCancel" Text="取消任务" Icon="Cancel" OnClick="btnCancel_Click" ConfirmText="确定要取消该任务吗？" EnableAjax="false" DisableControlBeforePostBack="true"></f:Button>
                                 <f:Button runat="server" ID="btnFinish" Text="手动完成" Icon="Overlays" OnClick="btnFinish_Click" ConfirmText="确定要手动完成该任务吗？" EnableAjax="false" DisableControlBeforePostBack="true"></f:Button>
 
@@ -95,7 +97,7 @@
                         <f:RenderField ColumnID="StartPosition" DataField="StartPosition" SortField="StartPosition" Width="120px" HeaderText="起始库位点位" />
 
                         <f:RenderField ColumnID="EndLocation" DataField="EndLocation" SortField="EndLocation" Width="120px" HeaderText="结束AGV点位" />
-                          <f:RenderField ColumnID="EndPosition" DataField="EndPosition" SortField="EndPosition" Width="120px" HeaderText="起始库位点位" />
+                        <f:RenderField ColumnID="EndPosition" DataField="EndPosition" SortField="EndPosition" Width="120px" HeaderText="起始库位点位" />
 
 
 

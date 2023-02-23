@@ -64,7 +64,7 @@ namespace GeLiPage_WMS.admin
             var mission = aGVMissionInfo.GetIQueryable(u => u.OrderTime >= startDate && u.OrderTime <= endDate);
             ImageLabelMain_UCTodayMission.Value= mission.Count().ToString();
             ImageLabelMain_UCTodayComplte.Value= mission.Where(u => u.RunState == StockState.RunState_Success).Count().ToString();
-            ImageLabelMain_UCNoComplte.Value= mission.Where(u => u.RunState != StockState.RunState_Success).Count().ToString();
+            //ImageLabelMain_UCNoComplte.Value= mission.Where(u => u.RunState != StockState.RunState_Success).Count().ToString();
             ImageLabelMain_UCCancel.Value = mission.Where(u => u.RunState == StockState.RunState_Cancel).Count().ToString();
             ImageLabelMain_UC5.Value = mission.Where(u => u.RunState != StockState.RunState_Success).Count().ToString();
             ImageLabelMain_UCWarn.Value = alarmLogService.GetIQueryable(u => u.alarmDate >= startDate && u.alarmDate <= endDate).Count().ToString();

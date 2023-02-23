@@ -11,6 +11,7 @@ namespace GeLiPage_WMS.admin
 {
     public partial class config : PageBase
     {
+
         #region ViewPower
 
         /// <summary>
@@ -20,6 +21,7 @@ namespace GeLiPage_WMS.admin
         {
             get
             {
+               
                 return "CoreConfigView";
             }
         }

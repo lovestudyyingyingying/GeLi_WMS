@@ -64,10 +64,25 @@ namespace GeLiPage_WMS.MissionRecordWebForm
                 expression = expression.And(u => u.MissionNo.Contains(tbxMissionNo.Text));
             if(DropDownListName.SelectedValue!="全部")
                 expression = expression.And(u => u.Reserve1== DropDownListName.SelectedValue);
-            if(DropDownListRunState.SelectedValue!= "全部")
-                expression = expression.And(u => u.RunState == DropDownListRunState.SelectedValue);
+            if (DropDownListRunState.SelectedValue != "全部")
+            {
+                if (DropDownListRunState.SelectedValue == "未完成")
+                    expression = expression.And(u => string.IsNullOrEmpty(u.RunState));
+                else
+                    expression = expression.And(u => u.RunState == DropDownListRunState.SelectedValue);
+            }
             if (DropDownSendState.SelectedValue != "全部")
-                expression = expression.And(u => u.SendState == DropDownSendState.SelectedValue);
+            {
+                if (DropDownSendState.SelectedValue == "未开始")
+                    expression = expression.And(u => u.SendState == DropDownSendState.SelectedValue);
+                else
+                    expression = expression.And(u => u.SendState == DropDownSendState.SelectedValue);
+            }
+            if(!string.IsNullOrEmpty(tbxStart.Text))
+                expression = expression.And(u => u.StartPosition.Contains(tbxStart.Text));
+            if (!string.IsNullOrEmpty(tbxEnd.Text))
+                expression = expression.And(u => u.EndPosition.Contains(tbxEnd.Text));
+
             expression = expression.And(
             u => u.OrderTime >= dt1 && u.OrderTime <= dt2);
             var agvMissionInfo = aGVMissionService.GetIQueryable(expression);

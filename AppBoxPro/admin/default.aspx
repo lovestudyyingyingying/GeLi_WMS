@@ -34,12 +34,12 @@
                                                 Title="已完成" TitleColor="green" TitleSize="15px"
                                                 Value="3333" ValueColor="green" ValueSize="20px" />
                                         </f:UserControlConnector>
-                       <f:UserControlConnector runat="server">
+      <%--                 <f:UserControlConnector runat="server">
                                             <uc1:ImageLabelMain_UC runat="server" ID="ImageLabelMain_UCNoComplte"
                                                 ImagePath="~/res/images/WareInfo/未完成.png"
                                                 Title="未完成" TitleColor="#C00000" TitleSize="15px"
                                                 Value="3333" ValueColor="#C00000" ValueSize="20px" />
-                                        </f:UserControlConnector>
+                                        </f:UserControlConnector>--%>
                        <f:UserControlConnector runat="server">
                                             <uc1:ImageLabelMain_UC runat="server" ID="ImageLabelMain_UCCancel"
                                                 ImagePath="~/res/images/WareInfo/取消任务.png"
