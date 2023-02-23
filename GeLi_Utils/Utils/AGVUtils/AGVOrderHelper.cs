@@ -17,13 +17,13 @@ namespace GeLi_Utils.Utils.AGVUtils
     public class AGVOrderHelper
     {
         /// <summary>
-        /// 基础ip http://ip:port
+        /// 基础ip   ip:port
         /// </summary>
         public string BaseUrl { get; set; }
 
        public  AGVOrderHelper(string baseUrl)
         {
-            this.BaseUrl = baseUrl;
+            this.BaseUrl ="http://"+ baseUrl;
         }
 
         /// <summary>

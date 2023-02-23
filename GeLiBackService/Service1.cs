@@ -8,6 +8,7 @@ using GeLiService_WMS.Threads.SameFloorThreads;
 using GeLiService_WMS.Utils.ThreadUtils;
 using System;
 using System.ServiceProcess;
+using System.Windows.Forms;
 
 namespace GeLiBackService
 {
@@ -63,6 +64,7 @@ namespace GeLiBackService
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.ToString());
                 Logger.Default.Process(new Log(LevelType.Error,
                    ex.ToString()));
             }
