@@ -356,8 +356,8 @@ namespace GeLiService_WMS.Threads.DiffFloorThreads
                         if (result.code == 200)
                             list[0].SendState = ResultStr.success;
                        // list[0].SendState = ResultStr.success;
-                        else
-                            list[0].SendState = ResultStr.fail;
+                        //else
+                        //    list[0].SendState = ResultStr.fail;
                         int MissionID = (int)list[0].MissionFloor_ID;
                         missionService.UpdateByPlus(u => u.ID == MissionID,
                             u => new AGVMissionInfo { SendState = StockState.SendState_BzOne });
@@ -435,8 +435,8 @@ namespace GeLiService_WMS.Threads.DiffFloorThreads
                 if (result.code == 200)
                     list[0].SendState = ResultStr.success;
                 // list[0].SendState = ResultStr.success;
-                else
-                    list[0].SendState = ResultStr.fail; 
+                //else
+                //    list[0].SendState = ResultStr.fail; 
                 //
                 int ID_1 = (int)list[0].MissionFloor_ID;
                 missionService.UpdateByPlus(u => u.ID == ID_1,

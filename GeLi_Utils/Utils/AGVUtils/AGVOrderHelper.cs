@@ -33,8 +33,9 @@ namespace GeLi_Utils.Utils.AGVUtils
         /// <returns></returns>
         public OrderResult SendOrder(AGVMissionInfo mission)
         {
-            
-            List<string> targePoint = mission.SendAGVPoStr.Split(',').ToList();
+            var startPoint = mission.StartPosition;
+            var endPoint = mission.EndPosition;
+            List<string> targePoint = new List<string>() {startPoint,endPoint };
             return CreateTask(mission.MissionNo, targePoint,null);
         }
 
@@ -46,7 +47,9 @@ namespace GeLi_Utils.Utils.AGVUtils
         public OrderResult SendFloorOrder(AGVMissionInfo_Floor mission)
         {
 
-            List<string> targePoint = mission.SendAGVPoStr.Split(',').ToList();
+            var startPoint = mission.StartPosition;
+            var endPoint = mission.EndPosition;
+            List<string> targePoint = new List<string>() { startPoint, endPoint };
             return CreateTask(mission.MissionNo, targePoint, null);
         }
 

@@ -82,8 +82,8 @@ namespace GeLiService_WMS.Threads.SameFloorThreads
                     if (result.code == 200)
                         list[0].SendState = ResultStr.success;
                     // list[0].SendState = ResultStr.success;
-                    else
-                        list[0].SendState = ResultStr.fail;
+                    //else
+                    //    list[0].SendState = ResultStr.fail;
                 }
                 DataTable dataTable = _agvMissionService.ConvertToDataTable(list);
                 _agvMissionService.UpdateMany(dataTable);

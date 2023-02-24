@@ -3,6 +3,7 @@ using System;
 using GeLiService_WMS;
 using GeLi_Utils.Utils.AGVUtils;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace 单元测试
 {
@@ -12,22 +13,23 @@ namespace 单元测试
         [TestMethod]
         public void TestGetMapInfo()
         {
-            AGVOrderHelper aGVOrderHelper = new AGVOrderHelper("http://121.5.2.81:7001");
+            AGVOrderHelper aGVOrderHelper = new AGVOrderHelper("121.5.2.81:7001");
            var a =  aGVOrderHelper.GetMapInfo();
-            Assert.AreEqual(200, a.code);
+            var aa = a.data.Where(u=>u.type>=40).Select(u=>u.name).ToArray();
+            Assert.AreEqual("", string.Join(",", aa));
         }
 
         [TestMethod]
         public void getOnlineAgv()
         {
-            AGVOrderHelper aGVOrderHelper = new AGVOrderHelper("http://121.5.2.81:7001");
+            AGVOrderHelper aGVOrderHelper = new AGVOrderHelper("121.5.2.81:7001");
             var a = aGVOrderHelper.GetOnlineAgv();
             Assert.AreEqual(200, a.code);
         }
         [TestMethod]
         public void taskQuery()
         {
-            AGVOrderHelper aGVOrderHelper = new AGVOrderHelper("http://121.5.2.81:7001");
+            AGVOrderHelper aGVOrderHelper = new AGVOrderHelper("121.5.2.81:7001");
             var a = aGVOrderHelper.TaskQuery("12345678");
             Assert.AreEqual(200, a.code);
         }
@@ -42,9 +44,10 @@ namespace 单元测试
         //[TestMethod]
         //public void TestCreateTask()
         //{
-        //    AGVOrderHelper aGVOrderHelper = new AGVOrderHelper("http://121.5.2.81:7001");
+        //    AGVOrderHelper aGVOrderHelper = new AGVOrderHelper("121.5.2.81:7001");
         //    var a = aGVOrderHelper.CreateTask("101",new List<string> { "500001", "500002" },null);
         //    Assert.AreEqual(200, a.code);
         //}
+
     }
 }
