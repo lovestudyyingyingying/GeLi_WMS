@@ -1,5 +1,6 @@
 ﻿
 using GeLiData_WMS;
+using GeLiData_WMSUtils;
 using GeLiService_WMS.Entity.StockEntity;
 using GeLiService_WMS.Services.WMS.AGV;
 using GeLiService_WMS.Utils.RedisUtils;
@@ -35,13 +36,13 @@ namespace GeLiService_WMS.Helper.WMS
             {
                 //第一步：获取Redis中每个提升机任务的数量
                 TiShengJiInfo tiShengJiInfo = null;
-                List<TiShengJiInfo> tsjList = _tiShengJiInfoService.GetList(u=>u.IsOpen==1);
+                List<TiShengJiInfo> tsjList = _tiShengJiInfoService.GetList(u=>u.IsOpen==1, true, DbMainSlave.Master);
                
                 List<TiShengJiMission> tsjMissions = new List<TiShengJiMission>(tsjList.Count);
                 TiShengJiMission tiShengJiMission = null;
                 foreach (var item in tsjList)
                 {
-                    TiShengJiState tiShengJiState = redisHelper.StringGet<TiShengJiState>($"TSJ-State:{item.TsjIp}_{item.TsjPort}");
+                    TiShengJiState tiShengJiState = item.TiShengJiState;
                     if (tiShengJiState == null)
                         continue;
 
@@ -57,7 +58,7 @@ namespace GeLiService_WMS.Helper.WMS
                             tiShengJiMissionTemp.Lie.Add(temp.ToString());
                     }
                     tsjMissions.Add(tiShengJiMissionTemp);
-                    
+
                 }
                 if (tsjMissions.Count == 0)
                     return null;

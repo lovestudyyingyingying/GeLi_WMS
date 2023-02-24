@@ -91,7 +91,7 @@ namespace GeLiService_WMS.Threads.DiffFloorThreads
                            $"{_tiShengJiInfo.TsjName}跨楼层线程已启动"));
                     stoped = false;
                 }
-                dtime = DateTime.Now.AddDays(-110);
+                dtime = DateTime.Now.AddDays(-1);
                 
                 //判断阶段二任务
                 
@@ -113,125 +113,7 @@ namespace GeLiService_WMS.Threads.DiffFloorThreads
             }
             
         }
-        /// <summary>
-        /// 递归将所有运行中又未搬起的货物全部取消掉
-        /// </summary>
-        //private void StepTwoFail()
-        //{
-        //    //没有负载，停止线程，所有阶段二已运行但是未负载的任务都取消
-        //    List<AGVMissionInfo_Floor> floorList = floorService.GetList(
-        //        u =>u.TSJ_Name==_tiShengJiInfo.TsjName && u.MissionNo.EndsWith(DiffFloorFactory.twoStr)
-        //        && u.StateMsg.Length==0 && (u.RunState==StockState.RunState_Running 
-        //        || u.RunState==StockState.RunState_Emtpy|| u.RunState == StockState.RunState_HasSend 
-        //        || u.RunState == StockState.RunState_WaitRun),
-        //        true,DbMainSlave.Master) ;
-           
-        //    if (floorList.Count>0)
-        //    {
-        //        string[] orderIds = floorList.Select(u => u.MissionNo).ToArray();
-        //        agvOrderUtils.CancelMission(orderIds);
-        //    }
-        //}
-
-        /// <summary>
-        /// 等待确认的任务
-        /// </summary>
-        /// <param name="list"></param>
-        //private void ContinueTask()
-        //{
-        //    //判断任务是步骤1还是步骤2
-        //    //判断提升机是否出货就位,然后判断步骤
-        //    //步骤1,则直接执行
-        //    //步骤2,判断小车的任务条码是否提升机第一个搬出条码，
-        //    //如果是，则直接执行
-        //    //如果否，则将条码互换...
-
-        //    //判断等待执行的任务
-        //    if (tiShengJiHelper.state == null
-        //        || tiShengJiHelper.state.deviceState != DeviceState.Normal)
-        //        return;
-
-
-        //    List<AGVMissionInfo_Floor> waitList = floorService.GetQuery(u =>
-        //          u.OrderTime >= dtime && u.TSJ_Name == _tiShengJiInfo.TsjName
-        //          && u.RunState == StockState.RunState_WaitRun, true, DbMainSlave.Master)
-        //        .OrderBy(u => u.ID).ToList();
-        //    foreach (AGVMissionInfo_Floor temp in waitList)
-        //    {
-        //        Logger.Default.Process(new Log(LevelType.Info,
-        //                     $"DiffFloorRunThread:{_tiShengJiInfo.TsjName}提升机是否出货就位"));
-        //        //如果任务已继续，则跳过
-        //        if (temp.IsContinued == 1)
-        //        {
-        //            continue;
-        //        }
-        //        //任务一判断提升机对接位没有货物
-        //        if (temp.MissionNo.EndsWith(DiffFloorFactory.oneStr)
-        //            && ((temp.StartPosition.StartsWith("1") && tiShengJiHelper.state.F1DuiJieWei == GunZhouState.NoBox)
-        //        || (temp.StartPosition.StartsWith("2") && tiShengJiHelper.state.F2DuiJieWei == GunZhouState.NoBox)
-        //        || (temp.StartPosition.StartsWith("3") && tiShengJiHelper.state.F3DuiJieWei == GunZhouState.NoBox)))
-        //        {
-        //            agvOrderUtils.ContinueTask(temp.MissionNo);
-        //        }
-        //        //任务二判断提升机是否出货就位
-        //        else if (temp.MissionNo.EndsWith(DiffFloorFactory.twoStr) &&(
-        //            (temp.EndPosition.StartsWith("1") && tiShengJiHelper.state.F1DuiJieWei == GunZhouState.HasBox)
-        //        || (temp.EndPosition.StartsWith("2") && tiShengJiHelper.state.F2DuiJieWei == GunZhouState.HasBox)
-        //        || (temp.EndPosition.StartsWith("3") && tiShengJiHelper.state.F3DuiJieWei == GunZhouState.HasBox)))
-        //            {
-        //            //等待小车的任务条码是否提升机第一个搬出条码
-        //            //string prosn=RedisCacheHelper.Get<string>("Tsj_" + temp.StartPosition.Substring(0, 1) + "_Out1");
-        //            if (temp.TiShengJiRunRecord == null || temp.TiShengJiRunRecord.TrayCount == 1)
-        //            {
-        //                agvOrderUtils.ContinueTask(temp.MissionNo);
-        //            }
-        //            else
-        //            {
-        //                int count = floorService.GetCount(u =>
-        //                    u.TiShengJiRecord_ID == temp.TiShengJiRecord_ID
-        //                    && u.IsContinued == 1, true, DbMainSlave.Master);
-        //                //int count = temp.TiShengJiRunRecord.AGVMissionInfo_Floor.
-        //                //    Where(u => u.IsContinued == 1).Count();
-        //                string outTrayNo = string.Empty;
-        //                if (count == 0)
-        //                    //等于0则是第一个任务，用最外面的条码
-        //                    outTrayNo = temp.TiShengJiRunRecord.OutsideTrayNo;
-        //                else
-        //                    //不等于0则是第二个任务，用最里面的条码
-        //                    outTrayNo = temp.TiShengJiRunRecord.InsideTrayNo;
-        //                Logger.Default.Process(new Log(LevelType.Info,
-        //                    $"DiffFloorRunThread:{_tiShengJiInfo.TsjName}获取条码{outTrayNo}"));
-
-        //                //条码相等则继续，不相等则调换条码后继续任务
-        //                if (outTrayNo == temp.TrayNo)
-        //                {
-        //                    agvOrderUtils.ContinueTask(temp.MissionNo);
-        //                    floorService.UpdateByPlus(u => u.ID == temp.ID,
-        //                        u => new AGVMissionInfo_Floor { IsContinued = 1 });
-        //                    Logger.Default.Process(new Log(LevelType.Info,
-        //                    $"DiffFloorRunThread:{_tiShengJiInfo.TsjName}继续任务{temp.MissionNo}:{temp.TrayNo}"));
-        //                }
-        //                else
-        //                {
-        //                    agvOrderUtils.ContinueTask(temp.MissionNo);
-        //                    //调转条码
-        //                    floorService.UpdateByPlus(u => u.ID == temp.ID,
-        //                        u => new AGVMissionInfo_Floor { TrayNo = outTrayNo, IsContinued = 1 });
-        //                    missionService.UpdateByPlus(u => u.ID == temp.MissionFloor_ID,
-        //                       u => new AGVMissionInfo{ TrayNo = outTrayNo });
-                            
-        //                    Logger.Default.Process(new Log(LevelType.Info,
-        //                        $"DiffFloorRunThread:{_tiShengJiInfo.TsjName}继续任务{temp.MissionNo}:{ outTrayNo }"));
-                          
-        //                }
-        //            }
-        //        }
-        //    }
-
-
-        //}
-        
-
+  
        
         /// <summary>
         /// 更新总任务状态

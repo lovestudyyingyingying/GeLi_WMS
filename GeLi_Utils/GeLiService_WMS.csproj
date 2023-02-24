@@ -48,7 +48,7 @@
       <HintPath>..\packages\Exceptionless.NLog.4.8.0\lib\net462\Exceptionless.NLog.dll</HintPath>
     </Reference>
     <Reference Include="HslCommunication">
-      <HintPath>..\..\HslCommunication.dll</HintPath>
+      <HintPath>..\..\GeLi_WMS\AppBoxPro\bin\HslCommunication.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Authentication.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Authentication.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Abstractions.dll</HintPath>
@@ -229,7 +229,7 @@
       <HintPath>..\packages\ServiceStack.Text.6.4.0\lib\net472\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="SQLHelper">
-      <HintPath>..\AGVWebApi_WMS\bin\SQLHelper.dll</HintPath>
+      <HintPath>..\..\GeLi_WMS\AppBoxPro\bin\SQLHelper.dll</HintPath>
     </Reference>
     <Reference Include="StackExchange.Redis, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c219ff1ca8c2ce46, processorArchitecture=MSIL">
       <HintPath>..\packages\StackExchange.Redis.2.6.90\lib\net472\StackExchange.Redis.dll</HintPath>
