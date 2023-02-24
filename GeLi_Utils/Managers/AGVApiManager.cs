@@ -93,13 +93,35 @@ namespace GeLiService_WMS.Managers
             //         (接口更新)        (接口更新....................)
             string missionNo = ms.taskId;
             Logger.Default.Process(new Log(LevelType.Info, $"接收来自{missionNo}的回发，到达的点位为{ms.targetPoint},AGV编号为{ms.agvNo}"));
-            AGVMissionInfo agvMission = _missionService.GetIQueryable(u => u.MissionNo == missionNo).FirstOrDefault();
-            string runState = GetAGVState(ms,agvMission);
+
+            string topMissionNo = missionNo.Split('-')[0];
+            AGVMissionInfo agvMission = _missionService.GetIQueryable(u => u.MissionNo == topMissionNo).FirstOrDefault();//拿到总任务
+            AGVMissionBase aGVMissionBase = new AGVMissionBase();
+            if(missionNo.Contains('-')) // 表示分任务
+            {
+                AGVMissionInfo_Floor agvMission_floor = _floorService.GetIQueryable(u => u.MissionNo == missionNo).FirstOrDefault();
+                aGVMissionBase.StartLocation = agvMission_floor.StartLocation;
+                aGVMissionBase.EndLocation= agvMission_floor.EndLocation;
+
+            }
+            else//表示总任务
+            {
+              
+                aGVMissionBase.StartLocation = agvMission.StartLocation;
+                aGVMissionBase.EndLocation = agvMission.EndLocation;
+            }
+
+
+
+           
+            string runState = GetAGVState(ms, aGVMissionBase);
             string deviceID = string.Empty;
             if (!string.IsNullOrEmpty(ms.agvNo.ToString()))
                 deviceID = ms.agvNo.ToString();
             string trayNo = string.Empty;
             bool ret = true;
+
+         
             if (missionNo.Contains('-'))
             {
                 if (missionNo.EndsWith(DiffFloorFactory.oneStr))
@@ -323,8 +345,9 @@ namespace GeLiService_WMS.Managers
             return RunResult<string>.True();
         }
 
-        private string GetAGVState(MissionState ms,AGVMissionInfo aGVMissionInfo) //到达起点终点都会调用这个接口，并且状态都为1011
+        private string GetAGVState(MissionState ms,AGVMissionBase aGVMissionInfo) //到达起点终点都会调用这个接口，并且状态都为1011
         {
+            Logger.Default.Process(new Log(LevelType.Info, $"获取的起点为{aGVMissionInfo.StartLocation}，终点为{aGVMissionInfo.EndLocation}"));
             if (ms.targetPoint == aGVMissionInfo.StartLocation) //如果此时是报的起点
                 return StockState.RunState_AgvGetGoods;
             if (ms.targetPoint == aGVMissionInfo.EndLocation) //如果此时是到达的终点
