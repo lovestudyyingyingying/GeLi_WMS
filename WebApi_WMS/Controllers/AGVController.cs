@@ -47,8 +47,15 @@ namespace WebApi_WMS.Controllers
         [Route("feedbackTask")]
         public RunResult<string> MissionStates([FromBody] MissionState ms)
         {
-            Logger.Default.Process(new Log(LevelType.Debug, "AGV_APi_deviceApply" + JsonConvert.SerializeObject(ms)));
-            return AGVApiManager.UpdateMissionStates(ms);
+            try
+            {
+                Logger.Default.Process(new Log(LevelType.Debug, "AGV_APi_deviceApply" + JsonConvert.SerializeObject(ms)));
+                return AGVApiManager.UpdateMissionStates(ms);
+            }
+            catch (Exception e)
+            {
+                return new RunResult<string>() { code=999 , desc="失败",message=e.ToString() };
+            }
         }
 
 
@@ -63,13 +70,22 @@ namespace WebApi_WMS.Controllers
         [Route("deviceApply")]
         public OrderResult DeviceApply([FromBody] DeviceApply ms)
         {
-            Logger.Default.Process(new Log(LevelType.Debug, "AGV_APi_deviceApply"+ JsonConvert.SerializeObject(ms)));
-            if (ms.type==1)
-            return movestockManager.AgvMoveInMaPanJi(ms);
-            if(ms.type==2)
-            return movestockManager.AgvMoveOutMaPanJi(ms);
+            try
+            {
+                Logger.Default.Process(new Log(LevelType.Debug, "AGV_APi_deviceApply" + JsonConvert.SerializeObject(ms)));
+                if (ms.type == 1)
+                    return movestockManager.AgvMoveInMaPanJi(ms);
+                if (ms.type == 2)
+                    return movestockManager.AgvMoveOutMaPanJi(ms);
 
-            return new OrderResult() { msg = "未知操作类型", code = 999 };
+                return new OrderResult() { msg = "未知操作类型", code = 999 };
+            }
+            catch(Exception e)
+            {
+
+                return new OrderResult() { code=999,msg=e.ToString() };
+            }
+
         }
 
 

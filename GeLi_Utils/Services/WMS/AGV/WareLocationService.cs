@@ -56,7 +56,7 @@ namespace GeLiService_WMS.Services.WMS.AGV
 
         public List<WareLocation> GetByAreaClass(string  AreaClass, bool isNoTracking = false, DbMainSlave dms = DbMainSlave.Slave)
         {
-            return GetIQueryable(u => u.WareArea.WareAreaClass.AreaClass==AreaClass,isNoTracking,dms).ToList();
+            return GetIQueryable(u => u.WareArea.WareAreaClass.AreaClass==AreaClass&&u.IsOpen==1,isNoTracking,dms).ToList();
         }
 
         /// <summary>
