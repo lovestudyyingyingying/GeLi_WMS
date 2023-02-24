@@ -34,7 +34,7 @@ namespace GeLi_Utils.Utils.AGVUtils
         public OrderResult SendOrder(AGVMissionInfo mission)
         {
             var startPoint = mission.StartPosition;
-            var endPoint = mission.EndLocation;
+            var endPoint = mission.StartPosition;
             List<string> targePoint = new List<string>() {startPoint,endPoint };
             return CreateTask(mission.MissionNo, targePoint,null);
         }
@@ -46,9 +46,9 @@ namespace GeLi_Utils.Utils.AGVUtils
         /// <returns></returns>
         public OrderResult SendFloorOrder(AGVMissionInfo_Floor mission)
         {
-            Logger.Default.Process(new Log(LevelType.Error, "删除标签失败"));
-            var startPoint = mission.StartLocation;
-            var endPoint = mission.EndLocation;
+           
+            var startPoint = mission.StartPosition;
+            var endPoint = mission.StartPosition;
             List<string> targePoint = new List<string>() { startPoint, endPoint };
             return CreateTask(mission.MissionNo, targePoint, null);
         }
