@@ -33,8 +33,8 @@ namespace GeLi_Utils.Utils.AGVUtils
         /// <returns></returns>
         public OrderResult SendOrder(AGVMissionInfo mission)
         {
-            var startPoint = mission.StartPosition;
-            var endPoint = mission.EndPosition;
+            var startPoint = mission.StartLocation;
+            var endPoint = mission.EndLocation;
             List<string> targePoint = new List<string>() {startPoint,endPoint };
             return CreateTask(mission.MissionNo, targePoint,null);
         }
@@ -47,8 +47,8 @@ namespace GeLi_Utils.Utils.AGVUtils
         public OrderResult SendFloorOrder(AGVMissionInfo_Floor mission)
         {
 
-            var startPoint = mission.StartPosition;
-            var endPoint = mission.EndPosition;
+            var startPoint = mission.StartLocation;
+            var endPoint = mission.EndLocation;
             List<string> targePoint = new List<string>() { startPoint, endPoint };
             return CreateTask(mission.MissionNo, targePoint, null);
         }
@@ -74,14 +74,14 @@ namespace GeLi_Utils.Utils.AGVUtils
             Logger.Default.Process(new Log(LevelType.Info, "发送AGV任务指令：" + requestParam.taskId +
                 "--指令数据:" + JsonConvert.SerializeObject(requestParam)));
             var resultStr =  httpUtils.HttpPost(url, requestParam, null);
-
-            if(string.IsNullOrEmpty(resultStr))
+            Logger.Default.Process(new Log(LevelType.Debug,"创建任务结果："+ resultStr));
+            if (string.IsNullOrEmpty(resultStr))
             {
                 return null;
             }
          
                var  result = JsonConvert.DeserializeObject<OrderResult>(resultStr);
-    
+          
             return result;
              
         }
