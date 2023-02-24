@@ -46,7 +46,7 @@ namespace GeLi_Utils.Utils.AGVUtils
         /// <returns></returns>
         public OrderResult SendFloorOrder(AGVMissionInfo_Floor mission)
         {
-            Logger.Default.Process(new Log(LevelType.Error, "删除标签失败"));
+            //苏苏天下第一
             var startPoint = mission.StartLocation;
             var endPoint = mission.EndLocation;
             List<string> targePoint = new List<string>() { startPoint, endPoint };
