@@ -143,9 +143,16 @@ namespace GeLiService_WMS.Managers
 
 
             }
+            else
+            {
+                _missionService.UpdateByPlus(u => u.MissionNo == ms.taskId,
+                  u => new AGVMissionInfo { RunState = runState, AGVCarId = deviceID });
+            }
+
             //步骤一任务完成，不能修改总任务状态，步骤二才修改总任务总状态
          
             //ret=false 表示步骤一
+            //以下表示步骤二或同楼层
             if ((runState == StockState.RunState_Success&& ret)
                     || runState == StockState.RunState_Error)
             {
@@ -168,11 +175,13 @@ namespace GeLiService_WMS.Managers
                           NodeTime = DateTime.Now,
                       });
             }
-            else
-            {
-                _missionService.UpdateByPlus(u => u.MissionNo == missionNo,
-                       u => new AGVMissionInfo { RunState = runState, NodeTime = DateTime.Now, AGVCarId = deviceID });
-            }
+            //else
+            //{
+
+            //    _missionService.UpdateByPlus(u => u.MissionNo == missionNo,
+            //           u => new AGVMissionInfo { RunState = runState, NodeTime = DateTime.Now, AGVCarId = deviceID });
+            //}
+
             //不是任务结束，后续仓位修改根本没有关系，直接返回完成给AGV系统
             if (runState != StockState.RunState_Success
                && runState != StockState.RunState_Cancel
