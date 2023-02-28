@@ -612,6 +612,7 @@ namespace GeLiService_WMS.Services.WMS
         /// <returns></returns>
         public OrderResult AgvMoveInMaPanJi(DeviceApply deviceApply)
         {
+            Logger.Default.Process(new Log(LevelType.Info, $"PDA_deviceApply:任务{deviceApply.taskId}申请进入码盘机"));
             if (deviceApply == null)
                 return new OrderResult() { code = 999, msg = AgvManPanJiErrorState.CanotGetSatate };
 
@@ -627,6 +628,8 @@ namespace GeLiService_WMS.Services.WMS
 
             //对设备是否可进进行判断
             var maPanJiSatae = _maPanJiInfoService.GetMaPanJiStateByMaPanJiName(deviceApply.deviceId);
+            Logger.Default.Process(new Log(LevelType.Info, $"PDA_deviceApply:从数据库中获取码盘机的状态为{maPanJiSatae}"));
+
             if (string.IsNullOrEmpty(maPanJiSatae))
                 return new OrderResult() { code = 999, msg = AgvManPanJiErrorState.CanotGetSatate };
 
@@ -643,12 +646,16 @@ namespace GeLiService_WMS.Services.WMS
 
             if (deviceApply.action == "put")//表示去放货（拿货去叠板）
             {
+
                 if (maPanJiSatae == MaPanJiStateSummarize.TaskingCanIn)
                 {
+                    Logger.Default.Process(new Log(LevelType.Info, $"PDA_deviceApply:根据码盘机判断为允许进入状态"));
 
                     //表示允许进入 改写当前task任务状态表示AGV进入 回写成功允许进入
                     misson.RunState = StockState.RunState_AgvInMaPan;
                     _missionService.UpdateByPlus(u => u.ID == misson.ID, u => new AGVMissionInfo { RunState = misson.RunState,NodeTime=DateTime.Now });
+                    Logger.Default.Process(new Log(LevelType.Info, $"PDA_deviceApply:改写数据库{misson.ID}成功"));
+
                     return new OrderResult() { code = 200, msg = "成功success" };
 
                 }
@@ -656,7 +663,7 @@ namespace GeLiService_WMS.Services.WMS
             else if (deviceApply.action == "get")//表示满盘去拿走（拿货去叠板）
                 if (maPanJiSatae == MaPanJiStateSummarize.FullEmptyTray)
                 {
-
+                    Logger.Default.Process(new Log(LevelType.Info, $"PDA_deviceApply:判断为拿货并且码盘机状态为满货"));
                     //表示允许进入 改写当前task任务状态表示AGV进入 回写成功允许进入
                     misson.RunState = StockState.RunState_AgvInMaPan;
                     _missionService.UpdateByPlus(u => u.ID == misson.ID, u => new AGVMissionInfo { RunState = misson.RunState,NodeTime=DateTime.Now });
@@ -677,8 +684,10 @@ namespace GeLiService_WMS.Services.WMS
         /// <returns></returns>
         public OrderResult AgvMoveOutMaPanJi(DeviceApply deviceApply)
         {
+            Logger.Default.Process(new Log(LevelType.Info, $"PDA_deviceApply:任务{deviceApply.taskId}告知离开码盘机"));
             var misson = _missionService.GetList(u => u.MissionNo == deviceApply.taskId).FirstOrDefault();
             _missionService.UpdateByPlus(u => u.ID == misson.ID, u => new AGVMissionInfo { RunState = StockState.RunState_AgvLeaveMaPan, SendState = StockState.SendState_Success });
+            Logger.Default.Process(new Log(LevelType.Info, $"PDA_deviceApply:更新任务{misson.ID}成功"));
             return new OrderResult() { code = 200, msg = "成功success" };
         }
 
