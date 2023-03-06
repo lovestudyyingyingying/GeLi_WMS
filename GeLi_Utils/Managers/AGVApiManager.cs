@@ -50,9 +50,9 @@ namespace GeLiService_WMS.Managers
         public AGVApiManager(AGVMissionService missionService, AGVMissionFloorService floorService,
             TrayStateService trayStateService, WareLocationService wareLocationService,
             DeviceStatesService deviceStatesService, AGVAlarmLogService alarmLogService,
-            AGVRunModelService runModelService,WareLocationLockHisService wareLoactionLockHisService
+            AGVRunModelService runModelService, WareLocationLockHisService wareLoactionLockHisService
             , TiShengJiInfoService tiShengJiInfoService, StockRecordService stockRecordService
-             ,WareLocationTrayManager wareLocationTrayNoManager)
+             , WareLocationTrayManager wareLocationTrayNoManager)
         {
             _missionService = missionService;
             _floorService = floorService;
@@ -61,11 +61,11 @@ namespace GeLiService_WMS.Managers
             _deviceStatesService = deviceStatesService;
             _alarmLogService = alarmLogService;
             _runModelService = runModelService;
-            _wareLoactionLockHisService=wareLoactionLockHisService;
-            _stockRecordService=stockRecordService;
+            _wareLoactionLockHisService = wareLoactionLockHisService;
+            _stockRecordService = stockRecordService;
             _wareLocationTrayNoManager = wareLocationTrayNoManager;
             _chooseTiShengJiHelper = new ChooseTiShengJiHelper(tiShengJiInfoService);
-            
+
 
         }
 
@@ -92,87 +92,128 @@ namespace GeLiService_WMS.Managers
             //          RunState   空 --》已下发 --》运行中 --》等待确认 --》已完成(已取消、执行失败、发送失败)
             //         (接口更新)        (接口更新....................)
             string missionNo = ms.taskId;
-            Logger.Default.Process(new Log(LevelType.Info, $"接收来自{missionNo}的回发，到达的点位为{ms.targetPoint},AGV编号为{ms.agvNo}"));
+            Logger.Default.Process(new Log(LevelType.Info, $"AGV_APi_feedbackTask:接收来自{missionNo}的回发，到达的点位为{ms.targetPoint},AGV编号为{ms.agvNo}"));
 
             string topMissionNo = missionNo.Split('-')[0];
             AGVMissionInfo agvMission = _missionService.GetIQueryable(u => u.MissionNo == topMissionNo).FirstOrDefault();//拿到总任务
             AGVMissionBase aGVMissionBase = new AGVMissionBase();
-            if(missionNo.Contains('-')) // 表示分任务
+            if (missionNo.Contains('-')) // 表示分任务
             {
                 AGVMissionInfo_Floor agvMission_floor = _floorService.GetIQueryable(u => u.MissionNo == missionNo).FirstOrDefault();
                 aGVMissionBase.StartLocation = agvMission_floor.StartLocation;
-                aGVMissionBase.EndLocation= agvMission_floor.EndLocation;
-
+                aGVMissionBase.EndLocation = agvMission_floor.EndLocation;
+                Logger.Default.Process(new Log(LevelType.Info, $"AGV_APi_feedbackTask:判断为分任务，该任务的起点为{agvMission_floor.StartLocation}，终点为{agvMission_floor.EndLocation}"));
             }
             else//表示总任务
             {
-              
+
                 aGVMissionBase.StartLocation = agvMission.StartLocation;
                 aGVMissionBase.EndLocation = agvMission.EndLocation;
             }
 
 
 
-           
+
             string runState = GetAGVState(ms, aGVMissionBase);
+            Logger.Default.Process(new Log(LevelType.Info, $"AGV_APi_feedbackTask:获取当前回调任务的状态为{runState}"));
             string deviceID = string.Empty;
             if (!string.IsNullOrEmpty(ms.agvNo.ToString()))
                 deviceID = ms.agvNo.ToString();
             string trayNo = string.Empty;
             bool ret = true;
 
-         
+            #region 对跨楼层的分任务进行更新
             if (missionNo.Contains('-'))
             {
                 if (missionNo.EndsWith(DiffFloorFactory.oneStr))
                     ret = false;//表示步骤一
-                //更新分任务
-               
-                if(runState == StockState.RunState_Success) //执行成功
+                                //更新分任务
+
+                if (runState == StockState.RunState_Success) //执行成功
                 {
+
                     _floorService.UpdateByPlus(u => u.MissionNo == ms.taskId,
-                     u => new AGVMissionInfo_Floor { RunState = runState,StateTime=DateTime.Now, AGVCarId = deviceID });
+                     u => new AGVMissionInfo_Floor { RunState = runState, StateTime = DateTime.Now, AGVCarId = deviceID });
+                    _floorService.SaveChanges();
+                    Logger.Default.Process(new Log(LevelType.Info, $"AGV_APi_feedbackTask:更新分任务{ms.taskId}的运行状态为{runState}"));
                 }
                 else
                 {
                     //目前只有已取货
                     _floorService.UpdateByPlus(u => u.MissionNo == ms.taskId,
                     u => new AGVMissionInfo_Floor { RunState = runState, AGVCarId = deviceID });
+                    _floorService.SaveChanges();
+                    Logger.Default.Process(new Log(LevelType.Info, $"AGV_APi_feedbackTask:更新分任务{ms.taskId}的运行状态为{runState}"));
                 }
                 missionNo = missionNo.Split('-')[0];
 
 
             }
+
+            #endregion
+            //else //不是表示是总任务则直接更新？
+            //{
+            //    _missionService.UpdateByPlus(u => u.MissionNo == ms.taskId,
+            //      u => new AGVMissionInfo { RunState = runState, NodeTime=DateTime.Now, AGVCarId = deviceID });
+            //    Logger.Default.Process(new Log(LevelType.Info, $"AGV_APi_feedbackTask:更新分任务{ms.taskId}的运行状态为{runState}"));
+            //}
+
             //步骤一任务完成，不能修改总任务状态，步骤二才修改总任务总状态
-         
+
             //ret=false 表示步骤一
-            if ((runState == StockState.RunState_Success&& ret)
+
+
+            //以下表示步骤二或同楼层，且仅对已完成的任务操作
+
+
+            if ((runState == StockState.RunState_Success && ret)
                     || runState == StockState.RunState_Error)
             {
-                if(agvMission.Mark!=MissionType.MoveToMaPanJi)
-                _missionService.UpdateByPlus(u => u.MissionNo == missionNo,
-                   u => new AGVMissionInfo
-                   {
-                       RunState = runState,
-                       SendState = StockState.SendState_Success,
-                       AGVCarId = deviceID,
-                       NodeTime = DateTime.Now,
-                   });
+                if (agvMission.Mark != MissionType.MoveToMaPanJi)//如果不是移动到码盘机的任务
+                {
+                    _missionService.UpdateByPlus(u => u.MissionNo == missionNo,
+                       u => new AGVMissionInfo
+                       {
+                           RunState = runState,
+                           SendState = StockState.SendState_Success,
+                           AGVCarId = deviceID,
+                           NodeTime = DateTime.Now,
+                       });
+                    Logger.Default.Process(new Log(LevelType.Info, $"AGV_APi_feedbackTask:更新码盘机分任务{ms.taskId}的运行状态为{runState}"));
+                }
                 else //如果是移动到码盘机的操作
+                {
                     _missionService.UpdateByPlus(u => u.MissionNo == missionNo,
                       u => new AGVMissionInfo
                       {
                           RunState = StockState.RunState_AgvPutDownMaPan,
-                          SendState = StockState.SendState_Success,
+
                           AGVCarId = deviceID,
                           NodeTime = DateTime.Now,
                       });
+                    Logger.Default.Process(new Log(LevelType.Info, $"AGV_APi_feedbackTask:更新码盘机分任务{ms.taskId}的运行状态为{runState}"));
+                }
             }
-            //else
-            //{
-            //    _missionService.UpdateByPlus(u => u.MissionNo == missionNo,
-            //           u => new AGVMissionInfo { RunState = runState, NodeTime = DateTime.Now, AGVCarId = deviceID });
-            //}
+            else if (!ms.taskId.Contains('-'))//表示步骤一，同楼层未完成，步骤二分任务已取货，步骤一已取货，这是对总任务的操作
+                                              //步骤一的分任务不影响总任务，步骤二的已取货不影响总任务，只有步骤二的已完成和同楼层任务的所有影响总任务
+            {
+                //筛选出需要更新总任务的情况
+
+
+
+                _missionService.UpdateByPlus(u => u.MissionNo == missionNo,
+                       u => new AGVMissionInfo { RunState = runState, NodeTime = DateTime.Now, AGVCarId = deviceID });
+                Logger.Default.Process(new Log(LevelType.Info, $"AGV_APi_feedbackTask:更新总任务{ms.taskId}的运行状态为{runState}"));
+
+
+            }
+            else//更新总任务的时间和当前AGV
+            {
+                _missionService.UpdateByPlus(u => u.MissionNo == missionNo,
+               u => new AGVMissionInfo { NodeTime = DateTime.Now, AGVCarId = deviceID });
+                Logger.Default.Process(new Log(LevelType.Info, $"AGV_APi_feedbackTask:更新总任务{ms.taskId}的运行状态为{runState}"));
+            }
+
             //不是任务结束，后续仓位修改根本没有关系，直接返回完成给AGV系统
             if (runState != StockState.RunState_Success
                && runState != StockState.RunState_Cancel
@@ -182,14 +223,14 @@ namespace GeLiService_WMS.Managers
                 return RunResult<string>.True();
             }
 
-            agvMission.RunState = runState;
+            //agvMission.RunState = runState;
             //完成的话，要对托盘的库位进行操作
             //步骤一完成时只对起点仓位进行操作
             //步骤二完成时只对终点仓位进行操作
             //同楼层完成时起点终点仓位进行操作
 
             //仓位操作：TrayState表+WareLocation表+WareLock表
-            
+
             if (!ms.taskId.Contains('-')) // 如果是同楼层任务
             {
                 TrayState trayState = _trayStateService.GetByTrayNo(agvMission.TrayNo,
@@ -198,25 +239,25 @@ namespace GeLiService_WMS.Managers
                     , false, DbMainSlave.Master);
                 WareLocation endWl = _wareLocationService.GetByAGVPo(agvMission.EndLocation
                     , false, DbMainSlave.Master); //拿到结束库位
-               
+
 
                 if (runState == StockState.RunState_Success)//任务成功
                 {
-                    if(trayState==null)//表示空托
+                    if (trayState == null)//表示空托 如果是胀管物料下线这种当作空托处理
                     {
-                        if (agvMission.Mark==MissionType.MoveToMaPanJi)
+                        if (agvMission.Mark == MissionType.MoveToMaPanJi) //去码盘机只对起点进行操作
                             _wareLocationTrayNoManager.ChangeEmptyWarelocationInMaPanJi(startWl);
-                        else if(agvMission.Mark==MissionType.MoveOutMaPanJi)
+                        else if (agvMission.Mark == MissionType.MoveOutMaPanJi)//离开码盘机只对终点操作
                             _wareLocationTrayNoManager.ChangeEmptyWarelocationOutMaPanJi(endWl);
                         else
-                        _wareLocationTrayNoManager.ChangeEmptyWarelocation(startWl,endWl);
+                            _wareLocationTrayNoManager.ChangeEmptyWarelocation(startWl, endWl);
 
                     }
                     else//表示非空托
                     {
                         WareLocation oldWl = _wareLocationService.GetIQueryable(
-                   u => u.TrayState_ID == trayState.ID, false,
-                   DbMainSlave.Master).FirstOrDefault(); //拿到原先条码绑定的库位
+                          u => u.TrayState_ID == trayState.ID, false,
+                          DbMainSlave.Master).FirstOrDefault(); //拿到原先条码绑定的库位
 
                         if (agvMission.Mark == MissionType.GoodOnline)//如果是物料上线
                         {
@@ -235,8 +276,8 @@ namespace GeLiService_WMS.Managers
                             _wareLocationTrayNoManager.OccupyEmptyWarelocation(endWl); //终点绑定空托
                         }
                     }
-                        //起点终点仓位进行操作
-                        //_wareLocationTrayNoManager.ChangeTrayWareLocation(1, oldWl, trayState); // 改变库位的状态，0绑定，1解绑
+                    //起点终点仓位进行操作
+                    //_wareLocationTrayNoManager.ChangeTrayWareLocation(1, oldWl, trayState); // 改变库位的状态，0绑定，1解绑
                     //if (endWl != null &&
                     //    endWl.WareArea.WareAreaClass.AreaClass != AreaClassType.ChuKuArea)
                     //{
@@ -249,13 +290,13 @@ namespace GeLiService_WMS.Managers
                     || runState == StockState.RunState_RunFail  //运行失败
                     || runState == StockState.RunState_SendFail) //发送失败
                 {
-                   
+
                 }
             }
-            else if(ms.taskId.EndsWith(DiffFloorFactory.oneStr))//一楼区域
+            else if (ms.taskId.EndsWith(DiffFloorFactory.oneStr))//一楼区域 根据业务逻辑跨楼层的时候一定是有货物的，跨楼层一楼区域完成后应该先解绑旧库位
             {
                 AGVMissionInfo_Floor aGVMissionInfo_Floor = _floorService.FirstOrDefault(
-                    u=>u.MissionNo== ms.taskId,true);
+                    u => u.MissionNo == ms.taskId, true);
                 TrayState trayState = _trayStateService.GetByTrayNo(agvMission.TrayNo,
                   false, DbMainSlave.Master);
                 WareLocation oldWl = _wareLocationService.GetIQueryable(
@@ -263,7 +304,7 @@ namespace GeLiService_WMS.Managers
                     DbMainSlave.Master).FirstOrDefault();
                 if (runState == StockState.RunState_Success)
                 {
-                    //起点仓位进行操作
+                    //起点仓位进行操作，解绑货物将起点置为空
                     _wareLocationTrayNoManager.ChangeTrayWareLocation(1, oldWl, trayState);
                 }
                 else if (runState == StockState.RunState_Cancel
@@ -274,7 +315,7 @@ namespace GeLiService_WMS.Managers
                     WareLocation endWl = _wareLocationService.GetByAGVPo(agvMission.EndLocation
                     , false, DbMainSlave.Master);
                     _wareLocationTrayNoManager.ChangeTrayWareLocation(1, endWl, trayState);
-                    if (aGVMissionInfo_Floor!=null && aGVMissionInfo_Floor.StateMsg == "已搬起")
+                    if (aGVMissionInfo_Floor != null && aGVMissionInfo_Floor.StateMsg == "已搬起")
                     {
                         _wareLocationTrayNoManager.ChangeTrayWareLocation(1, oldWl, trayState);
                         _stockRecordService.AddStockRecord(agvMission, trayState,
@@ -282,7 +323,7 @@ namespace GeLiService_WMS.Managers
                     }
                     else
                         _wareLocationTrayNoManager.ChangeTrayWareLocation(0, oldWl, trayState);
-                   
+
                 }
                 //保存所需的信息调度需要的AGV接口并留存到数据库中
                 //2.
@@ -301,10 +342,9 @@ namespace GeLiService_WMS.Managers
                     _stockRecordService.AddStockRecord(agvMission, trayState,
                             trayState.WareLocation != null ? trayState.WareLocation.WareLocaNo : string.Empty);
                     //终点仓位进行操作
-                    if (endWl!=null &&
-                        endWl.WareArea.WareAreaClass.AreaClass!=AreaClassType.ChuKuArea)
+                    if (endWl != null)
                         _wareLocationTrayNoManager.ChangeTrayWareLocation(0, endWl, trayState);
-                    
+
                     _chooseTiShengJiHelper.RemoveMissionInTSJ(agvMission.WHName, agvMission.MissionNo);
 
                 }
@@ -316,15 +356,15 @@ namespace GeLiService_WMS.Managers
                     if (aGVMissionInfo_Floor == null || aGVMissionInfo_Floor.StateMsg == "已搬起")
                     {
                         _stockRecordService.AddStockRecord(agvMission, trayState,
-                            trayState.WareLocation!=null ?trayState.WareLocation.WareLocaNo:string.Empty);
+                            trayState.WareLocation != null ? trayState.WareLocation.WareLocaNo : string.Empty);
                         _wareLocationTrayNoManager.ChangeTrayWareLocation(1, endWl, trayState);
                     }
                     else
                     {
                         Logger.Default.Process(new Log(LevelType.Warn, $"开始停止提升机任务{aGVMissionInfo_Floor.TSJ_Name}:原因：{ms.taskId}任务"));
                         //没有负载，停止提升机，所有阶段二已运行但是未负载的任务都取消
-                        redisHelper.StringSet($"IsFloorTaskStop:{aGVMissionInfo_Floor.TSJ_Name}", 1,null,"BackService");
-                        
+                        redisHelper.StringSet($"IsFloorTaskStop:{aGVMissionInfo_Floor.TSJ_Name}", 1, null, "BackService");
+
                     }
 
                     _chooseTiShengJiHelper.RemoveMissionInTSJ(agvMission.WHName, agvMission.MissionNo);
@@ -345,7 +385,7 @@ namespace GeLiService_WMS.Managers
             return RunResult<string>.True();
         }
 
-        private string GetAGVState(MissionState ms,AGVMissionBase aGVMissionInfo) //到达起点终点都会调用这个接口，并且状态都为1011
+        private string GetAGVState(MissionState ms, AGVMissionBase aGVMissionInfo) //到达起点终点都会调用这个接口，并且状态都为1011
         {
             Logger.Default.Process(new Log(LevelType.Info, $"获取的起点为{aGVMissionInfo.StartLocation}，终点为{aGVMissionInfo.EndLocation}"));
             if (ms.targetPoint == aGVMissionInfo.StartLocation) //如果此时是报的起点
@@ -365,7 +405,7 @@ namespace GeLiService_WMS.Managers
         public RunResult<string> UpdateCarStates(DeviceStates ds)
         {
             //存在Redis中，每次都判断是否改变并延长过期时间，然后有改变再更新数据库，20秒过期
-            
+
             if (ds.data != null)
             {
                 //DataTable dTable = _deviceStatesService.ClassToDataTable(typeof(DeviceStatesInfo));
@@ -377,7 +417,7 @@ namespace GeLiService_WMS.Managers
                     DeviceStatesInfo dsi = new DeviceStatesInfo();
                     //Logger.Default.Process(new Log(LevelType.Info, dsd.ToString()));
                     dsi.deviceCode = dsd.deviceCode;
-                    dsi.payLoad = dsd.payLoad??"0.0";
+                    dsi.payLoad = dsd.payLoad ?? "0.0";
 
                     if (dsd.devicePostionRec != null &&
                         dsd.devicePostionRec.Length > 0)
@@ -388,11 +428,11 @@ namespace GeLiService_WMS.Managers
                     }
                     else
                     {
-                        dsi.devicePostionX =string.Empty;
+                        dsi.devicePostionX = string.Empty;
                         dsi.devicePostionY = string.Empty;
                         dsi.devicePostionRec = string.Empty;
                     }
-                    dsi.devicePosition = dsd.devicePosition?? string.Empty; 
+                    dsi.devicePosition = dsd.devicePosition ?? string.Empty;
                     dsi.battery = dsd.battery ?? string.Empty;
                     dsi.deviceName = dsd.deviceName ?? string.Empty;
                     dsi.deviceStatusInt = dsd.deviceStatus;
@@ -428,8 +468,8 @@ namespace GeLiService_WMS.Managers
                     }
 
                     DeviceStatesInfo dsi_Old = redisHelper.HashGet<DeviceStatesInfo>
-                        (keyStart,dsi.deviceName);
-                  
+                        (keyStart, dsi.deviceName);
+
                     if (dsi_Old != null && IsEqual(dsi_Old, dsi))
                         redisHelper.HashSet(keyStart, dsi.deviceName, dsi, TimeSpan.FromSeconds(30));
                     else
@@ -438,15 +478,15 @@ namespace GeLiService_WMS.Managers
 
                         //AGV状态有变化而且在任务中
                         //判断AGV是否在任务中
-                        if(dsi.deviceStatus == "任务中" && dsd.payLoad == "1.0")
+                        if (dsi.deviceStatus == "任务中" && dsd.payLoad == "1.0")
                         {
                             Logger.Default.Process(new Log(LevelType.Info,
                                 $"{dsi.deviceName}已搬起货物"));
                             DateTime yesTime = DateTime.Now.AddDays(-1);
                             AGVMissionInfo aGVMission = _missionService.FirstOrDefault(
-                            u => u.OrderTime>= yesTime && u.AGVCarId == dsi.deviceName 
+                            u => u.OrderTime >= yesTime && u.AGVCarId == dsi.deviceName
                             && u.IsFloor == 0 && u.RunState == StockState.RunState_Running,
-                            true,DbMainSlave.Master);
+                            true, DbMainSlave.Master);
                             if (aGVMission != null)
                             {
                                 missionlist.Add(aGVMission.ID);
@@ -460,7 +500,7 @@ namespace GeLiService_WMS.Managers
                                     && u.RunState == StockState.RunState_Running,
                                     true, DbMainSlave.Master);
 
-                                if (floorMission!=null)
+                                if (floorMission != null)
                                 {
                                     floorlist.Add(floorMission.ID);
                                     Logger.Default.Process(new Log(LevelType.Info,
@@ -474,15 +514,15 @@ namespace GeLiService_WMS.Managers
                 {
                     DataTable dTable = _deviceStatesService.ConvertToDataTable(list);
                     _deviceStatesService.SetDataTableToTable(dTable, "DeviceStatesInfo");
-                    foreach(var temp in list)
+                    foreach (var temp in list)
                         redisHelper.HashSet(keyStart, temp.deviceName, temp, TimeSpan.FromSeconds(30));
 
                     if (missionlist.Count > 0)
                     {
-                        int[] arr= missionlist.ToArray();
-                        _missionService.UpdateByPlus(u=> arr.Contains(u.ID),
-                            u=>new AGVMissionInfo {StateMsg = "已搬起" });
-                        
+                        int[] arr = missionlist.ToArray();
+                        _missionService.UpdateByPlus(u => arr.Contains(u.ID),
+                            u => new AGVMissionInfo { StateMsg = "已搬起" });
+
                     }
                     if (floorlist.Count > 0)
                     {
@@ -509,23 +549,23 @@ namespace GeLiService_WMS.Managers
         }
 
 
-        public IQueryable<AGVAlarmLog> GetWarnInFor(DateTime time1,DateTime time2)
+        public IQueryable<AGVAlarmLog> GetWarnInFor(DateTime time1, DateTime time2)
         {
-          
-            return   _alarmLogService.GetLogByTime(time1,time2);
+
+            return _alarmLogService.GetLogByTime(time1, time2);
         }
 
-      
+
 
         public string GetAGVState(int stateCode)
         {
             string msg = string.Empty;
-          
-             if (stateCode == 1011)
+
+            if (stateCode == 1011)
             {
                 msg = StockState.RunState_Success;
             }
-            else 
+            else
             {
                 msg = StockState.RunState_Error;
             }

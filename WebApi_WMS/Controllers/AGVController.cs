@@ -49,7 +49,7 @@ namespace WebApi_WMS.Controllers
         {
             try
             {
-                Logger.Default.Process(new Log(LevelType.Debug, "AGV_APi_deviceApply" + JsonConvert.SerializeObject(ms)));
+                Logger.Default.Process(new Log(LevelType.Debug, "AGV_APi_feedbackTask" + JsonConvert.SerializeObject(ms)));
                 return AGVApiManager.UpdateMissionStates(ms);
             }
             catch (Exception e)
@@ -83,7 +83,7 @@ namespace WebApi_WMS.Controllers
             catch(Exception e)
             {
 
-                return new OrderResult() { code=999,msg=e.ToString() };
+                return new OrderResult() { code=999,msg=e.Message.ToString() };
             }
 
         }

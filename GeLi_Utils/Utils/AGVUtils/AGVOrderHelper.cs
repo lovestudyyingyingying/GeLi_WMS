@@ -34,7 +34,7 @@ namespace GeLi_Utils.Utils.AGVUtils
         public OrderResult SendOrder(AGVMissionInfo mission)
         {
             var startPoint = mission.StartLocation;
-            var endPoint = mission.StartLocation;
+            var endPoint = mission.EndLocation;
             List<string> targePoint = new List<string>() {startPoint,endPoint };
             return CreateTask(mission.MissionNo, targePoint,null);
         }
