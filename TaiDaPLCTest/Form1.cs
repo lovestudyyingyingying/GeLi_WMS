@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using GeLi_Utils.Helpers;
 using GeLiService_WMS;
+using GeLiService_WMS.Threads;
+using GeLiService_WMS.Threads.DiffFloorThreads;
 using GeLiService_WMS.Utils.ThreadUtils;
 using HslCommunication;
 using HslCommunication.ModBus;
@@ -203,6 +205,12 @@ namespace TaiDaPLCTest
             MyTask myTask1 = new MyTask(maPanJiHelper.CheckAndSaveError, 10, true);
             myTask1.StartTask();
             //maPanJiHelper.GetAndSaveState();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            GroupMissionThread groupMissionThread = new GroupMissionThread();
+            groupMissionThread.Control();
         }
     }
 }

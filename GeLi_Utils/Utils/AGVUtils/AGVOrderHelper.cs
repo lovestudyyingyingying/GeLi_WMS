@@ -33,8 +33,8 @@ namespace GeLi_Utils.Utils.AGVUtils
         /// <returns></returns>
         public OrderResult SendOrder(AGVMissionInfo mission)
         {
-            var startPoint = mission.StartPosition;
-            var endPoint = mission.StartPosition;
+            var startPoint = mission.StartLocation;
+            var endPoint = mission.StartLocation;
             List<string> targePoint = new List<string>() {startPoint,endPoint };
             return CreateTask(mission.MissionNo, targePoint,null);
         }
@@ -46,7 +46,7 @@ namespace GeLi_Utils.Utils.AGVUtils
         /// <returns></returns>
         public OrderResult SendFloorOrder(AGVMissionInfo_Floor mission)
         {
-            //苏苏天下第一
+            
             var startPoint = mission.StartLocation;
             var endPoint = mission.EndLocation;
             List<string> targePoint = new List<string>() { startPoint, endPoint };

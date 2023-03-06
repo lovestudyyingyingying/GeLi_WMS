@@ -168,11 +168,11 @@ namespace GeLiService_WMS.Managers
                           NodeTime = DateTime.Now,
                       });
             }
-            else
-            {
-                _missionService.UpdateByPlus(u => u.MissionNo == missionNo,
-                       u => new AGVMissionInfo { RunState = runState, NodeTime = DateTime.Now, AGVCarId = deviceID });
-            }
+            //else
+            //{
+            //    _missionService.UpdateByPlus(u => u.MissionNo == missionNo,
+            //           u => new AGVMissionInfo { RunState = runState, NodeTime = DateTime.Now, AGVCarId = deviceID });
+            //}
             //不是任务结束，后续仓位修改根本没有关系，直接返回完成给AGV系统
             if (runState != StockState.RunState_Success
                && runState != StockState.RunState_Cancel
