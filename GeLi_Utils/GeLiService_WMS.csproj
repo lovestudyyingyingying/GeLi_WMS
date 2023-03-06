@@ -364,6 +364,7 @@
     <Compile Include="Entity\MaPanJiStateEntity\MaPanJiStateSummarize.cs" />
     <Compile Include="Entity\PDAApiEntity\FindWareLocationEntity.cs" />
     <Compile Include="Entity\PDAApiEntity\PdaTray.cs" />
+    <Compile Include="Entity\PDAApiEntity\ProcessName.cs" />
     <Compile Include="Entity\PDAApiEntity\WareLocationParamEntity.cs" />
     <Compile Include="Entity\RunResult.cs" />
     <Compile Include="Entity\StockEntity\AreaClassType.cs" />

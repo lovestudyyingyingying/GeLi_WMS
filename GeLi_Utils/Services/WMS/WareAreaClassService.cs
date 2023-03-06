@@ -12,7 +12,7 @@ namespace GeLi_Utils.Services.WMS
     {
         public List<string> GetAllWareAreaClassName()
         {
-            return GetAllQueryable().Select(u => u.AreaClass).ToList();
+            return GetIQueryable(u=>u.IsOpen==true).Select(u => u.AreaClass).ToList();
         }
     }
 }

@@ -137,6 +137,14 @@
     <Compile Include="Migrations\202302210401175_Change230221_01.designer.cs">
       <DependentUpon>202302210401175_Change230221_01.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202303060132046_Change230306_01.cs" />
+    <Compile Include="Migrations\202303060132046_Change230306_01.designer.cs">
+      <DependentUpon>202303060132046_Change230306_01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303060733085_Change230306_02.cs" />
+    <Compile Include="Migrations\202303060733085_Change230306_02.designer.cs">
+      <DependentUpon>202303060733085_Change230306_02.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Nlog\Log.cs" />
     <Compile Include="Nlog\Logger.cs" />
@@ -178,6 +186,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202302210401175_Change230221_01.resx">
       <DependentUpon>202302210401175_Change230221_01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303060132046_Change230306_01.resx">
+      <DependentUpon>202303060132046_Change230306_01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303060733085_Change230306_02.resx">
+      <DependentUpon>202303060733085_Change230306_02.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

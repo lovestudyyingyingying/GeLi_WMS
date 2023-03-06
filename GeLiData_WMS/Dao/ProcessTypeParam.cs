@@ -43,5 +43,18 @@ namespace GeLiData_WMS.Dao
         /// </summary>
         [StringLength(50)]
         public string moveType { get; set; }
+
+
+        /// <summary>
+        /// 起点备注
+        /// </summary>
+        [StringLength(50)]
+        public string strartRemark { get; set; }
+
+        /// <summary>
+        /// 终点备注
+        /// </summary>
+        [StringLength(50)]
+        public string endRemark { get; set; }
     }
 }
