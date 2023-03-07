@@ -60,6 +60,7 @@ namespace GeLiData_WMSEntry
         public virtual DbSet<MaPanJiState> MaPanJiState { get; set; }
         public virtual DbSet<MaPanJiInfo> MaPanJiInfo { get; set; }
         public virtual DbSet<ProcessTypeParam> ProcessTypeParam { get; set; }
+        public virtual DbSet<AGVMissionJumpQueue> AGVMissionJumpQueue { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

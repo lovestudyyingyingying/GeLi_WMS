@@ -7,19 +7,15 @@ using GeLi_Utils.Services.WMS;
 using GeLiData_WMS;
 using GeLiData_WMS.Dao;
 using GeLiData_WMSUtils;
-using GeLiService_WMS.Entity.AGVApiEntity;
 using GeLiService_WMS.Entity.StockEntity;
-using GeLiService_WMS.Helper.WMS;
 using GeLiService_WMS.Managers;
 using GeLiService_WMS.Services.WMS.AGV;
 using GeLiService_WMS.Utils.RedisUtils;
-using Microsoft.VisualBasic;
 using ServiceStack;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Linq.Expressions;
 using UtilsSharp.Shared.Standard;
 
 namespace GeLiService_WMS.Services.WMS
@@ -90,10 +86,25 @@ namespace GeLiService_WMS.Services.WMS
             return list;
         }
 
-
-        #region  任务下发
         /// <summary>
-        /// 任务下发包括上线和下线
+        /// 
+        /// </summary>
+        /// <param name="inputArea"></param>
+        /// <returns></returns>
+        public List<WareLocation> GetWls(string inputArea)
+        {
+            //从pda自动进仓进来仓位号默认为空
+            //当仓位号不为空则直接获取该仓位号仓位信息
+            //当仓位号为空，则获取楼层的所有入库位信息
+            //传入楼层
+            List<WareLocation> list = _wareLocationService.GetList(u =>
+                u.IsOpen == 1 && u.WareArea.WareAreaClass.AreaClass == inputArea && u.WareLocaState == WareLocaState.NoTray);//获取起点库位
+            return list;
+        }
+
+        #region  旧版任务下发点对点
+        /// <summary>
+        /// 正常任务下发包括上线和下线
         /// </summary>
         /// <param name="TrayNo"></param>
         /// <param name="startPosition"></param>
@@ -325,6 +336,100 @@ namespace GeLiService_WMS.Services.WMS
         }
 
 
+        /// <summary>
+        /// 插队任务:用于下发插队任务
+        /// </summary>
+        /// <param name="TrayNo"></param>
+        /// <param name="startPosition"></param>
+        /// <param name="endArea"></param>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        public object JumpQueue(string TrayNo, string startPosition, string endArea, string userID)
+        {
+            using (var redislock = redisHelper.CreateLock(startPosition + endArea, TimeSpan.FromSeconds(10),
+                TimeSpan.FromMilliseconds(1000), TimeSpan.FromMilliseconds(200)))
+            {
+                Logger.Default.Process(new Log(LevelType.Info, $"对{startPosition}到{endArea}发起插队任务请求"));
+                DateTime dtime = DateTime.Now.AddDays(-1);
+
+               //拿起点的仓位
+                WareLocation startWl = _wareLocationService.GetIQueryable(u => u.WareLocaNo == startPosition,
+                    true, DbMainSlave.Master).FirstOrDefault();
+
+                if (startWl == null)
+                {
+
+                    return new { success = false, message = StockResult.MovestockError_FindEndWLSRError };
+                }
+
+                //表示起始位置没有货物
+                if (startWl.WareLocaState == WareLocaState.NoTray)
+                {
+
+                    return new { success = false, message = StockResult.MovestockError_TrayNoGoodError };
+                }
+
+                if (startWl.WareLocaState == WareLocaState.PreIn || startWl.WareLocaState == WareLocaState.PreOut)
+                {
+                    //预进预出
+                    return new { success = false, message = StockResult.MovestockError_EndWLIsUseError };
+                }
+                AGVMissionJumpQueueService aGVMissionJumpQueueService = new AGVMissionJumpQueueService();
+                int count = aGVMissionJumpQueueService.GetIQueryable(u => u.StartPosition == startPosition).Count();
+                if(count>0)
+                    return new { success = false, message = "当前起点已经有插队任务"};
+                AGVMissionJumpQueue aGVMissionJumpQueue = new AGVMissionJumpQueue();
+                aGVMissionJumpQueue.MissionNo = _liuShuiHaoService.GetJumpQueueNoLSH();
+                aGVMissionJumpQueue.InsertTime = DateTime.Now;
+                aGVMissionJumpQueue.TrayNo = TrayNo;
+                aGVMissionJumpQueue.StartPosition = startWl.WareLocaNo;
+                aGVMissionJumpQueue.StartLocation = startWl.AGVPosition;
+                aGVMissionJumpQueue.TargetArea = endArea;
+                aGVMissionJumpQueue.userId = userID;
+                aGVMissionJumpQueueService.Insert(aGVMissionJumpQueue);
+                aGVMissionJumpQueueService.SaveChanges();
+                return new { success = true, message = "成功" };
+            }
+        }
+        /// <summary>
+        /// 前端给定起点和终点区域用于下到缓存区的操作1.校验是否可以发送
+        /// </summary>
+        /// <param name="startPosition"></param>
+        /// <param name="wareArea"></param>
+        /// <returns></returns>
+        public object MoveToHuanCun(string startPosition, string wareArea)
+        {
+            //拿起点的仓位
+            WareLocation startWl = _wareLocationService.GetIQueryable(u => u.WareLocaNo == startPosition,
+                true, DbMainSlave.Master).FirstOrDefault();
+
+            if (startWl == null)
+            {
+
+                return new { success = false, message = StockResult.MovestockError_FindEndWLSRError };
+            }
+
+            //表示起始位置没有货物
+            if (startWl.WareLocaState == WareLocaState.NoTray)
+            {
+
+                return new { success = false, message = StockResult.MovestockError_TrayNoGoodError };
+            }
+
+            if (startWl.WareLocaState == WareLocaState.PreIn || startWl.WareLocaState == WareLocaState.PreOut)
+            {
+                //预进预出
+                return new { success = false, message = StockResult.MovestockError_EndWLIsUseError };
+            }
+
+
+
+
+
+            return null;
+        }
+
+
         public BaseResult<string> MoveOutMaPanJi(string TrayNo, string startPosition, string endPosition,
           string userID, string position, string remark, string missionType, string processName, string moveType) // 标签号 ，起点位置(库位), 结束位置 ， 操作人 ， 当前位置 ，备注默认空，类型（货物，空托）
         {
@@ -501,6 +606,43 @@ namespace GeLiService_WMS.Services.WMS
             }
         }
 
+
+        /// <summary>
+        /// 根据终点区域拆分为缓存区点位
+        /// </summary>
+        /// <returns></returns>
+        public string SplitAreaToPosition(string WareAre)
+        {
+
+            return _wareLocationService.GetIQueryable(u => u.WareArea.WareAreaClass.Reserve2.Contains(WareAre) && u.IsOpen == 1 && u.WareLocaState == WareLocaState.NoTray).Select(u => u.WareLocaNo).FirstOrDefault();
+
+            //switch (WareAre)
+            //{
+            //    case "热烘干产线1号区":
+            //        return _wareLocationService.GetIQueryable(u => u.WareArea.WareAreaClass.AreaClass == "热胀管缓存区" && u.IsOpen == 1 && u.WareLocaState == WareLocaState.NoTray).Select(u => u.WareLocaNo).FirstOrDefault();
+            //    case "热烘干产线2号区":
+            //        return _wareLocationService.GetIQueryable(u => u.WareArea.WareAreaClass.AreaClass == "热胀管缓存区" && u.IsOpen == 1 && u.WareLocaState == WareLocaState.NoTray).Select(u => u.WareLocaNo).FirstOrDefault();
+            //    case "冷烘干产线1号区":
+            //        return _wareLocationService.GetIQueryable(u => u.WareArea.WareAreaClass.AreaClass == "冷胀管缓存区" && u.IsOpen == 1 && u.WareLocaState == WareLocaState.NoTray).Select(u => u.WareLocaNo).FirstOrDefault();
+            //    case "冷烘干产线2号区":
+            //        return _wareLocationService.GetIQueryable(u => u.WareArea.WareAreaClass.AreaClass == "冷胀管缓存区" && u.IsOpen == 1 && u.WareLocaState == WareLocaState.NoTray).Select(u => u.WareLocaNo).FirstOrDefault();
+            //    case "冷氮检产线1号区":
+            //        return _wareLocationService.GetIQueryable(u => u.WareArea.WareAreaClass.AreaClass == "冷缓存区" && u.IsOpen == 1 && u.WareLocaState == WareLocaState.NoTray).Select(u => u.WareLocaNo).FirstOrDefault();
+            //    case "冷氮检产线2号区":
+            //        return _wareLocationService.GetIQueryable(u => u.WareArea.WareAreaClass.AreaClass == "冷缓存区" && u.IsOpen == 1 && u.WareLocaState == WareLocaState.NoTray).Select(u => u.WareLocaNo).FirstOrDefault();
+            //    case "热氮检产线1号区":
+            //        return _wareLocationService.GetIQueryable(u => u.WareArea.WareAreaClass.AreaClass == "热缓存区" && u.IsOpen == 1 && u.WareLocaState == WareLocaState.NoTray).Select(u => u.WareLocaNo).FirstOrDefault();
+            //    case "热氮检产线2号区":
+            //        return _wareLocationService.GetIQueryable(u => u.WareArea.WareAreaClass.AreaClass == "热缓存区" && u.IsOpen == 1 && u.WareLocaState == WareLocaState.NoTray).Select(u => u.WareLocaNo).FirstOrDefault();
+            //    default:
+            //        return string.Empty;
+            //}
+
+        }
+
+
+
+
         public object MoveToMaPanJi(string startPosition, string endPosition, string userID, string processName)
         {
             //加锁
@@ -653,7 +795,7 @@ namespace GeLiService_WMS.Services.WMS
 
                     //表示允许进入 改写当前task任务状态表示AGV进入 回写成功允许进入
                     misson.RunState = StockState.RunState_AgvInMaPan;
-                    _missionService.UpdateByPlus(u => u.ID == misson.ID, u => new AGVMissionInfo { RunState = misson.RunState,NodeTime=DateTime.Now });
+                    _missionService.UpdateByPlus(u => u.ID == misson.ID, u => new AGVMissionInfo { RunState = misson.RunState, NodeTime = DateTime.Now });
                     Logger.Default.Process(new Log(LevelType.Info, $"PDA_deviceApply:改写数据库{misson.ID}成功"));
 
                     return new OrderResult() { code = 200, msg = "成功success" };
@@ -666,11 +808,11 @@ namespace GeLiService_WMS.Services.WMS
                     Logger.Default.Process(new Log(LevelType.Info, $"PDA_deviceApply:判断为拿货并且码盘机状态为满货"));
                     //表示允许进入 改写当前task任务状态表示AGV进入 回写成功允许进入
                     misson.RunState = StockState.RunState_AgvInMaPan;
-                    _missionService.UpdateByPlus(u => u.ID == misson.ID, u => new AGVMissionInfo { RunState = misson.RunState,NodeTime=DateTime.Now });
+                    _missionService.UpdateByPlus(u => u.ID == misson.ID, u => new AGVMissionInfo { RunState = misson.RunState, NodeTime = DateTime.Now });
                     return new OrderResult() { code = 200, msg = "成功success" };
 
                 }
-            
+
             return new OrderResult() { code = 999, msg = AgvManPanJiErrorState.CanotGetSatate };
 
 
@@ -738,6 +880,100 @@ namespace GeLiService_WMS.Services.WMS
             }
 
         }
+
+        /// <summary>
+        /// 获取相关区域
+        /// </summary>
+        /// <param name="startPosition"></param>
+        /// <param name="endPosition"></param>
+        /// <param name="startArea"></param>
+        /// <param name="endArea"></param>
+        /// <returns></returns>
+        public object FindWearLocationStartAndEnd(string startPosition, string endPosition, string startArea, string endArea)
+        {
+            using (var redislock = redisHelper.CreateLock(startArea + endArea, TimeSpan.FromSeconds(10),
+                 TimeSpan.FromMilliseconds(1000), TimeSpan.FromMilliseconds(200)))
+            {
+                List<WareLocation> startList = GetWls(startPosition, startArea);
+                List<WareLocation> startList2 = _wareLocationService.ConvertList(startList);
+                List<WareLocation> endList = new List<WareLocation>();
+
+                endList = GetWls(endPosition, endArea);
+                List<WareLocation> endList2 = _wareLocationService.ConvertList(endList);
+
+
+                List<PostWarelocation> startwarelocations = new List<PostWarelocation>();
+                foreach (var item in startList2.Where(u => u.WareLocaState == WareLocaState.HasTray))
+                {
+                    var startWareLocation = new PostWarelocation();
+                    startWareLocation.name = item.WareLocaNo;
+                    startWareLocation.state = item.WareLocaState;
+                    startwarelocations.Add(startWareLocation);
+
+                }
+
+                List<PostWarelocation> endwarelocations = new List<PostWarelocation>();
+                foreach (var item in endList2.Where(u => u.WareLocaState == WareLocaState.NoTray))
+                {
+                    var end = new PostWarelocation();
+                    end.name = item.WareLocaNo;
+                    end.state = item.WareLocaState;
+                    endwarelocations.Add(end);
+                }
+                var result = new { success = true, message = "操作成功", data = new FindWareLocationEntity { startWareLocation = startwarelocations.ToArray(), endWareLocation = endwarelocations.ToArray() } };
+
+                //var result = new { data = list2 };
+                //return new
+                //  {
+                //      startWareLocation = new { startList2.Select(u => new {name= u.WareLocaNo,state =  u.WareLocaState } },
+                //      endWareLocation = new { name = endList2.Select(u => u.WareLocaNo), state = endList2.Select(u => u.WareLocaState) }
+                //  };
+                return result;
+            }
+
+        }
+
+
+
+        public object FindStartPointAndEndArea(string startArea, string areaRemark)
+        {
+            using (var redislock = redisHelper.CreateLock(startArea + areaRemark, TimeSpan.FromSeconds(10),
+               TimeSpan.FromMilliseconds(1000), TimeSpan.FromMilliseconds(200)))
+            {
+                List<WareLocation> startList = GetWls(startArea);
+                List<WareLocation> startList2 = _wareLocationService.ConvertList(startList);
+                List<WareAreaClass> endAreaClass = GetArea(areaRemark);
+                List<PostWarelocation> startwarelocations = new List<PostWarelocation>();
+                List<PostWarelocation> endwarelocations = new List<PostWarelocation>();
+                foreach (var item in startList2.Where(u => u.WareLocaState == WareLocaState.HasTray))
+                {
+                    var end = new PostWarelocation();
+                    end.name = item.WareLocaNo;
+                    end.state = item.WareLocaState;
+                    startwarelocations.Add(end);
+                }
+                foreach (var item in endAreaClass)
+                {
+                    var end = new PostWarelocation();
+                    end.name = item.AreaClass;
+                    end.state = string.Empty;
+                    endwarelocations.Add(end);
+                }
+
+                var result = new { success = true, message = "操作成功", data = new FindWareLocationEntity { startWareLocation = startwarelocations.ToArray(), endWareLocation = endwarelocations.ToArray() } };
+                return result;
+            }
+        }
+
+        private List<WareAreaClass> GetArea(string areaRemark)
+        {
+            WareAreaClassService wareAreaClassService = new WareAreaClassService();
+            var list = wareAreaClassService.GetList(u => u.Reserve1.Contains(areaRemark) && u.IsOpen == true);
+            var list2 = wareAreaClassService.ConvertList(list);
+            return list2;
+        }
+
+
 
         /// <summary>
         /// 任务下发包括上线和下线
@@ -930,6 +1166,14 @@ namespace GeLiService_WMS.Services.WMS
         {
             var dbBase = new DbBase<ProcessTypeParam>();
             return dbBase.GetIQueryable(u => u.processName == processName).FirstOrDefault();
+
+        }
+
+
+        public ProcessTypeParam GetMissionType(string processName, string startRemark, string endRemark)
+        {
+            var dbBase = new DbBase<ProcessTypeParam>();
+            return dbBase.GetIQueryable(u => u.processName == processName && u.strartRemark == startRemark && u.endRemark == endRemark).FirstOrDefault();
 
         }
 

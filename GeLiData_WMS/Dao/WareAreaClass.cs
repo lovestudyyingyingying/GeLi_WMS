@@ -22,6 +22,7 @@ namespace GeLiData_WMS
 
         public int? SortIndex { get; set; }
 
+        public bool? IsOpen { get; set; }
         /// <summary>
         /// 对区域的划分，产线区为0，缓存区为1，空托区为2
         /// </summary>
@@ -31,12 +32,12 @@ namespace GeLiData_WMS
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<WareArea> WareArea { get; set; }
         /// <summary>
-        /// 保留字段1
+        /// 和产线关联的备注
         /// </summary>
         [StringLength(50)]
         public string Reserve1 { get; set; }
         /// <summary>
-        /// 保留字段2
+        /// 给缓存区使用，用于关联上一步操作
         /// </summary>
         [StringLength(50)]
         public string Reserve2 { get; set; }

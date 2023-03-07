@@ -22,6 +22,7 @@ using GeLiService_WMS.Utils.RedisUtils;
 using Exceptionless.Logging;
 using Microsoft.Extensions.Logging;
 using System.Transactions;
+using GeLi_Utils.Entity.StockEntity;
 
 namespace WebApi_WMS.Controllers
 {
@@ -29,8 +30,8 @@ namespace WebApi_WMS.Controllers
     [RoutePrefix("api/PDA")]
     public class PDAController : BaseController
     {
-        
-      
+
+
         public PDAController()
         {
 
@@ -87,7 +88,7 @@ namespace WebApi_WMS.Controllers
                     return new { success = false, message = "失败" };
                 }
             }
-            catch(Exception ee)
+            catch (Exception ee)
             {
                 Logger.Default.Process(new Log(LevelType.Error, "PDA_" + "DoLogin:" + ee.ToString()));
 
@@ -114,9 +115,9 @@ namespace WebApi_WMS.Controllers
         {
             try
             {
-                Logger.Default.Process(new Log(LevelType.Debug, "PDA_"+"DiaoBoOrder:"+request.ToString()));
+                Logger.Default.Process(new Log(LevelType.Debug, "PDA_" + "DiaoBoOrder:" + request.ToString()));
                 var dic = JObject.Parse(request.ToString());
-             
+
                 if (dic["endPo"] == null)
                     return new { success = false, message = "endPo不能为空" };
                 if (dic["nowPre"] == null)
@@ -125,14 +126,14 @@ namespace WebApi_WMS.Controllers
                     return new { success = false, message = "startPo不能为空" };
                 if (dic["processName"] == null)
                     return new { success = false, message = "processName不能为空" };
-              
-                                                       //string startPo = dic["startPo"];
+                //string startPo = dic["startPo"];
                 string endPo = dic["endPo"].ToString(); //终点
                 string nowPre = dic["nowPre"].ToString(); //操作人
                 string prosn = string.Empty;
+                bool isPriority = dic["isPriority"] == null ? false : dic["isPriority"].ToString() == "1" ? true : false;
                 if (dic["prosn"] != null)
                 {
-                
+
                     if (!string.IsNullOrEmpty(dic["prosn"].ToString()))
                     {
                         var pdaTray = JObject.Parse(dic["prosn"].ToString())
@@ -141,22 +142,39 @@ namespace WebApi_WMS.Controllers
                             return new { success = false, message = "标签号不能为空" };
                         prosn = trayStateService.AddByPda(pdaTray);
                     }
-  
+
                 }
                 string startPo = dic["startPo"].ToString();
                 string processName = dic["processName"].ToString(); // 工序名
-                var entity = movestockManager.GetMissionType(processName);
-                if (entity == null)
-                    return new { success = false, message = "未知操作类型" };
-                var goodType = entity.goodType;
-                var moveType = entity.moveType;
-               
+                //var entity = movestockManager.GetMissionType(processName);
+                //if (entity == null)
+                //    return new { success = false, message = "未知操作类型" };
+                //var goodType = entity.goodType;
+                //var moveType = entity.moveType;
+
                 //下任务
                 object result;
-                if (!entity.endArea.Contains("码盘"))
-                    result = movestockManager.MoveIn(prosn, startPo, endPo, nowPre, string.Empty, string.Empty, goodType, processName, moveType);
+
+                //if (!entity.endArea.Contains("码盘"))
+                if (processName == ProcessName.ZhangGuanKongTuoShangXian)
+                    result = movestockManager.MoveIn(prosn, startPo, endPo, nowPre, string.Empty, string.Empty, GoodType.EmptyTray, processName, "上线");
+                else if (processName == ProcessName.HongGanKongTuoXiaXian)
+                    result = movestockManager.MoveIn(prosn, startPo, endPo, nowPre, string.Empty, string.Empty, GoodType.EmptyTray, processName, "下线");
+                else if (processName == ProcessName.HanJieKongTuoShangXian)
+                    result = movestockManager.MoveIn(prosn, startPo, endPo, nowPre, string.Empty, string.Empty, GoodType.EmptyTray, processName, "上线");
+                else if (processName == ProcessName.HanJieDangBanShangXian)
+                    result = movestockManager.MoveIn(prosn, startPo, endPo, nowPre, string.Empty, string.Empty, GoodType.EmptyTray, processName, "上线");
+                else if (processName == ProcessName.ZhangGuanWuLiaoXiaXian && isPriority || processName == ProcessName.ChuiYangWuLiaoXiaXian && isPriority || processName == ProcessName.QieGeWuLiaoXiaXian && isPriority)
+                    result = movestockManager.JumpQueue(prosn,startPo,endPo, nowPre);
+                else if (processName == ProcessName.ZhangGuanWuLiaoXiaXian || processName == ProcessName.ChuiYangWuLiaoXiaXian || processName == ProcessName.QieGeWuLiaoXiaXian)
+
+                {
+                    string endPosition = movestockManager.SplitAreaToPosition(endPo);
+                    result = movestockManager.MoveIn(prosn, startPo, endPosition, nowPre, string.Empty, string.Empty, GoodType.GoodTray, processName, "下线");
+
+                }
                 else
-                    result = movestockManager.MoveToMaPanJi(startPo, endPo, nowPre,  processName);
+                    result = movestockManager.MoveToMaPanJi(startPo, endPo, nowPre, processName);
                 //if (missionType == "下线")
                 //    result = movestockManager.MoveOut(prosn, startPo, endPo, nowPre, position, string.Empty);
 
@@ -172,7 +190,7 @@ namespace WebApi_WMS.Controllers
         #region 可调度库位状态查询接口（起点终点）
 
         /// <summary>
-        /// 同楼层起始库位
+        /// 根据工序名获取起点终点（区域或点位）
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -192,16 +210,105 @@ namespace WebApi_WMS.Controllers
                     return new { success = false, message = "请输入操作名称" };
 
                 var processName = requestObj["processName"].ToString();
-                if (requestObj["protype"] == null)
-                    return new { success = false, message = "请输入所处产线" };
+                //if (requestObj["startRemark"] == null)
+                //    return new { success = false, message = "请输入起点描述" };
+                //if (requestObj["endRemark"] == null)
+                //    return new { success = false, message = "请输入终点描述" };
+                object result = null;
+                //冷管还是热管
                 var protype = requestObj["protype"].ToString();
-                var entity = movestockManager.GetMissionType(processName);
+                if (processName == ProcessName.ZhangGuanWuLiaoXiaXian)
+                {
+                    result = movestockManager.FindStartPointAndEndArea("胀管产线区", processName);
+                    //int positionID = Convert.ToInt32(position);
+                }
+                else if (processName == ProcessName.ZhangGuanKongTuoShangXian)
+                {
+                    if (protype == "冷管")
+                    {
+                        result = movestockManager.FindWearLocationStartAndEnd("格力1楼", "格力1楼", "冷胀烘空托缓存区", "胀管空托区");
 
-                if (entity == null)
-                    return new { success = false, message = "未能识别该操作" };
-                entity.protype = protype.ToString();
-                var result = movestockManager.FindWearLocationStartAndEnd(entity.startPosition, entity.endPosition, entity.startArea, entity.endArea, entity.protype, entity.missionType, entity.nextArea, entity.nextPosition);
-                //int positionID = Convert.ToInt32(position);
+                    }
+                    else if (protype == "热管")
+                    {
+                        result = movestockManager.FindWearLocationStartAndEnd("格力1楼", "格力1楼", "热胀烘空托缓存区", "胀管空托区");
+                    }
+                }
+                else if (processName == ProcessName.HongGanKongTuoXiaXian)
+                {
+                    if (protype == "冷管")
+                    {
+                        result = movestockManager.FindWearLocationStartAndEnd("格力1楼", "格力1楼", "冷烘干空托区", "冷胀烘空托缓存区");
+
+                    }
+                    else if (protype == "热管")
+                    {
+                        result = movestockManager.FindWearLocationStartAndEnd("格力1楼", "格力1楼", "热烘干空托区", "热胀烘空托缓存区");
+                    }
+
+                }
+                else if (processName == ProcessName.ChuiYangWuLiaoXiaXian)
+                {
+                    if (protype == "冷管")
+                    {
+                        result = movestockManager.FindStartPointAndEndArea("冷吹氧产线区", "冷" + processName);
+
+                    }
+                    else if (protype == "热管")
+                    {
+                        result = movestockManager.FindStartPointAndEndArea("热吹氧产线区", "热" + processName);
+                    }
+                }
+                else if (processName == ProcessName.QieGeWuLiaoXiaXian)
+                {
+                    if (protype == "冷管")
+                    {
+                        result = movestockManager.FindStartPointAndEndArea("冷切割产线区", "冷" + processName);
+
+                    }
+                    else if (protype == "热管")
+                    {
+                        result = movestockManager.FindStartPointAndEndArea("热切割产线区", "热" + processName);
+                    }
+                }
+                else if (processName == ProcessName.HanJieKongTuoShangXian)
+                {
+                    if (protype == "冷管")
+                    {
+                        result = movestockManager.FindStartPointAndEndArea("冷焊接空托区", "冷" + processName);
+                    }
+                    else if (protype == "热管")
+                    {
+                        result = movestockManager.FindStartPointAndEndArea("热焊接空托区", "热" + processName);
+
+                    }
+
+                    //var startRemark= requestObj["startRemark"].ToString();
+                    //var endRemark = requestObj["endRemark"].ToString();
+
+                    //var entity = movestockManager.GetMissionType(processName,startRemark,endRemark);
+
+                    //if (entity == null)
+                    //    return new { success = false, message = "未能识别该操作" };
+                    //entity.protype = protype.ToString();
+                    //var result = movestockManager.FindWearLocationStartAndEnd(entity.startPosition, entity.endPosition, entity.startArea, entity.endArea, entity.protype, entity.missionType, entity.nextArea, entity.nextPosition);
+                    //int positionID = Convert.ToInt32(position);
+
+
+                }
+                else if (processName == ProcessName.HanJieDangBanShangXian)
+                {
+                    if (protype == "冷管")
+                    {
+                        result = movestockManager.FindStartPointAndEndArea("冷焊接挡板区", "冷" + processName);
+                    }
+                    else if (protype == "热管")
+                    {
+                        result = movestockManager.FindStartPointAndEndArea("热焊接挡板区", "热" + processName);
+
+                    }
+
+                }
 
                 return result;
             }
@@ -286,7 +393,7 @@ namespace WebApi_WMS.Controllers
                     data = data
                 };
             }
-            catch(Exception ee)
+            catch (Exception ee)
             {
                 Logger.Default.Process(new Log(LevelType.Error, "PDA_" + "GetWarn:" + ee.ToString()));
 
@@ -313,7 +420,7 @@ namespace WebApi_WMS.Controllers
                 string message = requestObj["message"].ToString();
                 var time = Convert.ToDateTime(requestObj["time"]);
                 int id = Convert.ToInt32(requestObj["id"]);
-                var alarmLog =  AlarmLogService.FindById(id,DbMainSlave.Master);
+                var alarmLog = AlarmLogService.FindById(id, DbMainSlave.Master);
                 alarmLog.alarmDesc = message;
                 alarmLog.alarmDate = time;
                 AlarmLogService.Update(alarmLog);
@@ -322,7 +429,7 @@ namespace WebApi_WMS.Controllers
                 {
                     success = true,
                     message = "成功",
-                
+
                 };
             }
             catch (Exception ee)
@@ -375,7 +482,7 @@ namespace WebApi_WMS.Controllers
         [Route("location/GetWareAreaClass")]
         public object GetWareAreaClass([FromBody] object request)
         {
-  
+
             try
             {
                 var wareAreaClassStr = wareAreaClassService.GetAllWareAreaClassName();
@@ -414,7 +521,7 @@ namespace WebApi_WMS.Controllers
                                  {
                                      name = a.WareLocaNo,
                                      state = a.WareLocaState,
-                                     itemName = a.TrayState==null?"":a.TrayState.proname,
+                                     itemName = a.TrayState == null ? "" : a.TrayState.proname,
                                      trayNo = a.TrayState == null ? "" : a.TrayState.TrayNO,
                                  };
                 return new { success = true, message = "成功", data = dataresult };
