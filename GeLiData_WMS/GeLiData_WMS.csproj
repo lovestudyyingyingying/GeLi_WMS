@@ -76,6 +76,7 @@
     <Compile Include="Dao\AGVAlarmLog.cs" />
     <Compile Include="Dao\AGVMissionInfo.cs" />
     <Compile Include="Dao\AGVMissionInfo_Floor.cs" />
+    <Compile Include="Dao\AGVMissionJumpQueue.cs" />
     <Compile Include="Dao\AGVRunModel.cs" />
     <Compile Include="Dao\C__MigrationHistory.cs" />
     <Compile Include="Dao\Depts.cs" />
@@ -145,6 +146,10 @@
     <Compile Include="Migrations\202303060733085_Change230306_02.designer.cs">
       <DependentUpon>202303060733085_Change230306_02.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202303061005583_Change230306_03.cs" />
+    <Compile Include="Migrations\202303061005583_Change230306_03.designer.cs">
+      <DependentUpon>202303061005583_Change230306_03.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Nlog\Log.cs" />
     <Compile Include="Nlog\Logger.cs" />
@@ -192,6 +197,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202303060733085_Change230306_02.resx">
       <DependentUpon>202303060733085_Change230306_02.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303061005583_Change230306_03.resx">
+      <DependentUpon>202303061005583_Change230306_03.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -19,7 +19,7 @@ namespace GeLiService_WMS.Services
         private string TrayLeft = "2";
         private string PlanOrderLeft = "P";
         private string SCOrderLeft = "S";
-
+        private string ChaDui = "C";
         /// <summary>
         /// 得到打印托盘的流水号
         /// </summary>
@@ -65,6 +65,13 @@ namespace GeLiService_WMS.Services
             sqlParms.Clear();
             sqlParms.Add(new SqlParameter("@MaintainCate", "MissionNo"));
             return QueryOne<string>("exec GetSeq @MaintainCate", sqlParms, DbMainSlave.Master);
+        }
+
+        public string GetJumpQueueNoLSH()
+        {
+            sqlParms.Clear();
+            sqlParms.Add(new SqlParameter("@MaintainCate", "MissionNo"));
+            return ChaDui+ QueryOne<string>("exec GetSeq @MaintainCate", sqlParms, DbMainSlave.Master);
         }
 
         public string GetUploadBatchLSH()

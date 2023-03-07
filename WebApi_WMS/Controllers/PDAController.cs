@@ -126,11 +126,11 @@ namespace WebApi_WMS.Controllers
                     return new { success = false, message = "startPo不能为空" };
                 if (dic["processName"] == null)
                     return new { success = false, message = "processName不能为空" };
-
                 //string startPo = dic["startPo"];
                 string endPo = dic["endPo"].ToString(); //终点
                 string nowPre = dic["nowPre"].ToString(); //操作人
                 string prosn = string.Empty;
+                bool isPriority = dic["isPriority"] == null ? false : dic["isPriority"].ToString() == "1" ? true : false;
                 if (dic["prosn"] != null)
                 {
 
@@ -144,8 +144,6 @@ namespace WebApi_WMS.Controllers
                     }
 
                 }
-
-
                 string startPo = dic["startPo"].ToString();
                 string processName = dic["processName"].ToString(); // 工序名
                 //var entity = movestockManager.GetMissionType(processName);
@@ -166,14 +164,15 @@ namespace WebApi_WMS.Controllers
                     result = movestockManager.MoveIn(prosn, startPo, endPo, nowPre, string.Empty, string.Empty, GoodType.EmptyTray, processName, "上线");
                 else if (processName == ProcessName.HanJieDangBanShangXian)
                     result = movestockManager.MoveIn(prosn, startPo, endPo, nowPre, string.Empty, string.Empty, GoodType.EmptyTray, processName, "上线");
-                else if(processName==ProcessName.ZhangGuanWuLiaoXiaXian||processName== ProcessName.ChuiYangWuLiaoXiaXian||processName==ProcessName.QieGeWuLiaoXiaXian)
-                    
+                else if (processName == ProcessName.ZhangGuanWuLiaoXiaXian && isPriority || processName == ProcessName.ChuiYangWuLiaoXiaXian && isPriority || processName == ProcessName.QieGeWuLiaoXiaXian && isPriority)
+                    result = movestockManager.JumpQueue(prosn,startPo,endPo, nowPre);
+                else if (processName == ProcessName.ZhangGuanWuLiaoXiaXian || processName == ProcessName.ChuiYangWuLiaoXiaXian || processName == ProcessName.QieGeWuLiaoXiaXian)
+
                 {
-                   string endPosition=  movestockManager.SplitAreaToPosition(endPo);
+                    string endPosition = movestockManager.SplitAreaToPosition(endPo);
                     result = movestockManager.MoveIn(prosn, startPo, endPosition, nowPre, string.Empty, string.Empty, GoodType.GoodTray, processName, "下线");
 
                 }
-           
                 else
                     result = movestockManager.MoveToMaPanJi(startPo, endPo, nowPre, processName);
                 //if (missionType == "下线")

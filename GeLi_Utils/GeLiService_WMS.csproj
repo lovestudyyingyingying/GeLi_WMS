@@ -402,6 +402,7 @@
     <Compile Include="Services\TheadService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\WMS\AGVAlarmLogService.cs" />
+    <Compile Include="Services\WMS\AGVMissionJumpQueueService.cs" />
     <Compile Include="Services\WMS\AGVRunModelService.cs" />
     <Compile Include="Services\WMS\AGV\AGVMissionFloorService.cs" />
     <Compile Include="Services\WMS\AGV\AGVMissionService.cs" />
