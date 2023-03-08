@@ -11,13 +11,10 @@ using GeLiService_WMS.Entity.StockEntity;
 using GeLiService_WMS.Services;
 using GeLiService_WMS.Utils.ThreadUtils;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OrderResult = GeLi_Utils.Entity.AGVApiEntity.OrderResult;
 
 namespace GeLiService_WMS.Threads.SameFloorThreads
@@ -59,7 +56,7 @@ namespace GeLiService_WMS.Threads.SameFloorThreads
                 .OrderBy(u=>u.ID).ToList();
             List<AGVMissionInfo> MaPanJilist = _agvMissionService.GetIQueryable(u =>
                     u.OrderTime >= dtime && u.IsFloor == 0 //同层
-                    && u.WHName == "格力2楼" /*跟传入的仓库一致*/ && u.Mark == MissionType.MoveToMaPanJi
+                    && u.WHName == _wareHouse.WHName /*跟传入的仓库一致*/ && u.Mark == MissionType.MoveToMaPanJi
                     && u.SendState == StockState.SendState_Success && u.RunState!= StockState.RunState_Success
                     && u.RunState != StockState.RunState_Error && u.RunState != StockState.RunState_Cancel 
                     && u.RunState != StockState.RunState_RunFail && u.RunState != StockState.RunState_SendFail, //筛选发送状态为已分类的任务

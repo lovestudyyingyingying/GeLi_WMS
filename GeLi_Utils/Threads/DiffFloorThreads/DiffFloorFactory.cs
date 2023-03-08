@@ -51,7 +51,7 @@ namespace GeLiService_WMS.Threads.DiffFloorThreads
                 List<TiShengJiInfo> list = tiShengJiInfoService.GetAll();
                 list.ForEach(temp => {
                     
-                    if (!taskDic.Keys.Contains(temp.TsjName)&& temp.TsjName!="2#提升机")
+                    if (!taskDic.Keys.Contains(temp.TsjName))
                     {
                         
                         //新建提升机任务

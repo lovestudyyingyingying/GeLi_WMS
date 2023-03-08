@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows.Forms;
 using GeLi_Utils.Helpers;
 using GeLiService_WMS;
+using GeLiService_WMS.Threads;
 using GeLiService_WMS.Utils.ThreadUtils;
 using HslCommunication;
 using HslCommunication.ModBus;
-
 
 namespace TaiDaPLCTest
 {
@@ -203,6 +198,12 @@ namespace TaiDaPLCTest
             MyTask myTask1 = new MyTask(maPanJiHelper.CheckAndSaveError, 10, true);
             myTask1.StartTask();
             //maPanJiHelper.GetAndSaveState();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            GroupMissionThread groupMissionThread = new GroupMissionThread();
+            groupMissionThread.Control();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿using GeLi_Utils.Threads.SameFloorThreads;
 using GeLiData_WMS;
 using GeLiService_WMS.Services;
 
@@ -43,6 +43,10 @@ namespace GeLiService_WMS.Threads.SameFloorThreads
             try
             {
                 Control();//尝试开启所有线程
+                DryProductionLineThread dryProductionLineThread = new DryProductionLineThread();
+
+
+                
             }
             catch (Exception ex)
             {

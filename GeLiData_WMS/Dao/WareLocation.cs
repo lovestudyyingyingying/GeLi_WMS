@@ -59,12 +59,12 @@ namespace GeLiData_WMS
         [ForeignKey("LockHis_ID")]
         public virtual WareLoactionLockHis WareLoactionLockHis { get; set; }
         /// <summary>
-        /// 保留字段1
+        /// 存放终点区域
         /// </summary>
         [StringLength(50)]
         public string Reserve1 { get; set; }
         /// <summary>
-        /// 保留字段2
+        /// 存放入库时间
         /// </summary>
         [StringLength(50)]
         public string Reserve2 { get; set; }

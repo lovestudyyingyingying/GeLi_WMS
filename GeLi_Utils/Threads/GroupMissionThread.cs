@@ -31,7 +31,7 @@ namespace GeLiService_WMS.Threads
         AGVRunModelService _agvRunModelService = new AGVRunModelService();
         ChooseTiShengJiHelper chooseTiShengJiHelper;
         AGVModelHelper modelHelper;
-        RedisHelper redisHelper = new RedisHelper();
+    
         public GroupMissionThread()
         {
             modelHelper = new AGVModelHelper(_agvRunModelService, agvMissionService);
