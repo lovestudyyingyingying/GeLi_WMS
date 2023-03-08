@@ -363,6 +363,7 @@
     <Compile Include="Entity\MaPanJiStateEntity\MaPanJiErrorState.cs" />
     <Compile Include="Entity\MaPanJiStateEntity\MaPanJiStateSummarize.cs" />
     <Compile Include="Entity\PDAApiEntity\FindWareLocationEntity.cs" />
+    <Compile Include="Entity\PDAApiEntity\PDAGetAreaMissionType.cs" />
     <Compile Include="Entity\PDAApiEntity\PdaTray.cs" />
     <Compile Include="Entity\PDAApiEntity\ProcessName.cs" />
     <Compile Include="Entity\PDAApiEntity\WareLocationParamEntity.cs" />
@@ -413,6 +414,7 @@
     <Compile Include="Services\WMS\AGV\WareLocationService.cs" />
     <Compile Include="Services\WMS\MaPanJiInfoService.cs" />
     <Compile Include="Services\WMS\MaPanJiStateService.cs" />
+    <Compile Include="Services\WMS\ProcessTypeParamService.cs" />
     <Compile Include="Services\WMS\StockPlanService.cs" />
     <Compile Include="Services\WMS\StockRecordService.cs" />
     <Compile Include="Services\WMS\TrayStateService.cs" />

@@ -98,7 +98,8 @@ namespace GeLiService_WMS.Services.WMS
             //当仓位号为空，则获取楼层的所有入库位信息
             //传入楼层
             List<WareLocation> list = _wareLocationService.GetList(u =>
-                u.IsOpen == 1 && u.WareArea.WareAreaClass.AreaClass == inputArea && u.WareLocaState == WareLocaState.NoTray);//获取起点库位
+                u.IsOpen == 1 && u.WareArea.WareAreaClass.AreaClass == inputArea && u.WareLocaState == WareLocaState.HasTray
+                );//获取起点库位
             return list;
         }
 
@@ -889,7 +890,7 @@ namespace GeLiService_WMS.Services.WMS
         /// <param name="startArea"></param>
         /// <param name="endArea"></param>
         /// <returns></returns>
-        public object FindWearLocationStartAndEnd(string startPosition, string endPosition, string startArea, string endArea)
+        public object FindWearLocationStartAndEnd(string startPosition, string endPosition, string startArea, string endArea,bool isIgnoreStartState=false)
         {
             using (var redislock = redisHelper.CreateLock(startArea + endArea, TimeSpan.FromSeconds(10),
                  TimeSpan.FromMilliseconds(1000), TimeSpan.FromMilliseconds(200)))
@@ -903,13 +904,27 @@ namespace GeLiService_WMS.Services.WMS
 
 
                 List<PostWarelocation> startwarelocations = new List<PostWarelocation>();
-                foreach (var item in startList2.Where(u => u.WareLocaState == WareLocaState.HasTray))
-                {
-                    var startWareLocation = new PostWarelocation();
-                    startWareLocation.name = item.WareLocaNo;
-                    startWareLocation.state = item.WareLocaState;
-                    startwarelocations.Add(startWareLocation);
 
+                if (!isIgnoreStartState)
+                {
+                    foreach (var item in startList2.Where(u => u.WareLocaState == WareLocaState.HasTray))
+                    {
+                        var startWareLocation = new PostWarelocation();
+                        startWareLocation.name = item.WareLocaNo;
+                        startWareLocation.state = item.WareLocaState;
+                        startwarelocations.Add(startWareLocation);
+
+                    }
+                }
+                else
+                {
+                    foreach (var item in startList2)
+                    {
+                        var startWareLocation = new PostWarelocation();
+                        startWareLocation.name = item.WareLocaNo;
+                        startWareLocation.state = item.WareLocaState;
+                        startwarelocations.Add(startWareLocation);
+                    }
                 }
 
                 List<PostWarelocation> endwarelocations = new List<PostWarelocation>();

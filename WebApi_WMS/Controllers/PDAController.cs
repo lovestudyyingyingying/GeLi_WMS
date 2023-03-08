@@ -23,6 +23,8 @@ using Exceptionless.Logging;
 using Microsoft.Extensions.Logging;
 using System.Transactions;
 using GeLi_Utils.Entity.StockEntity;
+using GeLiData_WMS.Dao;
+using GeLi_Utils.Services.WMS;
 
 namespace WebApi_WMS.Controllers
 {
@@ -217,98 +219,116 @@ namespace WebApi_WMS.Controllers
                 object result = null;
                 //冷管还是热管
                 var protype = requestObj["protype"].ToString();
-                if (processName == ProcessName.ZhangGuanWuLiaoXiaXian)
+
+                ProcessTypeParamService processTypeParamService = new ProcessTypeParamService();
+                var processTypeParam = processTypeParamService.GetEntity(processName, protype);
+                if (processTypeParam == null)
+                    return new { success = false, message = "未能识别该工序名称" };
+
+                if (processTypeParam.missionType == PDAGetAreaMissionType.PointToPoint)
                 {
-                    result = movestockManager.FindStartPointAndEndArea("胀管产线区", processName);
-                    //int positionID = Convert.ToInt32(position);
+                    if(processTypeParam.processName==ProcessName.HongGanKongTuoXiaXian)
+                        result = movestockManager.FindWearLocationStartAndEnd(processTypeParam.startPosition, processTypeParam.endPosition, processTypeParam.startArea, processTypeParam.endArea,true);
+                    else
+                    result = movestockManager.FindWearLocationStartAndEnd(processTypeParam.startPosition, processTypeParam.endPosition, processTypeParam.startArea, processTypeParam.endArea);
                 }
-                else if (processName == ProcessName.ZhangGuanKongTuoShangXian)
-                {
-                    if (protype == "冷管")
-                    {
-                        result = movestockManager.FindWearLocationStartAndEnd("格力1楼", "格力1楼", "冷胀烘空托缓存区", "胀管空托区");
-
-                    }
-                    else if (protype == "热管")
-                    {
-                        result = movestockManager.FindWearLocationStartAndEnd("格力1楼", "格力1楼", "热胀烘空托缓存区", "胀管空托区");
-                    }
-                }
-                else if (processName == ProcessName.HongGanKongTuoXiaXian)
-                {
-                    if (protype == "冷管")
-                    {
-                        result = movestockManager.FindWearLocationStartAndEnd("格力1楼", "格力1楼", "冷烘干空托区", "冷胀烘空托缓存区");
-
-                    }
-                    else if (protype == "热管")
-                    {
-                        result = movestockManager.FindWearLocationStartAndEnd("格力1楼", "格力1楼", "热烘干空托区", "热胀烘空托缓存区");
-                    }
-
-                }
-                else if (processName == ProcessName.ChuiYangWuLiaoXiaXian)
-                {
-                    if (protype == "冷管")
-                    {
-                        result = movestockManager.FindStartPointAndEndArea("冷吹氧产线区", "冷" + processName);
-
-                    }
-                    else if (protype == "热管")
-                    {
-                        result = movestockManager.FindStartPointAndEndArea("热吹氧产线区", "热" + processName);
-                    }
-                }
-                else if (processName == ProcessName.QieGeWuLiaoXiaXian)
-                {
-                    if (protype == "冷管")
-                    {
-                        result = movestockManager.FindStartPointAndEndArea("冷切割产线区", "冷" + processName);
-
-                    }
-                    else if (protype == "热管")
-                    {
-                        result = movestockManager.FindStartPointAndEndArea("热切割产线区", "热" + processName);
-                    }
-                }
-                else if (processName == ProcessName.HanJieKongTuoShangXian)
-                {
-                    if (protype == "冷管")
-                    {
-                        result = movestockManager.FindStartPointAndEndArea("冷焊接空托区", "冷" + processName);
-                    }
-                    else if (protype == "热管")
-                    {
-                        result = movestockManager.FindStartPointAndEndArea("热焊接空托区", "热" + processName);
-
-                    }
-
-                    //var startRemark= requestObj["startRemark"].ToString();
-                    //var endRemark = requestObj["endRemark"].ToString();
-
-                    //var entity = movestockManager.GetMissionType(processName,startRemark,endRemark);
-
-                    //if (entity == null)
-                    //    return new { success = false, message = "未能识别该操作" };
-                    //entity.protype = protype.ToString();
-                    //var result = movestockManager.FindWearLocationStartAndEnd(entity.startPosition, entity.endPosition, entity.startArea, entity.endArea, entity.protype, entity.missionType, entity.nextArea, entity.nextPosition);
-                    //int positionID = Convert.ToInt32(position);
+                else  if (processTypeParam.missionType == PDAGetAreaMissionType.PointToArea)
+                    result = movestockManager.FindStartPointAndEndArea(processTypeParam.startArea, processTypeParam.endRemark);
 
 
-                }
-                else if (processName == ProcessName.HanJieDangBanShangXian)
-                {
-                    if (protype == "冷管")
-                    {
-                        result = movestockManager.FindStartPointAndEndArea("冷焊接挡板区", "冷" + processName);
-                    }
-                    else if (protype == "热管")
-                    {
-                        result = movestockManager.FindStartPointAndEndArea("热焊接挡板区", "热" + processName);
 
-                    }
+                //if (processName == ProcessName.ZhangGuanWuLiaoXiaXian)
+                //{
+                //    result = movestockManager.FindStartPointAndEndArea("胀管产线区", processName);
+                //    //int positionID = Convert.ToInt32(position);
+                //}
+                //else if (processName == ProcessName.ZhangGuanKongTuoShangXian)
+                //{
+                //    if (protype == "冷管")
+                //    {
+                //        result = movestockManager.FindWearLocationStartAndEnd("格力1楼", "格力1楼", "冷胀烘空托缓存区", "胀管空托区");
 
-                }
+                //    }
+                //    else if (protype == "热管")
+                //    {
+                //        result = movestockManager.FindWearLocationStartAndEnd("格力1楼", "格力1楼", "热胀烘空托缓存区", "胀管空托区");
+                //    }
+                //}
+                //else if (processName == ProcessName.HongGanKongTuoXiaXian)
+                //{
+                //    if (protype == "冷管")
+                //    {
+                //        result = movestockManager.FindWearLocationStartAndEnd("格力1楼", "格力1楼", "冷烘干空托区", "冷胀烘空托缓存区");
+
+                //    }
+                //    else if (protype == "热管")
+                //    {
+                //        result = movestockManager.FindWearLocationStartAndEnd("格力1楼", "格力1楼", "热烘干空托区", "热胀烘空托缓存区");
+                //    }
+
+                //}
+                //else if (processName == ProcessName.ChuiYangWuLiaoXiaXian)
+                //{
+                //    if (protype == "冷管")
+                //    {
+                //        result = movestockManager.FindStartPointAndEndArea("冷吹氧产线区", "冷" + processName);
+
+                //    }
+                //    else if (protype == "热管")
+                //    {
+                //        result = movestockManager.FindStartPointAndEndArea("热吹氧产线区", "热" + processName);
+                //    }
+                //}
+                //else if (processName == ProcessName.QieGeWuLiaoXiaXian)
+                //{
+                //    if (protype == "冷管")
+                //    {
+                //        result = movestockManager.FindStartPointAndEndArea("冷切割产线区", "冷" + processName);
+
+                //    }
+                //    else if (protype == "热管")
+                //    {
+                //        result = movestockManager.FindStartPointAndEndArea("热切割产线区", "热" + processName);
+                //    }
+                //}
+                //else if (processName == ProcessName.HanJieKongTuoShangXian)
+                //{
+                //    if (protype == "冷管")
+                //    {
+                //        result = movestockManager.FindStartPointAndEndArea("冷焊接空托区", "冷" + processName);
+                //    }
+                //    else if (protype == "热管")
+                //    {
+                //        result = movestockManager.FindStartPointAndEndArea("热焊接空托区", "热" + processName);
+
+                //    }
+
+                //    //var startRemark= requestObj["startRemark"].ToString();
+                //    //var endRemark = requestObj["endRemark"].ToString();
+
+                //    //var entity = movestockManager.GetMissionType(processName,startRemark,endRemark);
+
+                //    //if (entity == null)
+                //    //    return new { success = false, message = "未能识别该操作" };
+                //    //entity.protype = protype.ToString();
+                //    //var result = movestockManager.FindWearLocationStartAndEnd(entity.startPosition, entity.endPosition, entity.startArea, entity.endArea, entity.protype, entity.missionType, entity.nextArea, entity.nextPosition);
+                //    //int positionID = Convert.ToInt32(position);
+
+
+                //}
+                //else if (processName == ProcessName.HanJieDangBanShangXian)
+                //{
+                //    if (protype == "冷管")
+                //    {
+                //        result = movestockManager.FindStartPointAndEndArea("冷焊接挡板区", "冷" + processName);
+                //    }
+                //    else if (protype == "热管")
+                //    {
+                //        result = movestockManager.FindStartPointAndEndArea("热焊接挡板区", "热" + processName);
+
+                //    }
+
+                //}
 
                 return result;
             }

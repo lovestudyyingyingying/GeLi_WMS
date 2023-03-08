@@ -14,19 +14,39 @@ namespace GeLiData_WMS.Dao
     {
         [Key]
         public int ID { get; set; }
-
+        /// <summary>
+        /// 工序名称
+        /// </summary>
         [StringLength(50)]
         public string processName { get; set; }
+        /// <summary>
+        /// 起点楼层
+        /// </summary>
         [StringLength(50)]
         public string startPosition { get; set; }
+        /// <summary>
+        /// 终点楼层
+        /// </summary>
         [StringLength(50)]
         public string endPosition { get; set; }
+        /// <summary>
+        /// 起始区域
+        /// </summary>
         [StringLength(50)]
         public string startArea { get; set; }
+        /// <summary>
+        /// 终点区域
+        /// </summary>
         [StringLength(50)]
         public string endArea { get; set; }
+        /// <summary>
+        /// 冷管或热管
+        /// </summary>
         [StringLength(50)]
         public string protype { get; set; }
+        /// <summary>
+        /// 点对点，点对区，区对区，区对点
+        /// </summary>
         [StringLength(50)]
         public string missionType { get; set; }
         [StringLength(50)]
@@ -50,6 +70,7 @@ namespace GeLiData_WMS.Dao
         /// </summary>
         [StringLength(50)]
         public string strartRemark { get; set; }
+
 
         /// <summary>
         /// 终点备注
