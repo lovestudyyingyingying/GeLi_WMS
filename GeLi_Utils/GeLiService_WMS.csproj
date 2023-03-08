@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -48,7 +48,7 @@
       <HintPath>..\packages\Exceptionless.NLog.4.8.0\lib\net462\Exceptionless.NLog.dll</HintPath>
     </Reference>
     <Reference Include="HslCommunication">
-      <HintPath>..\..\GeLi_WMS\AppBoxPro\bin\HslCommunication.dll</HintPath>
+      <HintPath>.\HslCommunication.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNetCore.Authentication.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Authentication.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Abstractions.dll</HintPath>
@@ -386,6 +386,7 @@
     <Compile Include="Entity\StockEntity\WareLocationIndexData.cs" />
     <Compile Include="Entity\TiShengJiEntity\TiShengJiDevice.cs" />
     <Compile Include="Entity\TiShengJiEntity\TiShengJiStateEntity.cs" />
+    <Compile Include="Entity\WareAreaEntity\WareAreaEntity.cs" />
     <Compile Include="Helpers\AGVModelHelper.cs" />
     <Compile Include="Helpers\ChooseTiShengJiHelper.cs" />
     <Compile Include="Helpers\HCWareLocationHelper.cs" />
@@ -431,8 +432,12 @@
     <Compile Include="Threads\PLCStatusThreads\MPJStatusThreads.cs" />
     <Compile Include="Threads\PLCStatusThreads\TSJStatusFactory.cs" />
     <Compile Include="Threads\PLCStatusThreads\TSJStatusThreads.cs" />
+    <Compile Include="Threads\SameFloorThreads\ColdHotCacheThread.cs" />
+    <Compile Include="Threads\SameFloorThreads\ColdHotNitrogenOnLineThread.cs" />
+    <Compile Include="Threads\SameFloorThreads\DryProductionLineThread.cs" />
     <Compile Include="Threads\SameFloorThreads\SameFloorFactory.cs" />
     <Compile Include="Threads\SameFloorThreads\SameFloorRunThread.cs" />
+    <Compile Include="Threads\SameFloorThreads\TiShengJiFactory.cs" />
     <Compile Include="Threads\WareLieStateThreads\WareLieStateThread.cs" />
     <Compile Include="Threads\WMSThread.cs" />
     <Compile Include="Utils\AGVUtils\AGVOrderHelper.cs" />

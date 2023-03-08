@@ -74,7 +74,7 @@ namespace GeLiData_WMSImp
 
         [StringLength(10)]
         public string userId { get; set; }
-
+        
         public int? MissionFloor_ID { get; set; }
 
         [StringLength(50)]
@@ -109,7 +109,7 @@ namespace GeLiData_WMSImp
         [StringLength(50)]
         public string Reserve2 { get; set; }
         /// <summary>
-        /// 保留字段3
+        /// 保留字段3(记录提升机每托物料ID号)
         /// </summary>
         [StringLength(50)]
         public string Reserve3 { get; set; }

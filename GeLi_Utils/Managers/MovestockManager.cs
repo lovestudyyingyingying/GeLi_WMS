@@ -3,6 +3,7 @@ using GeLi_Utils.Entity.AGVOrderEntity;
 using GeLi_Utils.Entity.MaPanJiStateEntity;
 using GeLi_Utils.Entity.PDAApiEntity;
 using GeLi_Utils.Entity.StockEntity;
+using GeLi_Utils.Entity.WareAreaEntity;
 using GeLi_Utils.Services.WMS;
 using GeLiData_WMS;
 using GeLiData_WMS.Dao;
@@ -642,7 +643,289 @@ namespace GeLiService_WMS.Services.WMS
 
 
 
+    
+        /// <summary>
+        /// 正常任务下发包括上线和下线
+        /// </summary>
+        /// <param name="TrayNo"></param>
+        /// <param name="startPosition"></param>
+        /// <param name="endPosition"></param>
+        /// <param name="userID"></param>
+        /// <param name="position"></param>
+        /// <param name="remark"></param>
+        /// <returns></returns>
+        public BaseResult<string> MoveIn_Su(string TrayNo, string startPosition, string endPosition,
+            string userID, string position, string remark, string missionType, string processName, string moveType, TiShengJiInfo _tiShengJiInfo, TiShengJiRunRecordService tiShengJiRunRecordService) // 标签号 ，起点位置, 结束位置 ， 操作人 ， 当前位置 ，备注默认空，类型（货物，空托）
+        {
+            using (var redislock = redisHelper.CreateLock(startPosition + endPosition, TimeSpan.FromSeconds(10),
+                 TimeSpan.FromMilliseconds(1000), TimeSpan.FromMilliseconds(200)))
+            {
+                BaseResult<string> baseResult = new BaseResult<string>();
+                Logger.Default.Process(new Log(LevelType.Info, $"对{startPosition}到{endPosition}发起任务请求"));
 
+                DateTime dtime = DateTime.Now.AddDays(-1);
+
+
+                int runQ = _missionService.GetCount(u => u.OrderTime > dtime && (u.TrayNo == TrayNo
+                || u.EndPosition == endPosition) //获取日期大于昨天的并且标签号或结束位置等于传入值的任务
+                &&
+                 //已下发到表 或者 执行中
+                 (u.SendState.Length == 0 ||
+                 (u.SendState.Length > 0
+
+                 && !(u.SendState == StockState.SendState_Success
+                    && u.RunState == StockState.RunState_Success)
+
+                 && u.RunState != StockState.RunState_RunFail
+                 && u.RunState != StockState.RunState_SendFail
+                 && u.RunState != StockState.RunState_Cancel)), true, DbMainSlave.Master);
+                if (runQ > 0)
+                {
+                    baseResult.Code = 7000;
+                    baseResult.Msg = StockResult.MovestockError_TrayInMissionError;
+                    //如果有则调度失败
+                    //result.SetError(StockResult.MovestockError_TrayInMissionError);
+                    return baseResult;
+                }
+
+                //拿到需要放置的结束仓位，终点
+
+                WareLocation endWl = _wareLocationService.GetIQueryable(u => u.WareLocaNo == endPosition,
+                    true, DbMainSlave.Master).FirstOrDefault();
+                if (endWl == null)
+                {
+                    //没有这个仓位
+                    baseResult.Code = 7000;
+                    baseResult.Msg = StockResult.MovestockError_FindEndWLSRError;
+
+                    return baseResult;
+                }   
+
+                if (endWl.WareLocaState == WareLocaState.PreIn || endWl.WareLocaState == WareLocaState.PreOut)
+                {
+                    //预进预出
+                    baseResult.Code = 7000;
+                    baseResult.Msg = StockResult.MovestockError_EndWLIsUseError;
+
+                    return baseResult;
+                    
+                }
+
+                if (endWl.WareLocaState == WareLocaState.HasTray)
+                {
+                    baseResult.Code = 7000;
+                    baseResult.Msg = StockResult.InstockError_EndWLHasTrayError;
+
+                    return baseResult;
+                   
+
+                }
+
+                //拿起点的仓位
+                WareLocation startWl = _wareLocationService.GetIQueryable(u => u.WareLocaNo == startPosition,
+                    true, DbMainSlave.Master).FirstOrDefault();
+
+                if (startWl == null)
+                {
+                    baseResult.Code = 7000;
+                    baseResult.Msg = StockResult.MovestockError_FindEndWLSRError;
+                    return baseResult; 
+                }
+
+                //表示起始位置没有货物
+                if (startWl.WareLocaState == WareLocaState.NoTray)
+                {
+                    baseResult.Code = 7000;
+                    baseResult.Msg = StockResult.MovestockError_TrayNoGoodError;
+                    return baseResult;
+                    
+                }
+
+                if (startWl.WareLocaState == WareLocaState.PreIn || startWl.WareLocaState == WareLocaState.PreOut)
+                {
+                    //预进预出
+                    baseResult.Code = 7000;
+                    baseResult.Msg = StockResult.MovestockError_EndWLIsUseError;
+                    return baseResult;
+                   
+                }
+                string mark = string.Empty;
+                string trayNoToMission = string.Empty;
+                if (string.IsNullOrEmpty(TrayNo)) //条码为空
+                {
+                    if (missionType == GoodType.EmptyTray)//表示空托上下线
+                    {
+                        trayNoToMission = "空托";
+                        Logger.Default.Process(new Log(LevelType.Info, $"空托任务"));
+
+
+
+
+
+                    }
+                    if (missionType == GoodType.GoodTray)//表示物料
+                    {
+                        if (moveType == "下线" && string.IsNullOrEmpty(TrayNo))// 胀管缓存下线时没有条码但是是下线操作
+                        {
+                            trayNoToMission = processName.Substring(0, 2) + "成品" + startWl.WareArea.protype;
+                        }
+                        else
+                        {
+                            if (startWl.TrayState == null)
+                            {
+                                baseResult.Code = 7000;
+                                baseResult.Msg = StockResult.MovestockError_TrayNoGoodError;
+                                return baseResult;
+                               
+                            }
+                            trayNoToMission = startWl.TrayState.TrayNO;
+                            mark = MissionType.GoodOnline;
+                        }
+                    }
+                }
+                else//有条码表示空托下线
+                {
+                    trayNoToMission = TrayNo;
+                    if (endWl.WareArea.WareAreaClass.Remark == WareAreaType.CacheArea)
+                        mark = MissionType.GoodOfflineInHuanCun;
+                    if (endWl.WareArea.WareAreaClass.Remark == WareAreaType.ProductionLine)
+                        mark = MissionType.GoodOfflineInChanXian;
+
+                }
+
+                AGVMissionInfo agvMission = new AGVMissionInfo();
+                agvMission.MissionNo = _liuShuiHaoService.GetAGVMissionNoLSH(); //流水号
+                agvMission.Reserve1 = processName;
+                agvMission.Reserve2 = startWl.WareArea.WareHouse.WHName;
+
+                agvMission.TrayNo = trayNoToMission;
+                agvMission.StartPosition = startWl.WareLocaNo;
+                agvMission.StartLocation = startWl.AGVPosition;
+
+                agvMission.StartMiddlePosition = startWl.WareLocaNo;//具体仓位
+                agvMission.StartMiddleLocation = startWl.AGVPosition;
+
+                agvMission.EndMiddlePosition = endWl.WareLocaNo;
+                agvMission.EndMiddleLocation = endWl.AGVPosition;
+
+                agvMission.EndPosition = endWl.WareLocaNo;
+                agvMission.EndLocation = endWl.AGVPosition;
+
+                agvMission.Mark = mark;
+                agvMission.OrderTime = DateTime.Now;
+                agvMission.OrderGroupId = string.Empty;
+                agvMission.AGVCarId = string.Empty;
+                agvMission.userId = userID;
+                agvMission.IsFloor =
+                    (startWl.WareArea.WareHouse.Reserve1
+                    == endWl.WareArea.WareHouse.Reserve1)
+                    ? 0 : 1;
+                if (agvMission.IsFloor == 0)
+                    agvMission.WHName = startWl.WareArea.WareHouse.WHName;//如果同层则传入仓库名
+                agvMission.SendState = string.Empty;
+                agvMission.RunState = string.Empty;
+                agvMission.SendMsg = string.Empty;
+                agvMission.StateMsg = string.Empty;
+                agvMission.ModelProcessCode =
+                     //agvMission.IsFloor == 0 ?
+                     ////(startWls[0].AGVPosition.StartsWith("1") ? "711" : "2")
+                     //startWl.WareArea.WareHouse.AGVModelCode :
+                     string.Empty;
+                if (remark != string.Empty)
+                    agvMission.Remark = remark; //给备注传值
+
+
+                if (_missionService.Add(agvMission))
+                {
+                    Logger.Default.Process(new Log(LevelType.Info, $"成功下发任务{agvMission.MissionNo}"));
+                    TrayState trayState = null;
+                    if (!string.IsNullOrEmpty(TrayNo))//起始标签不为空表示下线
+                    {
+
+                        trayState = _trayStateService.GetByTrayNo(TrayNo);
+                        //绑定起始位置
+                        //startWl.TrayState = taryState;
+                        //_wareLocationTrayNoManager.ChangeTrayWareLocation(0, startWl, taryState);
+                    }
+                    //对warelocation表的   更新起点终点库位状态
+                    WareLoactionLockHis wareLoactionLockHisEnd = new WareLoactionLockHis();
+                    wareLoactionLockHisEnd.WareLocaNo = endWl.WareLocaNo;
+                    wareLoactionLockHisEnd.PreState = WareLocaState.PreIn;
+                    wareLoactionLockHisEnd.Locker = userID;
+                    DateTime lockTime = DateTime.Parse(
+                                  DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.F"));
+                    wareLoactionLockHisEnd.LockTime = lockTime;
+                    _wareLocationLockHisService.Insert(wareLoactionLockHisEnd);
+                    _wareLocationLockHisService.SaveChanges();
+
+
+                    _wareLocationService.UpdateByPlus(u => u.ID == endWl.ID,
+                        u => new WareLocation
+                        { WareLocaState = WareLocaState.PreIn, LockHis_ID = wareLoactionLockHisEnd.ID });
+
+                    WareLoactionLockHis wareLoactionLockHisStart = new WareLoactionLockHis();
+                    wareLoactionLockHisStart.WareLocaNo = startWl.WareLocaNo;
+                    wareLoactionLockHisStart.PreState = WareLocaState.PreOut;
+                    wareLoactionLockHisStart.Locker = userID;
+
+                    wareLoactionLockHisStart.LockTime = lockTime;
+                    _wareLocationLockHisService.Insert(wareLoactionLockHisStart);
+                    _wareLocationLockHisService.SaveChanges();
+                    if (trayState == null)
+                        _wareLocationService.UpdateByPlus(u => u.ID == startWl.ID,
+                           u => new WareLocation
+                           { WareLocaState = WareLocaState.PreOut, LockHis_ID = wareLoactionLockHisStart.ID });
+                    else
+                    {
+                        //trayState.WareLocation_ID=startWl.ID;
+                        _wareLocationService.UpdateByPlus(u => u.ID == startWl.ID,
+                      u => new WareLocation
+                      { WareLocaState = WareLocaState.PreOut, LockHis_ID = wareLoactionLockHisStart.ID, TrayState_ID = trayState.ID });
+                        _trayStateService.UpdateByPlus(u => u.ID == trayState.ID,
+                           u => new TrayState
+                           { WareLocation_ID = startWl.ID });
+
+                    }
+                    //提升机得物料流水信息
+                    if (_tiShengJiInfo!=null&& agvMission.TrayNo!= GoodType.EmptyTray)
+                    {
+                        AddRecord(agvMission,_tiShengJiInfo,tiShengJiRunRecordService);
+                    }
+                    baseResult.Code = 200;
+                    baseResult.Msg = "成功";
+                    return baseResult;
+                   
+                }
+                else
+                {
+                    baseResult.Code = 700;
+                    baseResult.Msg = StockResult.MovestockError_WriteMissionError;
+                    return baseResult;
+                }
+            }
+        }
+        private void AddRecord(AGVMissionInfo aGVMissionInfo,TiShengJiInfo _tiShengJiInfo,TiShengJiRunRecordService tiShengJiRunRecordService)
+        {
+
+            TiShengJiRunRecord record = new TiShengJiRunRecord();
+            record.TsjName = _tiShengJiInfo.TsjName;
+            record.TsjIp = _tiShengJiInfo.TsjIp;
+            record.TsjPort = _tiShengJiInfo.TsjPort;
+            record.OrderTime = DateTime.Now;
+            record.TrayCount = 1;
+            record.InsideTrayNo = aGVMissionInfo.TrayNo;
+            record.Reserve1 = "0";
+            record.Reserve2 = aGVMissionInfo.Reserve1;
+            tiShengJiRunRecordService.Insert(record);
+            tiShengJiRunRecordService.SaveChanges();
+            //将排序后的记录关联阶段2任务
+            //int[] ids = aGVMissionInfo.Select(u => u.ID).ToArray();
+            _missionService.UpdateByPlus(u => u.ID == aGVMissionInfo.ID,
+                u => new AGVMissionInfo { Reserve3 = record.ID.ToString() });
+            // string idsStr = string.Join(",", ids);
+            Logger.Default.Process(new Log(LevelType.Info,
+            $"绑定跨楼层条码:{_tiShengJiInfo.TsjName}\r\n任务:{aGVMissionInfo.MissionNo}\r\n条码{record.ID}:{ record.InsideTrayNo }"));
+        }
         public object MoveToMaPanJi(string startPosition, string endPosition, string userID, string processName)
         {
             //加锁
@@ -1161,6 +1444,7 @@ namespace GeLiService_WMS.Services.WMS
             }
         }
 
+       
 
         public ProcessTypeParam GetMissionType(string processName)
         {

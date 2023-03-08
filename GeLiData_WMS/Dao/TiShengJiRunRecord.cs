@@ -56,12 +56,12 @@ namespace GeLiData_WMS
 
         public virtual List<AGVMissionInfo_Floor> AGVMissionInfo_Floor { get; set; }
         /// <summary>
-        /// 保留字段1
+        /// 保留字段1(是否通过线程搬走)
         /// </summary>
         [StringLength(50)]
         public string Reserve1 { get; set; }
         /// <summary>
-        /// 保留字段2
+        /// 保留字段2(存放氮检产线区)
         /// </summary>
         [StringLength(50)]
         public string Reserve2 { get; set; }

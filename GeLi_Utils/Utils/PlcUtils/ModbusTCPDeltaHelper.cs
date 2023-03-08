@@ -4,16 +4,12 @@ Copyright (c) 2006 Scott Alexander, 2015 Dmitry Turin
 see Docs/LICENSE.txt
 ******************************************************/
 
+
 using HslCommunication.ModBus;
-using NModbus;
-using NModbus.Extensions.Enron;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net.Configuration;
-using System.Net.Sockets;
-using System.Threading.Tasks;
 
 namespace GeLiService_WMS
 {
