@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PdaWPF"
         mc:Ignorable="d"
-        Title="模拟下任务调试" Height="667" Width="375"  >
+        Title="模拟下任务调试"  Height="667" Width="375"  >
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="Green" Offset="0"/>
+            <GradientStop Color="White" Offset="0"/>
             <GradientStop Color="LightBlue" Offset="0.5"/>
-            <GradientStop Color="Red" Offset="1"/>
+            <GradientStop Color="#5cb0ef" Offset="1"/>
         </LinearGradientBrush>
     </Window.Background>
     <Grid Margin="3">
@@ -44,6 +44,7 @@
                     <ComboBox Name="cbxProtyName" Grid.Row="1"  MaxHeight="30">
                         <ComboBoxItem Content="冷管"></ComboBoxItem>
                         <ComboBoxItem Content="热管"></ComboBoxItem>
+                        <ComboBoxItem Content=""></ComboBoxItem>
                     </ComboBox>
                 </DockPanel>
 
@@ -78,7 +79,7 @@
                 <ColumnDefinition></ColumnDefinition>
 
             </Grid.ColumnDefinitions>
-            <Button Content="获取点位" Grid.Column="0" Width="100"  >
+            <Button Content="获取点位" Grid.Column="0" x:Name="btnGetPoint" Click="btnGetPoint_Click" Width="100"  >
                 <Button.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FFC5D2F3" Offset="0"/>
@@ -87,7 +88,7 @@
                 </Button.Background>
  
             </Button>
-            <Button Content="确认下发" Grid.Column="1" Width="100">
+            <Button Content="确认下发" Grid.Column="1" Click="btnSend_Click" x:Name="btnSend" Width="100">
                 <Button.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FFC5D2F3" Offset="0"/>
