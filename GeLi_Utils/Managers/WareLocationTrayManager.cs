@@ -36,13 +36,13 @@ namespace GeLiService_WMS.Managers
         /// <param name="type">0为绑定，1为解绑</param>
         /// <param name="wareLocation"></param>
         /// <param name="trayState"></param>
-        public bool ChangeTrayWareLocation(int type, WareLocation wareLocation, TrayState trayState)
+        public bool ChangeTrayWareLocation(int type, WareLocation wareLocation, TrayState trayState,string endRemark="")
         {
             bool ret = false;
             //进仓操作,为TrayState、WareLocation绑定，为WareLock解绑
             if (type == 0)
             {
-                ret = BindTrayWarelocation(wareLocation, trayState);
+                ret = BindTrayWarelocation(wareLocation, trayState,endRemark);
 
             }
             else if (type == 1)
@@ -124,7 +124,7 @@ namespace GeLiService_WMS.Managers
         }
 
         //空托状态修改
-        public bool ChangeEmptyWarelocation(WareLocation startWareLocation, WareLocation endWareLocation)
+        public bool ChangeEmptyWarelocation(WareLocation startWareLocation, WareLocation endWareLocation,string endRemark="")
         {
             using (TransactionScope tran = new TransactionScope())
             {
@@ -137,6 +137,11 @@ namespace GeLiService_WMS.Managers
                     startWareLocation.TrayState = null;
                     startWareLocation.LockHis_ID = null;
                     endWareLocation.WareLocaState = WareLocaState.HasTray; // 终点有
+                    if(!string.IsNullOrEmpty(endRemark))
+                    {
+                        endWareLocation.Reserve1 = endRemark;
+                        endWareLocation.Reserve2 = DateTime.Now.ToString();
+                    }
                     endWareLocation.TrayState_ID = null;
                     endWareLocation.TrayState = null;
                     endWareLocation.LockHis_ID = null;
@@ -203,7 +208,7 @@ namespace GeLiService_WMS.Managers
 
         }
 
-        private bool BindTrayWarelocation(WareLocation wareLocation, TrayState trayState)
+        private bool BindTrayWarelocation(WareLocation wareLocation, TrayState trayState,string endRemark="")
         {
             using (TransactionScope tran = new TransactionScope())
             {
@@ -212,6 +217,11 @@ namespace GeLiService_WMS.Managers
                     _wareLoactionLockHisService.UnLock(wareLocation); //对库位解锁
 
                     wareLocation.WareLocaState = WareLocaState.HasTray;
+                    if (!string.IsNullOrEmpty(endRemark))
+                    {
+                        wareLocation.Reserve1 = endRemark;
+                        wareLocation.Reserve2 = DateTime.Now.ToString();
+                    }
                     wareLocation.TrayState_ID = trayState.ID;
                     wareLocation.TrayState = trayState;
                     wareLocation.LockHis_ID = null;

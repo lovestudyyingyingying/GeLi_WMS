@@ -84,6 +84,28 @@ namespace PdaWPF
                 MessageBox.Show("下发失败" + resultobj.message);
             }
         }
+
+        private void btnChaSend_Click(object sender, RoutedEventArgs e)
+        {
+            string baseUrl = ConfigurationManager.AppSettings["BaseUrl"].ToString();
+            string url = "http://" + baseUrl + "/api/PDA/moves/DiaoBoOrder";
+            if (cbxStart.Text == "")
+                return;
+            if (cbxEnd.Text == "")
+                return;
+            object obj = new { startPo = cbxStart.Text, endPo = cbxEnd.Text, nowPre = "admin", processName = cbxProcessName.Text, isPriority="1" };
+            HttpUtils httpUtils = new HttpUtils();
+            string result = httpUtils.HttpPost(url, obj, null);
+            var resultobj = JsonConvert.DeserializeObject<GetPiontResult>(result);
+            if (resultobj.success)
+            {
+                MessageBox.Show("下发成功");
+            }
+            else
+            {
+                MessageBox.Show("下发失败" + resultobj.message);
+            }
+        }
     }
 
 

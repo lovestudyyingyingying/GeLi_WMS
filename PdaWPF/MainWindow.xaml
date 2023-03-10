@@ -28,8 +28,8 @@
                     </Grid.RowDefinitions>
                 <DockPanel Grid.Row="0">
                     <Label Content="工序名称：" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
-                    <ComboBox Name="cbxProcessName" MaxHeight="30" >
-                    <ComboBoxItem Content="胀管物料下线"></ComboBoxItem>
+                    <ComboBox Name="cbxProcessName" MaxHeight="30">
+                    <ComboBoxItem   Content="胀管物料下线"></ComboBoxItem>
                     <ComboBoxItem Content="胀管空托上线"></ComboBoxItem>
                     <ComboBoxItem Content="烘干空托下线"></ComboBoxItem>
                     <ComboBoxItem Content="吹氧物料下线"></ComboBoxItem>
@@ -77,6 +77,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
 
             </Grid.ColumnDefinitions>
             <Button Content="获取点位" Grid.Column="0" x:Name="btnGetPoint" Click="btnGetPoint_Click" Width="100"  >
@@ -89,6 +90,14 @@
  
             </Button>
             <Button Content="确认下发" Grid.Column="1" Click="btnSend_Click" x:Name="btnSend" Width="100">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFC5D2F3" Offset="0"/>
+                        <GradientStop Color="LightBlue" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
+            <Button Content="插队下发" Grid.Column="2" Click="btnChaSend_Click" x:Name="btnChaSend" Width="100">
                 <Button.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="#FFC5D2F3" Offset="0"/>

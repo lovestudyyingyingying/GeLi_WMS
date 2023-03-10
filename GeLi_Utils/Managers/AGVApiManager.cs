@@ -243,6 +243,8 @@ namespace GeLiService_WMS.Managers
 
                 if (runState == StockState.RunState_Success)//任务成功
                 {
+                    //现在将它最终要去的区域放在remark里
+                   
                     if (trayState == null)//表示空托 如果是胀管物料下线这种当作空托处理
                     {
                         if (agvMission.Mark == MissionType.MoveToMaPanJi) //去码盘机只对起点进行操作
@@ -250,7 +252,7 @@ namespace GeLiService_WMS.Managers
                         else if (agvMission.Mark == MissionType.MoveOutMaPanJi)//离开码盘机只对终点操作
                             _wareLocationTrayNoManager.ChangeEmptyWarelocationOutMaPanJi(endWl);
                         else
-                            _wareLocationTrayNoManager.ChangeEmptyWarelocation(startWl, endWl);
+                            _wareLocationTrayNoManager.ChangeEmptyWarelocation(startWl, endWl,agvMission.Remark);
 
                     }
                     else//表示非空托
@@ -268,7 +270,7 @@ namespace GeLiService_WMS.Managers
                         else if (agvMission.Mark == MissionType.GoodOfflineInHuanCun)//物料下线到缓存区
                         {
                             _wareLocationTrayNoManager.ChangeTrayWareLocation(1, oldWl, trayState);//为旧的位置解绑货物
-                            _wareLocationTrayNoManager.ChangeTrayWareLocation(0, endWl, trayState);//为新位置绑定货物
+                            _wareLocationTrayNoManager.ChangeTrayWareLocation(0, endWl, trayState,agvMission.Remark);//为新位置绑定货物
                         }
                         else if (agvMission.Mark == MissionType.GoodOfflineInChanXian)//物料直接下到产线
                         {

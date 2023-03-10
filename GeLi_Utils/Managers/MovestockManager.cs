@@ -116,7 +116,7 @@ namespace GeLiService_WMS.Services.WMS
         /// <param name="remark"></param>
         /// <returns></returns>
         public object MoveIn(string TrayNo, string startPosition, string endPosition,
-            string userID, string position, string remark, string missionType, string processName, string moveType) // 标签号 ，起点位置, 结束位置 ， 操作人 ， 当前位置 ，备注默认空，类型（货物，空托）
+            string userID, string position, string remark, string missionType, string processName, string moveType,bool IsIgnoreStart=false,bool isIgnoreEnd=false) // 标签号 ，起点位置, 结束位置 ， 操作人 ， 当前位置 ，备注默认空，类型（货物，空托）
         {
             using (var redislock = redisHelper.CreateLock(startPosition + endPosition, TimeSpan.FromSeconds(10),
                  TimeSpan.FromMilliseconds(1000), TimeSpan.FromMilliseconds(200)))
@@ -148,51 +148,57 @@ namespace GeLiService_WMS.Services.WMS
                 }
 
                 //拿到需要放置的结束仓位，终点
-
-                WareLocation endWl = _wareLocationService.GetIQueryable(u => u.WareLocaNo == endPosition,
-                    true, DbMainSlave.Master).FirstOrDefault();
-                if (endWl == null)
+                    WareLocation endWl = _wareLocationService.GetIQueryable(u => u.WareLocaNo == endPosition,
+                        true, DbMainSlave.Master).FirstOrDefault();
+                if (!isIgnoreEnd)
                 {
-                    //没有这个仓位
+                    if (endWl == null)
+                    {
+                        //没有这个仓位
 
-                    return new { success = false, message = StockResult.MovestockError_FindEndWLSRError };
-                }
+                        return new { success = false, message = StockResult.MovestockError_FindEndWLSRError };
+                    }
 
-                if (endWl.WareLocaState == WareLocaState.PreIn || endWl.WareLocaState == WareLocaState.PreOut)
-                {
-                    //预进预出
+                    if (endWl.WareLocaState == WareLocaState.PreIn || endWl.WareLocaState == WareLocaState.PreOut)
+                    {
+                        //预进预出
 
-                    return new { success = false, message = StockResult.MovestockError_EndWLIsUseError };
-                }
+                        return new { success = false, message = StockResult.MovestockError_EndWLIsUseError };
+                    }
 
-                if (endWl.WareLocaState == WareLocaState.HasTray)
-                {
+                    if (endWl.WareLocaState == WareLocaState.HasTray)
+                    {
 
-                    return new { success = false, message = StockResult.InstockError_EndWLHasTrayError };
+                        return new { success = false, message = StockResult.InstockError_EndWLHasTrayError };
 
-                }
-
-                //拿起点的仓位
+                    }
+                }  
+                   //拿起点的仓位
                 WareLocation startWl = _wareLocationService.GetIQueryable(u => u.WareLocaNo == startPosition,
-                    true, DbMainSlave.Master).FirstOrDefault();
-
-                if (startWl == null)
+                        true, DbMainSlave.Master).FirstOrDefault();
+             
+                if (!IsIgnoreStart)
                 {
+                  
 
-                    return new { success = false, message = StockResult.MovestockError_FindEndWLSRError };
-                }
+                    if (startWl == null)
+                    {
 
-                //表示起始位置没有货物
-                if (startWl.WareLocaState == WareLocaState.NoTray)
-                {
+                        return new { success = false, message = StockResult.MovestockError_FindEndWLSRError };
+                    }
 
-                    return new { success = false, message = StockResult.MovestockError_TrayNoGoodError };
-                }
+                    //表示起始位置没有货物
+                    if (startWl.WareLocaState == WareLocaState.NoTray)
+                    {
 
-                if (startWl.WareLocaState == WareLocaState.PreIn || startWl.WareLocaState == WareLocaState.PreOut)
-                {
-                    //预进预出
-                    return new { success = false, message = StockResult.MovestockError_EndWLIsUseError };
+                        return new { success = false, message = StockResult.MovestockError_TrayNoGoodError };
+                    }
+
+                    if (startWl.WareLocaState == WareLocaState.PreIn || startWl.WareLocaState == WareLocaState.PreOut)
+                    {
+                        //预进预出
+                        return new { success = false, message = StockResult.MovestockError_EndWLIsUseError };
+                    }
                 }
                 string mark = string.Empty;
                 string trayNoToMission = string.Empty;
@@ -346,7 +352,7 @@ namespace GeLiService_WMS.Services.WMS
         /// <param name="endArea"></param>
         /// <param name="userID"></param>
         /// <returns></returns>
-        public object JumpQueue(string TrayNo, string startPosition, string endArea, string userID)
+        public object JumpQueue(string TrayNo, string startPosition, string endArea, string userID,string processName)
         {
             using (var redislock = redisHelper.CreateLock(startPosition + endArea, TimeSpan.FromSeconds(10),
                 TimeSpan.FromMilliseconds(1000), TimeSpan.FromMilliseconds(200)))
@@ -384,6 +390,7 @@ namespace GeLiService_WMS.Services.WMS
                 aGVMissionJumpQueue.MissionNo = _liuShuiHaoService.GetJumpQueueNoLSH();
                 aGVMissionJumpQueue.InsertTime = DateTime.Now;
                 aGVMissionJumpQueue.TrayNo = TrayNo;
+                aGVMissionJumpQueue.Reserve1 = processName;
                 aGVMissionJumpQueue.StartPosition = startWl.WareLocaNo;
                 aGVMissionJumpQueue.StartLocation = startWl.AGVPosition;
                 aGVMissionJumpQueue.TargetArea = endArea;

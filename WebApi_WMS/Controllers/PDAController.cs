@@ -161,18 +161,19 @@ namespace WebApi_WMS.Controllers
                 if (processName == ProcessName.ZhangGuanKongTuoShangXian)
                     result = movestockManager.MoveIn(prosn, startPo, endPo, nowPre, string.Empty, string.Empty, GoodType.EmptyTray, processName, "上线");
                 else if (processName == ProcessName.HongGanKongTuoXiaXian)
-                    result = movestockManager.MoveIn(prosn, startPo, endPo, nowPre, string.Empty, string.Empty, GoodType.EmptyTray, processName, "下线");
+                    result = movestockManager.MoveIn(prosn, startPo, endPo, nowPre, string.Empty, string.Empty, GoodType.EmptyTray, processName, "下线",true);
                 else if (processName == ProcessName.HanJieKongTuoShangXian)
                     result = movestockManager.MoveIn(prosn, startPo, endPo, nowPre, string.Empty, string.Empty, GoodType.EmptyTray, processName, "上线");
                 else if (processName == ProcessName.HanJieDangBanShangXian)
                     result = movestockManager.MoveIn(prosn, startPo, endPo, nowPre, string.Empty, string.Empty, GoodType.EmptyTray, processName, "上线");
                 else if (processName == ProcessName.ZhangGuanWuLiaoXiaXian && isPriority || processName == ProcessName.ChuiYangWuLiaoXiaXian && isPriority || processName == ProcessName.QieGeWuLiaoXiaXian && isPriority)
-                    result = movestockManager.JumpQueue(prosn,startPo,endPo, nowPre);
+                    result = movestockManager.JumpQueue(prosn,startPo,endPo, nowPre,processName);
                 else if (processName == ProcessName.ZhangGuanWuLiaoXiaXian || processName == ProcessName.ChuiYangWuLiaoXiaXian || processName == ProcessName.QieGeWuLiaoXiaXian)
 
                 {
+                    //endPo表示最终要去的区域
                     string endPosition = movestockManager.SplitAreaToPosition(endPo);
-                    result = movestockManager.MoveIn(prosn, startPo, endPosition, nowPre, string.Empty, string.Empty, GoodType.GoodTray, processName, "下线");
+                    result = movestockManager.MoveIn(prosn, startPo, endPosition, nowPre, string.Empty, endPo, GoodType.GoodTray, processName, "下线");
 
                 }
                 else
