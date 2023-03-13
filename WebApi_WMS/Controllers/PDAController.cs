@@ -138,16 +138,55 @@ namespace WebApi_WMS.Controllers
 
                     if (!string.IsNullOrEmpty(dic["prosn"].ToString()))
                     {
-                        var pdaTray = JObject.Parse(dic["prosn"].ToString())
-                        .ToObject<PdaTray>();
-                        if (pdaTray.分厂订单批次 == null)
-                            return new { success = false, message = "标签号不能为空" };
-                        prosn = trayStateService.AddByPda(pdaTray);
+                        if (dic["prosn"].ToString().Contains('{') )
+                        {
+                            var pdaTray = JObject.Parse(dic["prosn"].ToString())
+                            .ToObject<PdaTray>();
+                            if (pdaTray.分厂订单批次 == null)
+                                return new { success = false, message = "不能没有条码" };
+                            //prosn = dic["prosn"].ToString();
+                            prosn = trayStateService.AddByPda(pdaTray);
+                        }
+                        else
+                        {
+                            prosn = dic["prosn"].ToString();
+                        }
                     }
 
                 }
+
+                //默认为空托上线，空托下线，胀管下线，吹氧下线
+                if (dic["processName"] == null)
+                    return new { success = false, message = "请输入操作名称" };
+                if (dic["gongXu"] == null)
+                    return new { success = false, message = "请输入工序名称" };
+                if (dic["production"] == null)
+                    return new { success = false, message = "请输入产品名称" };
+
+
+
+                var processNameFirst = dic["processName"].ToString();
+                string processName = string.Empty;
+                switch (processNameFirst) //转换为我想要的
+                {
+                    case "空托下线":
+                        processName = dic["gongXu"].ToString() + processNameFirst;
+                        break;
+                    case "空托上线":
+                        processName = dic["gongXu"].ToString() + dic["production"].ToString() + processNameFirst.Substring(2, 2);
+
+                        break;
+                    case "胀管下线":
+                        processName = processNameFirst;
+                        break;
+                    case "吹氧下线":
+                        processName = dic["gongXu"].ToString() + "下线";
+                        break;
+                    default:
+                        break;
+                }
                 string startPo = dic["startPo"].ToString();
-                string processName = dic["processName"].ToString(); // 工序名
+        /*        string processName = dic["processName"].ToString(); */// 工序名
                 //var entity = movestockManager.GetMissionType(processName);
                 //if (entity == null)
                 //    return new { success = false, message = "未知操作类型" };
@@ -173,7 +212,7 @@ namespace WebApi_WMS.Controllers
                 {
                     //endPo表示最终要去的区域
                     string endPosition = movestockManager.SplitAreaToPosition(endPo);
-                    result = movestockManager.MoveIn(prosn, startPo, endPosition, nowPre, string.Empty, endPo, GoodType.GoodTray, processName, "下线");
+                    result = movestockManager.MoveIn(prosn, startPo, endPosition, nowPre, string.Empty, endPo, GoodType.GoodTray, processName, "下线",true);
 
                 }
                 else
@@ -208,17 +247,42 @@ namespace WebApi_WMS.Controllers
                 Logger.Default.Process(new Log(LevelType.Debug, "PDA_" + "GetInStartWL:" + request.ToString()));
                 var requestObj = JObject.Parse(request.ToString());
 
-
+                //默认为空托上线，空托下线，胀管下线，吹氧下线
                 if (requestObj["processName"] == null)
                     return new { success = false, message = "请输入操作名称" };
+                if (requestObj["gongXu"] == null)
+                    return new { success = false, message = "请输入工序名称" };
+                if(requestObj["production"] == null)
+                    return new { success = false, message = "请输入产品名称" };
 
-                var processName = requestObj["processName"].ToString();
+               
+
+                var processNameFirst = requestObj["processName"].ToString();
+                string processName = string.Empty;
+                switch (processNameFirst)
+                {
+                    case "空托下线":
+                        processName = requestObj["gongXu"].ToString()+processNameFirst;
+                        break;
+                    case "空托上线":
+                        processName = requestObj["gongXu"].ToString() + requestObj["production"] .ToString()+ processNameFirst.Substring(2,2);
+                        break;
+                    case "胀管下线":
+                        processName = processNameFirst;
+                        break;
+                    case "吹氧下线":
+                        processName = requestObj["gongXu"].ToString()+"下线";
+
+                        break;
+                    default:
+                        break;
+                }
                 //if (requestObj["startRemark"] == null)
                 //    return new { success = false, message = "请输入起点描述" };
                 //if (requestObj["endRemark"] == null)
                 //    return new { success = false, message = "请输入终点描述" };
                 object result = null;
-                //冷管还是热管
+                //蒸发还是冷凝
                 var protype = requestObj["protype"].ToString();
 
                 ProcessTypeParamService processTypeParamService = new ProcessTypeParamService();
@@ -228,13 +292,14 @@ namespace WebApi_WMS.Controllers
 
                 if (processTypeParam.missionType == PDAGetAreaMissionType.PointToPoint)
                 {
-                    if(processTypeParam.processName==ProcessName.HongGanKongTuoXiaXian)
+                    //空托下线忽略起点
+                    if(processTypeParam.processName==ProcessName.HongGanKongTuoXiaXian|| processTypeParam.processName==ProcessName.QieGeWuLiaoXiaXian|| processTypeParam.processName == ProcessName.ZhangGuanWuLiaoXiaXian|| processTypeParam.processName == ProcessName.ChuiYangWuLiaoXiaXian)
                         result = movestockManager.FindWearLocationStartAndEnd(processTypeParam.startPosition, processTypeParam.endPosition, processTypeParam.startArea, processTypeParam.endArea,true);
                     else
                     result = movestockManager.FindWearLocationStartAndEnd(processTypeParam.startPosition, processTypeParam.endPosition, processTypeParam.startArea, processTypeParam.endArea);
                 }
                 else  if (processTypeParam.missionType == PDAGetAreaMissionType.PointToArea)
-                    result = movestockManager.FindStartPointAndEndArea(processTypeParam.startArea, processTypeParam.endRemark);
+                    result = movestockManager.FindStartPointAndEndArea(processTypeParam.startArea, processTypeParam.endRemark,true);
 
 
 

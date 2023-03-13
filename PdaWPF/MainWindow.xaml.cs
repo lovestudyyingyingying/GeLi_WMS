@@ -37,10 +37,10 @@ namespace PdaWPF
             string baseUrl = ConfigurationManager.AppSettings["BaseUrl"].ToString();
             string url = "http://" + baseUrl + "/api/PDA/instocks/GetInStartWL";
             HttpUtils httpUtils = new HttpUtils();
-            if (cbxProcessName.Text == "")
+            if (cbxProcessNameFirst.Text == "")
                 return;
            
-            object obj = new { processName = cbxProcessName.Text, protype = cbxProtyName.Text };
+            object obj = new { processName = cbxProcessNameFirst.Text, protype = cbxProtyName.Text,gongXu=cbxGongXu.Text,production=cbxProduct.Text };
             string result = httpUtils.HttpPost(url, obj, null);
 
             if (string.IsNullOrEmpty(result))
@@ -71,7 +71,7 @@ namespace PdaWPF
                 return;
             if (cbxEnd.Text == "")
                 return;
-            object obj = new { startPo = cbxStart.Text, endPo = cbxEnd.Text , nowPre ="admin", processName =cbxProcessName.Text};
+            object obj = new { startPo = cbxStart.Text, endPo = cbxEnd.Text , nowPre ="admin", processName =cbxProcessNameFirst.Text,gongXu = cbxGongXu.Text, prosn = cbxProduct.Text, production = cbxProduct.Text };
             HttpUtils httpUtils = new HttpUtils();
             string result = httpUtils.HttpPost(url, obj, null);
             var resultobj =  JsonConvert.DeserializeObject<GetPiontResult>(result);
@@ -93,7 +93,7 @@ namespace PdaWPF
                 return;
             if (cbxEnd.Text == "")
                 return;
-            object obj = new { startPo = cbxStart.Text, endPo = cbxEnd.Text, nowPre = "admin", processName = cbxProcessName.Text, isPriority="1" };
+            object obj = new { startPo = cbxStart.Text, endPo = cbxEnd.Text, nowPre = "admin", processName = cbxProcessNameFirst.Text, isPriority="1", gongXu = cbxGongXu.Text, prosn = cbxProduct.Text };
             HttpUtils httpUtils = new HttpUtils();
             string result = httpUtils.HttpPost(url, obj, null);
             var resultobj = JsonConvert.DeserializeObject<GetPiontResult>(result);

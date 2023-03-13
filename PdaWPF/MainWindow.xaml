@@ -15,8 +15,8 @@
     </Window.Background>
     <Grid Margin="3">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
@@ -25,9 +25,38 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"></RowDefinition>
                     <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+
+                </Grid.RowDefinitions>
+
                 <DockPanel Grid.Row="0">
+                    <Label Content="窗口名称：" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+
+                    <ComboBox Name="cbxProcessNameFirst" MaxHeight="30">
+                        <ComboBoxItem   Content="胀管下线"></ComboBoxItem>
+                        <ComboBoxItem Content="空托上线"></ComboBoxItem>
+                        <ComboBoxItem Content="空托下线"></ComboBoxItem>
+                        <ComboBoxItem Content="吹氧下线"></ComboBoxItem>
+
+                    </ComboBox>
+                </DockPanel>
+                <DockPanel Grid.Row="1">
+                    <Label Content="工序：" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+
+                    <ComboBox Name="cbxGongXu" MaxHeight="30">
+                        <ComboBoxItem   Content="胀管"></ComboBoxItem>
+                        <ComboBoxItem   Content="焊接"></ComboBoxItem>
+
+                        <ComboBoxItem   Content="吹氧"></ComboBoxItem>
+                        <ComboBoxItem Content="切割"></ComboBoxItem>
+                       
+
+                    </ComboBox>
+                </DockPanel>
+                <!--<DockPanel Grid.Row="1">
                     <Label Content="工序名称：" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                  
                     <ComboBox Name="cbxProcessName" MaxHeight="30">
                     <ComboBoxItem   Content="胀管物料下线"></ComboBoxItem>
                     <ComboBoxItem Content="胀管空托上线"></ComboBoxItem>
@@ -38,16 +67,25 @@
                     <ComboBoxItem Content="焊接空托上线"></ComboBoxItem>
                     <ComboBoxItem Content="焊接挡板上线"></ComboBoxItem>
                 </ComboBox>
-                </DockPanel>
-                <DockPanel Grid.Row="1">
+                </DockPanel>-->
+                <DockPanel Grid.Row="2">
                     <Label Content="产线类型：" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
                     <ComboBox Name="cbxProtyName" Grid.Row="1"  MaxHeight="30">
-                        <ComboBoxItem Content="冷管"></ComboBoxItem>
-                        <ComboBoxItem Content="热管"></ComboBoxItem>
+                        <ComboBoxItem Content="冷凝"></ComboBoxItem>
+                        <ComboBoxItem Content="蒸发"></ComboBoxItem>
                         <ComboBoxItem Content=""></ComboBoxItem>
                     </ComboBox>
                 </DockPanel>
+                <DockPanel Grid.Row="3">
+                    <Label Content="产品：" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                    <ComboBox Name="cbxProduct" Grid.Row="1"  MaxHeight="30">
+                        <ComboBoxItem Content="空托"></ComboBoxItem>
+                        <ComboBoxItem Content="挡板"></ComboBoxItem>
+                        <ComboBoxItem Content="胀管1号成品"></ComboBoxItem>
+                        <ComboBoxItem Content="胀管2号成品"></ComboBoxItem>
 
+                    </ComboBox>
+                </DockPanel>
             </Grid>
         </GroupBox>
         <GroupBox Grid.Row="1" Header="点位管理">
